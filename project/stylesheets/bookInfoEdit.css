@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#editBook {
+	display: table;
+}
+
+#editBook div {
+	display: table-row;
+}
+
+#editBook div label {
+	display: table-cell;
+	width: 5em;
+}
+
+#editBook div input {
+	display: table-cell;
+	width: 200%;
+}

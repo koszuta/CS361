@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html>
+        <head>
+		<title> Administrator View </title>
+                <link href="/stylesheets/administratorView.css" rel="stylesheet" />
+                <link href="/stylesheets/calendarView.css" rel="stylesheet" />
+                <link href="/stylesheets/calendarEdit.css" rel="stylesheet" />    
+                <link href="/stylesheets/assessmentView.css" rel="stylesheet" />   
+                <link href="/stylesheets/assessmentEdit.css" rel="stylesheet" />
+                <link href="/stylesheets/textbookView.css" rel="stylesheet" />
+                <link href="/stylesheets/textbookEdit.css" rel="stylesheet" />
+                <link href="/stylesheets/instructorsView.css" rel="stylesheet" />
+                <link href="/stylesheets/gradingScaleView.css" rel="stylesheet" />
+       
+                <script type="text/javascript">
+                function swapDiv(div1, div2, buttonId) {
+                d1 = document.getElementById(div1);
+                d2 = document.getElementById(div2);
+                b = document.getElementById(buttonId);
+                if( d2.style.display == "none" )
+                {
+                        d1.style.display = "none";
+                        d2.style.display = "block";
+                        b.value = "View"
+                }
+                else
+                {
+                        d1.style.display = "block";
+                        d2.style.display = "none";
+                        b.value = "Edit"
+                }
+                }
+                </script>
+	</head>
+	
+	<body>
+		<div id="administratorViewMain">
+			<div id="administratorViewBanner">
+				<h1>Syllablaster</h1>
+				<h2>Administrator View</h2>
+			</div>
+			<hr>
+			<div id="administratorViewHeader">
+				<form>
+					<table>
+						<tr>
+							<td><p>Document Name:<p></td>
+							<td><input type="text" name="documentName"></td>
+						</tr>
+						<tr>
+							<td><p>Administrator Name:<p></td>
+							<td><input type="text" name="documentName"></td>
+						</tr>
+						<tr>
+							<td><p>Course Name:<p></td>
+							<td><input type="text" name="documentName"></td>
+						</tr>
+						<tr>
+							<td><p>Course Section:<p></td>
+							<td><input type="text" name="documentName"></td>
+						</tr>
+						<tr>
+							<td><p>Course Term:<p></td>
+							<td><input type="text" name="documentName"></td>
+						</tr>
+					</table>
+                    <input type="submit">
+				</form>
+			</div>			
+			<hr>
+			
+			<div class="administratorViewModule" id="administratorViewCourseTitleMain">
+				<div class="administratorViewEditBanner" id="administratorViewCourseTitleBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Course Title:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="button" value="Edit" onclick="swapDiv('courseInfoViewMain', 'courseInfoEditMain', 'administratorViewEditCourseTitleButton');">
+					</form>					
+				</div>
+				<div class="administratorViewModuleDisplay">
+                
+					<!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
+					<div id = "courseInfoViewMain">
+						<h1> CompSci 361: Intro to Software Engineering Fall 2015</h1>	
+					</div>
+                    <!--END COURSE TITLE DISPLAY MODULE-->
+					<div id = "courseInfoEditMain" style="display: none">
+                        <form>
+                            Course Title: <input type="text" name="courseTitle" value="CompSci 361: Intro to Software Engineering Fall 2015" style="width:90%">	
+                            <input type="submit">
+                        </form>
+					</div>				
+				
+				</div>
+			</div>
+			<hr>
+			
+			<div class="administratorViewModule" id="administratorViewInstructorInfoMain">
+				<div class="administratorViewEditBanner" id="administratorViewInstructorInfoBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Instructor Info:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton"type="button" value="Edit" onclick="swapDiv('instructorsViewModule', 'instructorsEditModule', 'administratorViewEditInstructorInfoButton');">
+					</form>		
+				</div>
+				<div class="administratorViewModuleDisplay">
+				
+					<!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
+                    <div id = "instructorsViewModule">
+						<table id = "instructorsTable">
+							<tr>
+								<th> Instructor </th>
+								<th> Class </th>
+								<th> Office </th>
+							</tr>
+							<tr>
+								<td> Jason Rock
+								<br> rock@uwm.edu </td>
+								<td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
+								<td> EMS E307 Phone: (262) 825-4129 
+								<br> Office Hours: MTR 11am </td>
+							</tr>
+							<tr>
+								<td> Tanawat Khunlertkit
+								<br> tanawat@uwm.edu </td>
+								<td> </td>
+								<td> EMS 962 Phone: (262) 825-4129
+								<br> Office Hours: </td>
+							</tr>
+						</table>
+					</div>
+                    <!--END INSTRUCTOR INFO DISPLAY MODULE-->
+                    
+                    <!--COPY/PASTE YOUR INSTRUCTOR INFO EDIT MODULE HERE-->
+                    <div id="instructorsEditModule" style="display: none">
+                        <h1>instructorsEditModule INCOMPLETE</h1>
+                    </div>
+                    <!--END INSTRUCTOR INFO EDIT MODULE-->
+				
+				
+				</div>
+			</div>
+			<hr>
+			
+			<div class="administratorViewModule" id="administratorViewTextbooksMain">
+				<div class="administratorViewEditBanner" id="administratorViewTextbooksBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Textbooks:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton"type="button" value="Edit" onclick="swapDiv('textbookViewMain', 'textbookEditMain', 'administratorViewEditTextbookButton');">
+					</form>			
+				</div>
+				<div class="administratorViewModuleDisplay">
+				
+					<!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
+                    <div id="textbookViewMain">
+                        <h1>Textbooks:</h1>
+                        <span class="textbookViewTitle">Essential Skills for the Agile Developer</span>,
+                        <span class="textbookViewAuthor">Shalloway</span>,
+                        <span class="textbookViewPublisher">Addison-Wesley Professional</span>,
+                        ISBN: <span class="textbookViewISBN">0785342543735</span>
+                        
+                        <br>
+
+                        <span class="textbookViewTitle">Programming Google App Engine</span>,
+                        <span class="textbookViewEditon">2nd. Ed.</span>,
+                        <span class="textbookViewAuthor">Sanderson</span>,
+                        <span class="textbookViewPublisher">O'Reilly Media</span>,
+                        ISBN: <span class="textbookViewISBN">9781449398262</span>
+                    </div>
+                    <!--END TEXTBOOK DISPLAY MODULE-->
+                    
+                    <!--COPY/PASTE YOUR TEXTBOOK EDIT MODULE HERE-->
+                    <div id="textbookEditMain" style="display: none">
+                    <h1>Textbooks</h1>
+                        <form id="currentBooks" action="textbookEdit.html" method="post">
+                          <p>Currently selected textbook(s):</p>
+                          <input id="book0" name="book0" checked value="1" type="checkbox">
+                          <label for="book0">
+                            <span class="bookTitle">Essential Skills for the Agile Developer</span>,
+                            <span class="bookAuthor">Shalloway</span>,
+                            <span class="bookPublisher">Addison-Wesley Professional</span>,
+                            ISBN: <span class="bookISBN">0785342543735</span>
+                            &ndash; <a href="bookInfoEdit.html">Edit</a>
+                          </label>
+                          <br>
+                          <input id="book1" name="book1" checked value="1" type="checkbox">
+                          <label for="book1">
+                            <span class="bookTitle">Programming Google App Engine</span>,
+                            <span class="bookEditon">2nd. Ed.</span>,
+                            <span class="bookAuthor">Sanderson</span>,
+                            <span class="bookPublisher">O'Reilly Media</span>,
+                            ISBN: <span class="bookISBN">9781449398262</span>
+                            &ndash; <a href="bookInfoEdit.html">Edit</a>
+                          </label>
+                          <br><br>
+                          <input type="submit" name="updateSelectedBooks" value="Update Selections">
+                        </form>
+                        <hr>
+                        <br>
+                        <form id="searchBooks" action="textbookEdit.html" method="post">
+                          <label for="bookQuery">Search for available textbooks to add: </label><br />
+                          <select id="bookQueryType" name="bookQueryType">
+                            <option value="title" selected>Title</option>
+                            <option value="author">Author</option>
+                            <option value="publisher">Publisher</option>
+                            <option value="isbn">ISBN</option>
+                          </select>
+                          <input type="text" id="bookQuery" required>
+                          <input type="submit" name="queryBooks" value="Search">
+                        </form>
+                        <p>Other available textbook(s):</p>
+                        <form id="availableBooks" action="textbookEdit.html" method="post">
+                          <input id="book2" name="book2" value="1" type="checkbox">
+                          <label for="book2">
+                            <span class="bookTitle">Discrete Mathematics and its Applications</span>,
+                            <span class="bookEdition">7th Ed.</span>,
+                            <span class="bookAuthor">Rosen</span>,
+                            <span class="bookPublisher">McGraw-Hill</span>,
+                            ISBN: <span class="bookISBN">9780073383095</span>
+                            &ndash; <a href="bookInfoEdit.html">Edit</a>
+                          </label>
+                          <br>
+                          <input id="book3" name="book3" value="1" type="checkbox">
+                          <label for="book3">
+                            <span class="bookTitle">C++ for Java Programmers</span>,
+                            <span class="bookAuthor">Weiss</span>,
+                            <span class="bookPublisher">Prentice Hall</span>,
+                            ISBN: <span class="bookISBN">9780139194245</span>
+                            &ndash; <a href="bookInfoEdit.html">Edit</a>
+                          </label>
+                          <br>
+                          <input id="book4" name="book4" value="1" type="checkbox">
+                          <label for="book4">
+                            <span class="bookTitle">The C/Unix Programmer's Guide</span>,
+                            <span class="bookAuthor">Bacon</span>,
+                            <span class="bookPublisher">Acadix</span>,
+                            ISBN: <span class="bookISBN">0967059607</span>
+                            &ndash; <a href="bookInfoEdit.html">Edit</a>
+                          </label>
+                          <br><br>
+                          <input type="submit" name="updateSelectedBooks" value="Update Selections">
+                        </form>
+                        <hr>
+                        <p>Add a new textbook:</p>
+                        <form id="addBooks" action="textbookEdit.html" method="post">
+                          <div>
+                            <label for="newBookTitle">Title: </label>
+                            <input type="text" id="newBookTitle" required>
+                          </div>
+                          <div>
+                            <label for="newBookAuthor">Author:</label>
+                            <input type="text" id="newBookAuthor" required>
+                          </div>
+                          <div>
+                            <label for="newBookEdition">Edition: </label>
+                            <input type="text" id="newBookEdition">
+                          </div>
+                          <div>
+                            <label for="newBookPublisher">Publisher: </label>
+                            <input type="text" id="newBookPublisher" required>
+                          </div>
+                          <div>
+                            <label for="newBookISBN">ISBN: </label>
+                            <input type="text" id="newBookISBN" required>
+                          </div>
+                          <br>
+                          <div>
+                            <input type="submit" name="addBook" value="Add">
+                          </div>
+                        </form>
+                    </div>
+                    <!--END TEXTBOOK EDIT MODULE-->
+				
+				</div>
+			</div>
+			<hr>
+									
+			<div class="administratorViewModule" id="administratorViewAssessmentMain">
+				<div class="administratorViewEditBanner" id="administratorViewAssessmentBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Assessment:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton"type="button" value="Edit" onclick="swapDiv('assessmentViewMain', 'assessmentEditMain', 'administratorViewEditAssessmentButton');">
+					</form>			
+				</div>
+				<div class="administratorViewModuleDisplay">
+				
+
+				
+					<!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
+                    <div id="assessmentViewMain">
+                        <h1>Assessment:</h1>
+                        <table id="assessmentViewTable">
+                            <tr>
+                                <td class="assessmentCategory">Project<br>40%</td>
+                                <td class="assessmentDescription">The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.</td>
+                            </tr>
+                            <tr>
+                                <td class="assessmentCategory">Quizzes<br>10%</td>
+                                <td class="assessmentDescription">Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.</td>
+                            </tr>
+                            <tr>
+                                <td class="assessmentCategory">Midterm<br>20%</td>
+                                <td class="assessmentDescription">The midterm will be given during regular lecture time.</td>
+                            </tr>
+                            <tr>
+                                <td class="assessmentCategory">Final<br>20%</td>
+                                <td class="assessmentDescription">The final exam is cumulative; it is scheduled according to university policy.</td>
+                            </tr>
+                            <tr>
+                                <td class="assessmentCategory">Labs<br>10%</td>
+                                <td class="assessmentDescription">Weekly activities in lab for check-off.<br>Half credit for incomplete or inadequate work is possible.</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--END ASSESSMENT VIEW DISPLAY MODULE-->
+                    
+                    <!--COPY/PASTE YOUR ASSESSMENT EDIT MODULE HERE-->
+                    <div id="assessmentEditMain" style="display: none">
+                        <h1>Assessments</h1>
+                        <h3>Percentage left to allocate: 0%</h3>
+                        <form id="assess" action="editassessment.html" method="post">
+                          <table>
+                            <tbody>
+                              <tr>
+                                  <td class="assessmentEditTdClass" colspan="2">
+                                    <input value="1" id="assessItem0" type="checkbox">
+                                    <label class="assessmentEditLabelClass" for="assessItem0">Item 1</label>
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Percentage</td>
+                                <td class="assessmentEditTdClass">
+                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="40">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Category</td>
+                                <td class="assessmentEditTdClass">
+                                  <input class="assessCategory" value="Project" required type="text">
+                                </td>
+                              </tr>
+                              <tr class="assessmentEditTdClass">
+                                <td class="assessmentEditTdClass">Description</td>
+                                <td class="assessmentEditTdClass">
+                                  <textarea class="assessDescription" required>The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.</textarea>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass" colspan="2">
+                                  <input value="1" id="assessItem1" type="checkbox">
+                                  <label class="assessmentEditLabelClass" for="assessItem1">Item 2</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Percentage</td>
+                                <td class="assessmentEditTdClass">
+                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="10">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Category</td>
+                                <td class="assessmentEditTdClass">
+                                  <input class="assessCategory" value="Quizzes" required type="text">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Description</td>
+                                <td class="assessmentEditTdClass">
+                                  <textarea class="assessDescription" required>Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.</textarea>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass" colspan="2">
+                                  <input value="1" id="assessItem2" type="checkbox">
+                                  <label class="assessmentEditLabelClass" for="assessItem2">Item 3</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Percentage</td>
+                                <td class="assessmentEditTdClass">
+                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="20">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Category</td>
+                                <td class="assessmentEditTdClass">
+                                  <input class="assessCategory" value="Midterm" required type="text">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Description</td>
+                                <td class="assessmentEditTdClass">
+                                  <textarea class="assessDescription" required>The midterm will be given during regular lecture time.</textarea>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass" colspan="2">
+                                  <input value="1" id="assessItem3" type="checkbox">
+                                  <label class="assessmentEditLabelClass" for="assessItem3">Item 4</label>
+                                </td>
+                              <tr>
+                                <td class="assessmentEditTdClass">Percentage</td>
+                                <td class="assessmentEditTdClass">
+                                  <input type="number" step="5" max="100" min="0" required="" class="assessPercent" value="20">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Category</td>
+                                <td class="assessmentEditTdClass">
+                                  <input class="assessCategory" value="Final" required type="text">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Description</td>
+                                <td class="assessmentEditTdClass">
+                                  <textarea class="assessDescription" required="">The final exam is cumulative; it is scheduled according to university policy.</textarea>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass" colspan="2">
+                                  <input value="1" id="assessItem4" type="checkbox">
+                                  <label class="assessmentEditLabelClass" for="assessItem4">Item 5</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Percentage</td>
+                                <td class="assessmentEditTdClass">
+                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="10">
+                                </td>
+                              <tr>
+                                <td class="assessmentEditTdClass">Category</td>
+                                <td class="assessmentEditTdClass">
+                                  <input class="assessCategory" value="Labs" required type="text">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="assessmentEditTdClass">Description</td>
+                                <td class="assessmentEditTdClass">
+                                  <textarea class="assessDescription" required="">Weekly activities in lab for check-off.
+                    Half credit for incomplete or inadequate work is possible.</textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br>
+                          <input name="assessAdd" disabled="disabled" value="Add Item" type="submit">
+                          <input name="assessUpdate" value="Update Text" type="submit">
+                          <input name="assessRemove" value="Remove Selected Items" type="submit">
+                        </form>
+ 
+                    </div>
+                    <!--END ASSESSMENT EDIT MODULE-->
+				
+				
+
+				</div>
+			</div>
+			<hr>
+												
+			<div class="administratorViewModule" id="administratorViewGradingScaleMain">
+				<div class="administratorViewEditBanner" id="administratorViewGradingScaleBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Grading Scale:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditGradingScaleButton"type="button" value="Edit" onclick="swapDiv('gradeScaleView', 'gradingScaleEditModule', 'administratorViewEditGradingScaleButton');">
+					</form>		
+				</div>
+				<div class="administratorViewModuleDisplay">
+								
+					<!--COPY/PASTE YOUR GRADING SCALE DISPLAY MODULE HTML HERE-->
+                    	<div id = "gradeScaleView">
+                            <table id = "gradeScaleView">
+                                <tr>
+                                    <td> A </td>
+                                    <td> A- </td>
+                                    <td> B+ </td>
+                                    <td> B </td>
+                                    <td> B- </td>
+                                    <td> C+ </td>
+                                    <td> C </td>
+                                    <td> C- </td>
+                                    <td> D+ </td>
+                                    <td> D </td>
+                                    <td> D- </td>
+                                    <td> F </td>
+                                </tr>
+                                <tr>
+                                    <td> 92 </td>
+                                    <td> 88 </td>
+                                    <td> 84 </td>
+                                    <td> 80 </td>
+                                    <td> 76 </td>
+                                    <td> 72 </td>
+                                    <td> 68 </td>
+                                    <td> 64 </td>
+                                    <td> 60 </td>
+                                    <td> 56 </td>
+                                    <td> 52 </td>
+                                    <td> 0 </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <!--END GRADING SCALE POLICY-->
+                    
+                    <!--COPY/PASTE YOUR GRADING SCALE EDIT MODULE HERE-->
+                        <div id="gradingScaleEditModule" style="display:none">
+                            <h1>gradingScaleEditModule INCOMPLETE</h1>
+                        </div>
+                    <!--END GRADING SCALE EDIT MODULE-->
+				
+				</div>
+			</div>
+			<hr>
+			
+			<div class="administratorViewModule" id="administratorViewPolicyMain">
+				<div class="administratorViewEditBanner" id="administratorViewPolicyBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Policy:</p>
+					</div>
+					<form>
+						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton"type="button" value="Edit" onclick="swapDiv('policyViewModule', 'policyEditModule', 'administratorViewEditPolicyScaleButton');">
+					</form>		
+				</div>
+				<div class="administratorViewModuleDisplay">
+				
+					<!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
+                    <div id="policyViewModule">
+                        <h1>policyViewModule INCOMPLETE</h1>
+                    </div>
+                    <!--END POLICY DISPLAY MODULE-->
+                    
+                    <!--COPY/PASTE YOUR POLICY EDIT MODULE HERE-->
+                    <div id = "policyEditModule" style="display: none">
+                        <h1>Policies</h1>
+                        <textarea cols = "50">Policy Title Goes Here</textarea><br><br>
+                        <textarea rows = "10", cols = "50">Policy goes here</textarea><br><br>
+                    </div>
+                    <!--END POLICY EDIT MODULE-->
+
+				</div>
+			</div>
+			<hr>
+						
+			<div class="administratorViewModule" id="administratorViewCalendarMain">
+				<div class="administratorViewEditBanner" id="administratorViewCalendarBanner">
+					<div class="administratorViewEditBannerName">
+						<p>Calendar:</p>
+					</div>
+					<form>
+							<input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton"type="button" value="Edit" onclick="swapDiv('calendarViewMain', 'calendarEditMain', 'administratorViewEditCalendarButton');">
+					</form>		
+				</div>
+				<div class="administratorViewModuleDisplay">
+								
+					<!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->				
+                    <div id="calendarViewMain">
+                        <h1>Course Calendar:</h1>
+                        <table id="calendarViewCalendarTable">
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">Week</span></td>
+                                <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">Reading</span></td>
+                                <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">Topics</span></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">9/2</td>
+                                <td class="calendarViewReadingColumn">1</td>
+                                <td class="calendarViewTopicsColumn">What is software engineering?</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">9/9</td>
+                                <td class="calendarViewReadingColumn">2, 
+                                    <a href="http://www.w3.org/wiki/Web_Standards_Curriculum">HTML5/CSS</a>
+                                </td>
+                                <td class="calendarViewTopicsColumn">HTML5/CSS</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">9/16</td>
+                                <td class="calendarViewReadingColumn">3,Scrum</td>
+                                <td class="calendarViewTopicsColumn">Scrum: Intro, PB grooming</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">9/23</td>
+                                <td class="calendarViewReadingColumn">4</td>
+                                <td class="calendarViewTopicsColumn">Lecture 1: Scrum: Sprint planning; Lecture 2: introduce project: sprint 0; Lab PB grooming, sprint planning</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">9/30</td>
+                                <td class="calendarViewReadingColumn"></td>
+                                <td class="calendarViewTopicsColumn">Lecture 1: daily scrum, execution</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">10/7</td>
+                                <td class="calendarViewReadingColumn">
+                                    <a href="https://www.scrum.org/About/All-Articles">Test-Driven Dev</a>
+                                </td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">10/14</td>
+                                <td class="calendarViewReadingColumn">Midterm</td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">10/21</td>
+                                <td class="calendarViewReadingColumn">S: ch.7</td>
+                                <td class="calendarViewTopicsColumn">Test driven development</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">10/28</td>
+                                <td class="calendarViewReadingColumn">Sprint 1</td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">11/4</td>
+                                <td class="calendarViewReadingColumn">S: ch.5</td>
+                                <td class="calendarViewTopicsColumn">Encapsulation</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">11/11</td>
+                                <td class="calendarViewReadingColumn">Z: ch 6</td>
+                                <td class="calendarViewTopicsColumn">Interface Oriented Design</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">11/18</td>
+                                <td class="calendarViewReadingColumn">Sprint 2</td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">11/25</td>
+                                <td class="calendarViewReadingColumn">Sprint 2</td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">12/2</td>
+                                <td class="calendarViewReadingColumn">S: ch. 9</td>
+                                <td class="calendarViewTopicsColumn">Continuous integration</td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">12/9</td>
+                                <td class="calendarViewReadingColumn"></td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                            <tr class="calendarViewCalendarRow">
+                                <td class="calendarViewWeekColumn">12/16</td>
+                                <td class="calendarViewReadingColumn">Final Exam</td>
+                                <td class="calendarViewTopicsColumn"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--end calendarView-->
+                    
+                    <!--calendarEdit-->
+                    <div id="calendarEditMain" style="display: none">
+                        <form>
+                            <h1>Course Calendar Edit View:</h1>
+                            <table id="calendarEditCalendarTable">
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c1" value="Week"></span></td>
+                                    <td class="calendarEditReadingColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c2" value="Reading"></span></td>
+                                    <td class="calendarEditTopicsColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c3" value="Topics"></span></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r2c1" value="9/2"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r2c2" value="1"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r2c3" value="What is software engineering?"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r3c1" value="9/9"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r3c2" value="2, HTML5/CSS"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r3c3" value="HTML5/CSS"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r4c1" value="9/16"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r4c2" value="3,Scrum"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r3c3" value="Scrum: Intro, PB grooming"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r5c1" value="9/23"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r5c2" value="4"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r5c3" value="Lecture 1: Scrum: Sprint planning; Lecture 2: introduce project: sprint 0; Lab PB grooming, sprint planning"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r6c1" value="9/30"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r6c2" value=""></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r6c3" value="Lecture 1: daily scrum, execution"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r7c1" value="10/7"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r7c1" value="Test-Driven Dev"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r7c3" value=""></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r8c1" value="10/14"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r8c2" value="Midterm"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r8c3" value=""></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r9c1" value="10/21"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r9c2" value="S: ch.7"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r9c3" value="Test driven development"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r10c1" value="10/28"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r10c2" value="Sprint 1"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r10c3" value="10/21"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r11c1" value="11/4"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r11c2" value="S: ch.5"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r11c3" value="Encapsulation"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r12c1" value="11/11"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r12c2" value="Z: ch 6"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r12c3" value="Interface Oriented Design"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r13c1" value="11/18"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r13c2" value="Sprint 2"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r13c3" value="10/28"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r14c1" value="11/25"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r14c2" value="Sprint 2"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r14c3" value=""></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r15c1" value="12/2"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r15c2" value="S: ch. 9"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r15c3" value="Continuous integration"></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r16c1" value="12/9"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r16c2" value=""></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r16c3" value=""></td>
+                                </tr>
+                                <tr class="calendarEditCalendarRow">
+                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r17c1" value="12/16"></td>
+                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r17c2" value="Final Exam"></td>
+                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r17c3" value=""></td>
+                                </tr>
+                            </table>               
+                            <input type="submit" value="Save">
+                            <input type="submit" value="Exit">               
+                        </form>
+                    </div> 
+                    <!--end calendarEdit-->
+                    
+				</div>
+			</div>
+			<hr>
+
+			<div id="administratorViewNavBarSpacer">
+			</div>
+			
+			<div id="administratorViewNavBar">
+				<div id="administratorViewNavbarButtons">
+					<form>
+						<table>
+							<tr>
+								<td>
+									<input class="administratorViewNavBarButton" type="submit" value="Preview" name="Preview">
+								</td>
+								<td>
+									<input class="administratorViewNavBarButton" type="submit" value="Save" name="Save">
+								</td>
+								<td>
+									<input class="administratorViewNavBarButton" type="submit" value="Logout" name="Logout">
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+
+</html>

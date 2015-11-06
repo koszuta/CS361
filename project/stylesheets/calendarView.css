@@ -1,0 +1,29 @@
+#calendarViewMain {
+    display: block;
+    padding: 10px;
+    background-color: white;
+}
+table[id="calendarViewCalendarTable"] {
+    font-size: 12px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+tr[class="calendarViewCalendarRow"] {
+    height: 30px;    
+}
+td[class="calendarViewWeekColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 15%;
+}
+td[class="calendarViewReadingColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 20%;  
+}
+td[class="calendarViewTopicsColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 65%;   
+}

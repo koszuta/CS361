@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.bookTitle {
+	font-style: italic;
+}
+
+#addBooks {
+	display: table;
+}
+
+#addBooks div {
+	display: table-row;
+}
+
+#addBooks div label {
+	display: table-cell;
+	width: 5em;
+}
+
+#addBooks div input {
+	display: table-cell;
+	width: 200%;
+}
