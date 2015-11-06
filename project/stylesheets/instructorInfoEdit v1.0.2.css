@@ -1,0 +1,68 @@
+body {
+    font-size: 1.5em;
+}
+
+div#instructorsEditModule {
+	position: relative;
+    
+    /*background-color: teal;*/
+}
+
+div.instructorSelectionList {
+    z-index: 1000;
+    position: absolute;
+    display: inline-block;
+    width: 300px;
+    padding: 20px;
+}
+
+select.instructorsList {
+    width: 60%;
+}
+
+div#instructorsToAdd {
+    right: 50%;
+    text-align: left;
+
+    /*background-color: seagreen;*/
+}
+
+div#instructorsOnSyllabus {
+    left: 50%;
+    text-align: right;
+
+    /*background-color: plum;*/
+}
+
+div#instructorInfoEditor {
+    position: relative;
+    top: 400px;
+    
+    /*background-color: slateblue;*/
+}
+
+div#instructorInfoEditor h1 {
+    position: absolute;
+    left: 200px;
+}
+
+table.editInstructorList {
+    display: inline-block;
+    position: absolute;
+}
+
+table#nameSection {
+    right: 56%;
+    
+    /*background-color: springgreen;*/
+}
+
+table#officeHoursSection {
+    left: 47%;
+    
+    /*background-color: coral;*/
+}
+
+table.editInstructorList td {
+	padding: 5px;
+}

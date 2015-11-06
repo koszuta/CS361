@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+td[class="assessmentEditTdClass"] {
+	width: 5em;
+}
+
+label[class="assessmentEditLabelClass"] {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.assessPercent {
+	width: 3em;
+}
+
+.assessCategory {
+	width: 30em;
+}
+
+.assessDescription {
+	width: 30em;
+	height: 6em;
+}
