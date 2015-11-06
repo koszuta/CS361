@@ -1,3 +1,3 @@
 # CS361
 
-I love :coffee: and :pizza:
+I love :coffee: and :pizza: and :dancer:
