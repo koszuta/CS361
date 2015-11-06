@@ -4,6 +4,9 @@ import os
 
 from google.appengine.ext import ndb
 
+import user
+import course
+import syllabus
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())

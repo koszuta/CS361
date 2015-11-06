@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
         <head>
-		<title> Administrator View </title>
-                <link href="/stylesheets/administratorView.css" rel="stylesheet" />
-                <link href="/stylesheets/calendarView.css" rel="stylesheet" />
-                <link href="/stylesheets/calendarEdit.css" rel="stylesheet" />    
-                <link href="/stylesheets/assessmentView.css" rel="stylesheet" />   
-                <link href="/stylesheets/assessmentEdit.css" rel="stylesheet" />
-                <link href="/stylesheets/textbookView.css" rel="stylesheet" />
-                <link href="/stylesheets/textbookEdit.css" rel="stylesheet" />
-                <link href="/stylesheets/instructorsView.css" rel="stylesheet" />
-                <link href="/stylesheets/gradingScaleView.css" rel="stylesheet" />
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <title> Administrator View </title>
+                <link rel="stylesheet" type="text/css" href="/stylesheets/administratorView.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/calendarView.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/calendarEdit.css" />    
+                <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentView.css" />   
+                <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentEdit.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/textbookView.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/textbookEdit.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/instructorsView.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/gradingScaleView.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/instructorInfoEdit v1.0.2.css" />
+                
        
                 <script type="text/javascript">
                 function swapDiv(div1, div2, buttonId) {
@@ -102,12 +105,12 @@
 						<p>Instructor Info:</p>
 					</div>
 					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton"type="button" value="Edit" onclick="swapDiv('instructorsViewModule', 'instructorsEditModule', 'administratorViewEditInstructorInfoButton');">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton" type="button" value="Edit" onclick="swapDiv('instructorsViewModule', 'instructorsEditModule', 'administratorViewEditInstructorInfoButton');">
 					</form>		
 				</div>
 				<div class="administratorViewModuleDisplay">
 				
-					<!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
+	       <!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
                     <div id = "instructorsViewModule">
 						<table id = "instructorsTable">
 							<tr>
@@ -131,13 +134,165 @@
 							</tr>
 						</table>
 					</div>
-                    <!--END INSTRUCTOR INFO DISPLAY MODULE-->
+                <!--END INSTRUCTOR INFO DISPLAY MODULE-->
                     
-                    <!--COPY/PASTE YOUR INSTRUCTOR INFO EDIT MODULE HERE-->
-                    <div id="instructorsEditModule" style="display: none">
-                        <h1>instructorsEditModule INCOMPLETE</h1>
-                    </div>
-                    <!--END INSTRUCTOR INFO EDIT MODULE-->
+                <!--COPY/PASTE YOUR INSTRUCTOR INFO EDIT MODULE HERE-->
+                    <div id = "instructorsEditModule" style = "display: none">	
+
+			<div class = "instructorSelectionList" id="instructorsToAdd">
+
+				<h1> To Add: </h1>
+                                <form id="instructorsToAddForm" action="/editinstructor" method="post">
+                                <select size="8" name="availableInstructors" class="instructorsList" id="availableInstructors">
+                                        
+                                        
+                                        {% for key in instructorsList %}
+                                        <option> {{ key }} </option>
+                                        {% endfor %}
+                                </select>
+                                <input type="submit" value="Add" name="addInstructorsButton" id="availableInstructorsSubmit" />
+                                <input type="submit" value="Edit" name="editInstructorButton" id="editInstructorButton" />
+                                </form>
+                                        </div>
+                
+                                <div class="instructorSelectionList" id="instructorsOnSyllabus">
+                        
+                                        <h1> On Syllabus: </h1>
+                                        <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
+                                        <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
+                                        <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
+                                                
+                                        <!-- USE LIST OF SAVED INSTRUCTORS AND FOR LOOP TO ADD INSTRUCTORS TO LISTBOX -->
+                                                {% for key in onSyllabus %}
+                                                <option> {{ key }} </option>
+                                                {% endfor %}
+                                        </select>
+                                        </form>
+                                </div>
+                        
+                                <div id="instructorInfoEditor">
+                                        <form id="instructorEditor" action="/" method="post">
+                        
+                                        <table class = "editInstructorList" id='nameSection'>
+                                                
+                                                <tr>
+                                                        <td> . </td>
+                                                        <td> </td>
+                                                </tr>
+                                                                
+                                                <tr id = "instructorFirstNameEdit">
+                                                        <td> First </td> 
+                                                        <td> <input type="text" name="instructorFirstName" placeholder="First name" size="19" id="instructorFirstName" required value="{% if sel_first != None %}{{ sel_first }}{% endif %}" /> </td>
+                                                </tr>
+                        
+                                                <tr id="instructorLastNameEdit">
+                                                        <td> Last </td> 
+                                                        <td> <input type="text" name="instructorLastName" placeholder="Last name" size="19" id="instructorLastName" required value="{% if sel_last != None %}{{ sel_last }}{% endif %}" /> </td>
+                                                </tr>
+                        
+                                                <tr id="instructorEmailEdit">    
+                                                        <td> Email </td>
+                                                        <td> <input type="email" name="instructorEmail" placeholder="Email address" size="19" id="instructorEmail" required value="{% if sel_email != None %}{{ sel_email }}{% endif %}" /> </td>
+                                                </tr>
+                        
+                                                <tr id = "officeInfoEdit">
+                                                        <td> Office </td>
+                                                        <td>
+                                                                <select name = "instructorBuildingSelect" id = "instructorBuildingSelect" value="{% if sel_building != None %}{{ sel_building }}{% endif %}">
+                                                                        <option value = "None"> --- </option>
+                                                                        <option value = "EMS" 
+                                                                        {% if sel_building == "EMS" %} selected {% endif %}>  EMS         </option>
+                                                                        <option value = "PHY"
+                                                                        {% if sel_building == "PHY" %} selected {% endif %}>  Physics     </option>
+                                                                        <option value = "CHEM"
+                                                                        {% if sel_building == "CHEM" %} selected {% endif %}> Chemistry   </option>
+                                                                        <option value = "LAPH"
+                                                                        {% if sel_building == "LAPH" %} selected {% endif %}> Lapham      </option>
+                                                                </select> 		
+                                                                <input type="text" name="instructorOfficeRoom" placeholder="Room #" size="5" id="instructorOfficeRoom" value="{% if sel_room != None %}{{ sel_room }}{% endif %}" />
+                                                        </td>
+                                                </tr>
+                        
+                                                <tr id="officeInfoEdit">
+                                                        <td> Phone </td>
+                                                        <td> <input type="tel" name="instructorOfficePhone" placeholder="(xxx) xxx-xxxx" size="19" id="instructorOfficePhone" value="{% if sel_phone != None %}{{ sel_phone }}{% endif %}" /> </td>
+                                                </tr>
+                                        </table>
+                                
+                                        <table class = "editInstructorList" id='officeHoursSection'>
+                                                
+                                                
+                                                <tr>
+                                                        <td> </td>
+                                                        <td> Office Hours </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> <input type="checkbox" class="hoursCheck" name="mondayCheck" id="mondayCheck"> </td>
+                                                        <td> Monday </td>
+                                                        <td> <input type="time" name="mondayStartTime" id="mondayStartTime"> </td>
+                                                        <td> &nbsp;-&nbsp; </td>
+                                                        <td> <input type="time" name="mondayEndTime" id="mondayEndTime"> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> <input type="checkbox" class="hoursCheck" name="tuesdayCheck" id="tuesdayCheck"> </td>
+                                                        <td> Tuesday </td>
+                                                        <td> <input type="time" name="tuesdayStartTime" id="tuesdayStartTime"> </td>
+                                                        <td> &nbsp;-&nbsp; </td>
+                                                        <td> <input type="time" name="tuesdayEndTime" id="tuesdayEndTime"> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> <input type="checkbox" class="hoursCheck" name="wednesdayCheck" id="wednesdayCheck"> </td>
+                                                        <td> Wednesday </td>
+                                                        <td> <input type="time" name="wednesdayStartTime" id="wednesdayStartTime"> </td>
+                                                        <td> &nbsp;-&nbsp; </td>
+                                                        <td> <input type="time" name="wednesdayEndTime" id="wednesdayEndTime"> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> <input type="checkbox" class="hoursCheck" name="thursdayCheck" id="thursdayCheck"> </td>
+                                                        <td> Thursday </td>
+                                                        <td> <input type="time" name="thursdayStartTime" id="thursdayStartTime"> </td>
+                                                        <td> &nbsp;-&nbsp; </td>
+                                                        <td> <input type="time" name="thursdayEndTime" id="thursdayEndTime"> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck"> </td>
+                                                        <td> Friday </td>
+                                                        <td> <input type="time" name="fridayStartTime" id="fridayStartTime"> </td>
+                                                        <td> &nbsp;-&nbsp; </td>
+                                                        <td> <input type="time" name="fridayEndTime" id="fridayEndTime"> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                        <td> </td>
+                                                        <td> </td>
+                                                        <td> <input type = "submit" value = "Update Info" id = "editInstructorSubmit" /> </td>
+                                                        <td> </td>
+                                                        <td> <input type = "submit" value = "Create New" id = "createInstructorSubmit" /> </td>
+                                                </tr>
+                                        </table>
+                
+                                </form>
+                
+                        </div>
+
+		</div>
+                <!--END INSTRUCTOR INFO EDIT MODULE-->
 				
 				
 				</div>
