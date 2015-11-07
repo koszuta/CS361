@@ -1,0 +1,48 @@
+#calendarEditMain {
+    padding: 10px;
+    background-color: white;
+}
+table[id="calendarEditCalendarTable"] {
+    font-size: 12px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+tr[class="calendarEditCalendarRow"] {
+    height: 30px;    
+}
+td[class="calendarEditWeekColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 15%;
+}
+td[class="calendarEditWeekColumn"]:hover {
+    border: 3px solid red;
+    border-collapse: collapse;    
+    width: 15%;
+}
+td[class="calendarEditReadingColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 20%;  
+}
+td[class="calendarEditReadingColumn"]:hover {
+    border: 3px solid red;
+    border-collapse: collapse;    
+    width: 20%;  
+}
+td[class="calendarEditTopicsColumn"] {
+    border: 1px solid black;
+    border-collapse: collapse;    
+    width: 65%;   
+}
+td[class="calendarEditTopicsColumn"]:hover {
+    border: 3px solid red;
+    border-collapse: collapse;    
+    width: 65%;   
+}
+input[class="calendarEditInput"] {
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}

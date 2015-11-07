@@ -1,0 +1,18 @@
+div#courseInfoViewModule {
+	padding: 20px;
+}
+
+div#instructorsViewModule {
+	padding: 20px;
+}
+
+table#instructorsTable {
+	border-collapse: collapse;
+	text-align: left;
+	width: 800px;
+}
+
+table#instructorsTable td {
+	border: 1px solid black;
+	padding: 3px;
+}

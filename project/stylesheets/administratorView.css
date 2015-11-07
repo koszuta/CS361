@@ -1,0 +1,85 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+#administratorViewMain {
+	width: 100%;
+	background-color: #090909;
+}
+
+#administratorViewBanner {
+	height: 96px;
+	background-color: #4E987F;
+	text-align: center;
+}
+
+#administratorViewHeader {
+	background-color: #3B4F4E;
+}
+
+.administratorViewModule {
+	/*min-height: 512px;*/
+	background-color: #142225;
+	padding: 5px;
+}
+
+.administratorViewEditBanner {
+	height: 63px;
+	background-color: #4E98A0;
+}
+
+.administratorViewEditBannerName {
+	font-size: 48px;
+	float: left;
+}
+
+.administratorViewEditBannerButton {
+	float: right;
+}
+
+.administratorViewModuleDisplay {
+	background-color: #EEEEFF;
+	width: 100%;
+	/*min-height: 443px;*/
+}
+
+input[class="administratorViewEditBannerButton"] {
+	background: #8E4731;
+	padding: 20px 20px;
+	border-radius: 3px;
+}
+
+input[class="administratorViewEditBannerButton"]:hover {
+    background: #B1583D;
+}
+
+#administratorViewNavBarSpacer {
+	height: 52px;
+}
+
+#administratorViewNavBar{
+	background-color: #4E987F;
+	height: 52px;
+	width: 100%;
+	position: fixed;
+	bottom: 0px;
+}
+
+#administratorViewNavbarButtons {
+	float: right;
+}
+
+input[class="administratorViewNavBarButton"] {
+	background: #4E987F;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+
+input[class="administratorViewNavBarButton"]:hover {
+    background: #61BE9E;
+}

@@ -1,0 +1,35 @@
+#assessmentViewMain {
+    padding: 10px;
+    background-color: white;
+}
+
+#assessmentViewTable {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#assessmentViewTable td[class="assessmentCategory"] {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    width: 10%;
+}
+
+#assessmentViewTable td[class="assessmentDescription"] {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    width: 90%;
+}
+
+#assessmentViewTable .assessmentCategory {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 3px;
+    width: 15%;
+}
+
+.textbookViewTitle {
+    font-style: italic;
+}
