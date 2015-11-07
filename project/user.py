@@ -1,5 +1,4 @@
-import course
-
+import Course
 
 class User:
     def __init__(self, username='', password='', courses={}, policies={}, scales={}, instructors={}):
