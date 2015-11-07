@@ -3,13 +3,13 @@ import Hours
 from google.appengine.ext import ndb
 
 class Instructor(ndb.Model):
-		first = ndb.StringProperty()
-		last = ndb.StringProperty()
-		email = ndb.StringProperty()
-		phone = ndb.StringProperty()
-		building = ndb.StringProperty()
-		room = ndb.StringProperty()
-		hours = ndb.StructuredProperty(Hours, repeated=True)
+    first = ndb.StringProperty()
+    last = ndb.StringProperty()
+    email = ndb.StringProperty()
+    phone = ndb.StringProperty()
+    building = ndb.StringProperty()
+    room = ndb.StringProperty()
+    hours = ndb.StructuredProperty(Hours, repeated=True)
 
 '''     
     def getKey(self):

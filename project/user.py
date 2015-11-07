@@ -8,10 +8,10 @@ from google.appengine.ext import ndb
 class User(ndb.Model):
         username = ndb.StringProperty()
         password = ndb.StringProperty()
-        savedCourses = ndb.StructuredProperty(Course, repeated=True)
+        courses = ndb.StructuredProperty(Course, repeated=True)
         savedPolicies = ndb.StructuredProperty(Policy, repeated=True)
-        savedScale = ndb.StructuredProperty(Scale, repeated=True)
-        instructors = ndb.StructuredProperty(Instructor, repeated=True)
+        savedScales = ndb.StructuredProperty(Scale, repeated=True)
+        savedInstructors = ndb.StructuredProperty(Instructor, repeated=True)
     
 '''    
     def addCourse(self, Course):

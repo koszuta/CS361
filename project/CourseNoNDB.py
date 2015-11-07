@@ -1,4 +1,4 @@
-import Syllabus
+import syllabus
 
 class Course:
     def __init__(self, name='', number='', syllabi={}, calendars={}, textbooks={}):

@@ -1,15 +1,18 @@
 import Syllabus
+import Calendar
+import Textbook
 
 from google.appengine.ext import ndb
 
 class Course:
-    def __init__(self, name='', number='', syllabi={}, calendars={}, textbooks={}):
-        self.name = name
-        self.number = number
-        self.syllabi = syllabi
-        self.calendars = calendars
-        self.textbooks = textbooks
-        
+        name = ndb.StringProperty()
+        number = ndb.StringProperty()
+        syllabi = ndb.StructuredProperty(Syllabus, repeated=True)
+        SavedCalendars = ndb.StructuredProperty(Calendar, repeated=True)
+        SavedTextbooks = ndb.StructuredProperty(Textbook, repeated=True)
+    
+'''    
     def addSyllabus(self, Syllabus):
         
         return Syllabus
+'''
