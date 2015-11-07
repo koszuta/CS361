@@ -1,6 +1,6 @@
-import syllabus
+import Syllabus
 
-class Course():
+class Course:
     def __init__(self, name='', number='', syllabi={}, calendars={}, textbooks={}):
         self.name = name
         self.number = number
