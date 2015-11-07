@@ -1,7 +1,5 @@
 import Syllabus
 
-from google.appengine.ext import ndb
-
 class Course:
     def __init__(self, name='', number='', syllabi={}, calendars={}, textbooks={}):
         self.name = name

@@ -1,7 +1,5 @@
 import Course
 
-from google.appengine.ext import ndb
-
 class User:
     def __init__(self, username='', password='', courses={}, policies={}, scales={}, instructors={}):
         self.username = username

@@ -1,4 +1,3 @@
-from google.appengine.ext import ndb
 
 class Syllabus:
     def __init__(self, myTextbooks={}, myCalendar={}, myInstructors={}, myPolicies={}, myAssessments={}):
