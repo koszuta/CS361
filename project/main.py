@@ -10,10 +10,10 @@ import Syllabus
 import Instructor
 
 
-scott = Instructor.Instructor('Scott', 'Ehlert', None, None, None, None, None)
-dylan = Instructor.Instructor('Dylan', 'Harrison', None, None, None, None, None)
-nathan = Instructor.Instructor('Nathan', 'Koszuta', 'nkoszuta@uwm.edu', '(414) 531-7488', 'CHEM', '147', None)
-shane = Instructor.Instructor('Shane', 'Sedgwick', None, None, None, None, None) 
+scott = Instructor.Instructor(first='Scott', last='Ehlert', email=None, phone=None, building=None, room=None, hours=None)
+dylan = Instructor.Instructor(first='Dylan', last='Harrison', email=None, phone=None, building=None, room=None, hours=None)
+nathan = Instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', hours=None)
+shane = Instructor.Instructor(first='Shane', last='Sedgwick', email=None, phone=None, building=None, room=None, hours=None) 
 
 listoinstructors = {'Ehlert, Scott': scott, 'Harrison, Dylan': dylan, 'Koszuta, Nathan': nathan, 'Sedgwick, Shane': shane}
 onSyllabus = {}
