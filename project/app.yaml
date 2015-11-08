@@ -18,7 +18,7 @@ handlers:
 - url: /removeinstructors
   script: main.app
 
-- url: .*
+- url: /.*
   script: main.app
 
 libraries:

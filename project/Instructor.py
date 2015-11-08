@@ -1,4 +1,4 @@
-import Hours
+import hours
 
 from google.appengine.ext import ndb
 
@@ -9,8 +9,9 @@ class Instructor(ndb.Model):
     phone = ndb.StringProperty()
     building = ndb.StringProperty()
     room = ndb.StringProperty()
-    hours = ndb.StructuredProperty(Hours, repeated=True)
-
+    hours = ndb.LocalStructuredProperty(hours.Hours, repeated=True)
+    
+    
 '''     
     def getKey(self):
         return str(self.last + ", " + self.first);
