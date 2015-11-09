@@ -43,7 +43,7 @@ div#instructorInfoEditor {
 }
 
 div#instructorInfoEditor h1 {
-    position: absolute;
+    position: relative;
     left: 200px;
 }
 

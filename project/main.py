@@ -16,35 +16,33 @@ user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = instructor.Instructor(first='Scott', last='Ehlert') 
-dylan = instructor.Instructor(first='Dylan', last='Harrison') 
-nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147') 
-shane = instructor.Instructor(first='Shane', last='Sedgwick')
+scott = instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
+dylan = instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
+nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
+shane = instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
 user.savedInstructors.append(dylan)
 user.savedInstructors.append(shane)
 
+'''
 h = hours.Hours(day="Monday", start="9:00am", end="11:00am")
 i = hours.Hours(day="Wednesday", start="1:00pm", end="2:00pm")
 j = hours.Hours(day="Thursday", start="10:00am", end="11:00am")
-
+'''
     
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
-    
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('''user.savedInstructors = ''')
-        self.response.write(user.savedInstructors)
-        self.response.write('''<br><br>''')
-        self.response.write('''syl.instructors = ''')
-        self.response.write(syl.instructors)
-        self.response.write('''<br><br>''')
-        
-        x = scott
+        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
+        for item in user.savedInstructors:
+            if item.isSelected:
+                x = item
+            item.isSelected = False
         
         template = template_env.get_template('main.html')
         context = {
@@ -65,37 +63,41 @@ class MainHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
-        chosen = self.request.get("availableInstructors")
-        selected = instructor.Instructor(first="Butts", last="Boner")
+        selected = self.request.get("availableInstructors")
+        chosen = instructor.Instructor(first="Butts", last="Boner")
         
         for item in user.savedInstructors:
-            if item.key() == chosen:
-                selected = item
+            if item.key() == selected:
+                chosen = item
         
         if option == "Add":
-            syl.instructors.append(selected)
-        elif option == "Edit":
-            syl.instructors.remove(selected)
+            syl.instructors.append(chosen)
         
-        self.redirect('/')
+        chosen.isSelected = True        
+        
+        self.redirect('/#administratorViewInstructorInfoMain')
         
 
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
-        chosen = self.request.get("selectedInstructors")
+        selected = self.request.get("selectedInstructors")
+        chosen = instructor.Instructor(first="Butts", last="Boner")
         
         for item in syl.instructors:
-            if item.key() == chosen:
+            if item.key() == selected:
+                chosen=item
                 syl.instructors.remove(item) 
-                 
-            
-        self.redirect('/')
+                
+        chosen.isSelected = True  
+           
+        self.redirect('/#administratorViewInstructorInfoMain')
         
        
 class EditHandler(webapp2.RequestHandler):
     def post(self):
-        
-        self.redirect('/')
+        button = self.request.get("editInstructorSubmit")
+
+        self.redirect('/#administratorViewInstructorInfoMain')
         
         
 app = webapp2.WSGIApplication([
