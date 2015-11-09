@@ -11,12 +11,10 @@ class Instructor(ndb.Model):
     room = ndb.StringProperty()
     hours = ndb.LocalStructuredProperty(hours.Hours, repeated=True)
     
-    
-'''     
-    def getKey(self):
+    def key(self):
         return str(self.last + ", " + self.first);
         
-        
+'''       
     def setFirstName(self, str):
         self.first = str;
         

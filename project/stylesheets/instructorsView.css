@@ -1,9 +1,9 @@
 div#courseInfoViewModule {
-	padding: 20px;
+	padding: 50px;
 }
 
 div#instructorsViewModule {
-	padding: 20px;
+	padding: 30px 0 30px 50px ;
 }
 
 table#instructorsTable {

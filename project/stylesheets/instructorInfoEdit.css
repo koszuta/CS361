@@ -4,9 +4,9 @@ body {
 
 div#instructorsEditModule {
 	position: relative;
-    height: 800px;
+    height: 600px;
     
-    background-color: teal;
+    /*background-color: teal;*/
 }
 
 div.instructorSelectionList {
@@ -25,21 +25,21 @@ div#instructorsToAdd {
     right: 50%;
     text-align: left;
 
-    background-color: seagreen;
+    /*background-color: seagreen;*/
 }
 
 div#instructorsOnSyllabus {
     left: 50%;
     text-align: right;
 
-    background-color: plum;
+    /*background-color: plum;*/
 }
 
 div#instructorInfoEditor {
     position: relative;
-    top: 350px;
+    padding-top: 250px;
     
-    background-color: slateblue;
+    /*background-color: slateblue;*/
 }
 
 div#instructorInfoEditor h1 {
@@ -55,13 +55,13 @@ table.editInstructorList {
 table#nameSection {
     right: 56%;
     
-    background-color: springgreen;
+    /*background-color: springgreen;*/
 }
 
 table#officeHoursSection {
     left: 47%;
     
-    background-color: coral;
+    /*background-color: coral;*/
 }
 
 table.editInstructorList td {
