@@ -10,8 +10,8 @@
   <body>
     <h1>Textbooks</h1>
     <a href="/">&lt; Back</a>
+    {% if books %}
     <form id="currentBooks" action="/removebooks" method="post">
-      {% if books %}
 	  <p>Currently selected textbook(s):</p>
 	  {% for book in books %}
       <input id="{{book.isbn}}" name="bookSelect" checked value="{{book.isbn}}" type="checkbox">
@@ -33,9 +33,9 @@
     <hr>
     <br>
     {% else %}
-    <br>
+    <br><br>
     {% endif %}
-    <form id="searchBooks" action="textbookEdit.html" method="post">
+    <form id="searchBooks" action="/editbooks" method="get">
       <label for="bookQuery">Search for available textbooks to add: </label><br />
       <select id="bookQueryType" name="bookQueryType">
         <option value="title" selected>Title</option>
