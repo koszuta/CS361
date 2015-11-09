@@ -145,7 +145,6 @@
                                     <option> {{ instructor.key() }} </option>
                                     {% endfor %}
                                 </select>
-                                
                                 <input type="submit" value="Add" name="instructorToAddButton" id="availableInstructorsSubmit" />
                                 <input type="submit" value="Edit" name="instructorToAddButton" id="editInstructorButton" />
                             </form>
@@ -155,11 +154,9 @@
                              <h1> On Syllabus: </h1>
                              <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
                                 <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
-                                
                                 <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
-                         <!-- USE LIST OF SAVED INSTRUCTORS AND FOR LOOP TO ADD INSTRUCTORS TO LISTBOX -->
                                 {% for instructor in syllabusInstructors %}
-                                <option> {{ instructor.last }}, {{ instructor.first }} </option>
+                                <option> {{ instructor.key() }} </option>
                                 {% endfor %}
                                 </select>
                              </form>

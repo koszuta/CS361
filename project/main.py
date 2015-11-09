@@ -56,7 +56,7 @@ class MainHandler(webapp2.RequestHandler):
             'sel_phone': x.phone,
             'sel_building': x.building,
             'sel_room': x.room,
-            'sel_hours': x.hours,
+            #'sel_hours': x.hours,
         }
         
         self.response.write(template.render(context))
@@ -66,23 +66,28 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         chosen = self.request.get("availableInstructors")
+        selected = instructor.Instructor(first="Butts", last="Boner")
         
-        user.savedInstructors.append(instructor.Instructor(first="test2", last="test1"))
+        for item in user.savedInstructors:
+            if item.key() == chosen:
+                selected = item
         
         if option == "Add":
-            syl.instructors.append(chosen)
+            syl.instructors.append(selected)
         elif option == "Edit":
-            syl.instructors.remove(chosen)
+            syl.instructors.remove(selected)
         
-        syl.put()
         self.redirect('/')
         
 
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
-        keyToRemove = self.request.get("selectedInstructors")
-        if keyToRemove is not None and keyToRemove != '':
-            del onSyllabus[keyToRemove]       
+        chosen = self.request.get("selectedInstructors")
+        
+        for item in syl.instructors:
+            if item.key() == chosen:
+                syl.instructors.remove(item) 
+                 
             
         self.redirect('/')
         
