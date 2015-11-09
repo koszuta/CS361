@@ -1,4 +1,4 @@
-import hours
+import Hours
 
 from google.appengine.ext import ndb
 
