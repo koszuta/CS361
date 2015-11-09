@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Syllablaster &gt; Textbooks &gt; Edit Book Info</title>
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/bookInfoEdit.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <h1>Edit Book Info</h1>
+    {% if errors %}
+    <ul id="error">
+    {% for error in errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <form id="editBook" action="/editbook?isbn={{ editISBN|urlencode }}" method="post">
+      <div>
+        <label for="bookTitle">Title: </label>
+        <input id="bookTitle" name="bookTitle" required type="text" value="{{ title }}">
+      </div>
+      <div>
+        <label for="bookAuthor">Author:</label>
+        <input id="bookAuthor" name="bookAuthor" required type="text" value="{{ author }}">
+      </div>
+      <div>
+        <label for="bookEdition">Edition: </label>
+        <input id="bookEdition" name="bookEdition" type="text" value="{{ edition }}">
+      </div>
+      <div>
+        <label for="bookPublisher">Publisher: </label>
+        <input id="bookPublisher" name="bookPublisher" required type="text" value="{{ publisher }}">
+      </div>
+      <div>
+        <label for="bookISBN">ISBN: </label>
+        <input id="bookISBN" name="bookISBN" required type="text" value="{{ isbn }}">
+      </div>
+      <br>
+      <div>
+        <input name="updateBook" value="Update Info" type="submit">
+      </div>
+    </form>
+  </body>
+</html>

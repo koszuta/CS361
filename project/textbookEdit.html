@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Syllablaster &gt; Textbooks &gt; Edit</title>
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/textbookEdit.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Textbooks</h1>
+    <form id="currentBooks" action="textbookEdit.html" method="post">
+      {% if books %}
+	  <p>Currently selected textbook(s):</p>
+	  {% for book in books %}
+      <input id="{{book.isbn}}" name="{{book.isbn}}" checked value="1" type="checkbox">
+      <label for="{{book.isbn}}">
+        <span class="bookTitle">{{ book.title }}</span>,
+        {% if book.edition %}
+        <span class="bookEditon">{{ book.edition }}</span>,
+        {% endif %}
+        <span class="bookAuthor">{{ book.author }}</span>,
+        <span class="bookPublisher">{{ book.publisher }}</span>,
+        ISBN: <span class="bookISBN">{{ book.isbn }}</span>
+        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}">Edit</a>
+      </label>
+      <br>
+      {% endfor %}
+      <br>
+      <input type="submit" name="updateSelectedBooks" value="Update Selections">
+    </form>
+    <hr>
+    <br>
+    {% endif %}
+    <form id="searchBooks" action="textbookEdit.html" method="post">
+      <label for="bookQuery">Search for available textbooks to add: </label><br />
+      <select id="bookQueryType" name="bookQueryType">
+        <option value="title" selected>Title</option>
+        <option value="author">Author</option>
+        <option value="publisher">Publisher</option>
+        <option value="isbn">ISBN</option>
+      </select>
+      <input type="text" id="bookQuery" required>
+      <input type="submit" name="queryBooks" value="Search">
+    </form>
+    <hr>
+    <p>Add a new textbook:</p>
+    {% if errors %}
+    <ul id="error">
+    {% for error in errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <form id="addBooks" action="/editbooks" method="post">
+      <div>
+        <label for="newBookTitle">Title: </label>
+        <input type="text" value="{{ title }}" id="newBookTitle" name="newBookTitle" required>
+      </div>
+      <div>
+        <label for="newBookAuthor">Author:</label>
+        <input type="text" value="{{ author }}" id="newBookAuthor" name="newBookAuthor" required>
+      </div>
+      <div>
+        <label for="newBookEdition">Edition: </label>
+        <input type="text" value="{{ edition }}" id="newBookEdition" name="newBookEdition">
+      </div>
+      <div>
+        <label for="newBookPublisher">Publisher: </label>
+        <input type="text" value="{{ publisher }}" id="newBookPublisher" name="newBookPublisher" required>
+      </div>
+      <div>
+        <label for="newBookISBN">ISBN: </label>
+        <input type="text" value="{{ isbn }}" id="newBookISBN" name="newBookISBN" required>
+      </div>
+      <br>
+      <div>
+        <input type="submit" name="addBook" value="Add">
+      </div>
+    </form>
+  </body>
+</html>
