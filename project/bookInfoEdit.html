@@ -9,12 +9,15 @@
 
   <body>
     <h1>Edit Book Info</h1>
+    <a href="/editbooks">&lt; Back</a>
     {% if errors %}
     <ul id="error">
     {% for error in errors %}
         <li>{{ error }}</li>
     {% endfor %}
     </ul>
+    {% else %}
+    <br><br>
     {% endif %}
     <form id="editBook" action="/editbook?isbn={{ editISBN|urlencode }}" method="post">
       <div>
