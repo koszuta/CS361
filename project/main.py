@@ -10,8 +10,7 @@ import course
 import syllabus
 import Instructor
 import Hours
-
-from Textbook import TextbookHandler, EditTextbookHandler
+import Textbook
 
 user = user.User()
 user.put()
@@ -57,6 +56,7 @@ class MainHandler(webapp2.RequestHandler):
             'sel_building': x.building,
             'sel_room': x.room,
             #'sel_hours': x.hours,
+            'books': Textbook.Textbook.query().fetch(),
         }
         
         self.response.write(template.render(context))
@@ -107,6 +107,6 @@ app = webapp2.WSGIApplication([
     ('/addinstructor', AddHandler),
     ('/removeinstructor', RemoveHandler),
     ('/editinstructor', EditHandler),
-    ('/editbooks', TextbookHandler),
-    ('/editbook', EditTextbookHandler),
+    ('/editbooks', Textbook.TextbookHandler),
+    ('/editbook', Textbook.EditTextbookHandler),
 ], debug=True)
