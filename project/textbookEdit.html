@@ -10,11 +10,11 @@
   <body>
     <h1>Textbooks</h1>
     <a href="/">&lt; Back</a>
-    <form id="currentBooks" action="textbookEdit.html" method="post">
+    <form id="currentBooks" action="/removebooks" method="post">
       {% if books %}
 	  <p>Currently selected textbook(s):</p>
 	  {% for book in books %}
-      <input id="{{book.isbn}}" name="{{book.isbn}}" checked value="1" type="checkbox">
+      <input id="{{book.isbn}}" name="bookSelect" checked value="{{book.isbn}}" type="checkbox">
       <label for="{{book.isbn}}">
         <span class="bookTitle">{{ book.title }}</span>,
         {% if book.edition %}
@@ -31,6 +31,8 @@
       <input type="submit" name="updateSelectedBooks" value="Update Selections">
     </form>
     <hr>
+    <br>
+    {% else %}
     <br>
     {% endif %}
     <form id="searchBooks" action="textbookEdit.html" method="post">

@@ -35,6 +35,17 @@ def doRefresh(webapp, title, message, url, timeout=2):
         'message': message
     }
     webapp.response.write(template.render(context))
+    
+class RemoveTextbookHandler(webapp2.RequestHandler):
+    def post(self):
+        selectedBooks = self.request.get_all('bookSelect')
+        books = Textbook.query().fetch()
+        books[:] = [x for x in books if x not in selectedBooks]
+        for book in books:
+            if book.isbn not in selectedBooks:
+                book.key.delete()
+        msg = 'Updating book selections...'
+        doRefresh(self, 'Updating Book Selections', msg, '/editbooks')
 
 class EditTextbookHandler(webapp2.RequestHandler):
     def get(self):
