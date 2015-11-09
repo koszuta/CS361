@@ -16,14 +16,20 @@ user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-h = hours.Hours(day="Monday", start="9:00am", end="11:00am")
-i = hours.Hours(day="Wednesday", start="1:00pm", end="2:00pm")
-j = hours.Hours(day="Thursday", start="10:00am", end="11:00am")
-
 scott = instructor.Instructor(first='Scott', last='Ehlert') 
 dylan = instructor.Instructor(first='Dylan', last='Harrison') 
 nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147') 
 shane = instructor.Instructor(first='Shane', last='Sedgwick')
+
+user.savedInstructors.append(scott)
+user.savedInstructors.append(nathan)
+user.savedInstructors.append(dylan)
+user.savedInstructors.append(shane)
+
+h = hours.Hours(day="Monday", start="9:00am", end="11:00am")
+i = hours.Hours(day="Wednesday", start="1:00pm", end="2:00pm")
+j = hours.Hours(day="Thursday", start="10:00am", end="11:00am")
+
     
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -31,11 +37,6 @@ template_env = jinja2.Environment(
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        user.savedInstructors.append(scott)
-        user.savedInstructors.append(nathan)
-        user.savedInstructors.append(dylan)
-        user.savedInstructors.append(shane)
-        
         self.response.write('''user.savedInstructors = ''')
         self.response.write(user.savedInstructors)
         self.response.write('''<br><br>''')
@@ -66,13 +67,14 @@ class AddHandler(webapp2.RequestHandler):
         option = self.request.get("instructorToAddButton")
         chosen = self.request.get("availableInstructors")
         
-        if option == "Add" and option != "":
-            syllabus.instructors.append(chosen)
-            
-        elif option == "Edit":
-            syllabus.instructors()
+        user.savedInstructors.append(instructor.Instructor(first="test2", last="test1"))
         
-            
+        if option == "Add":
+            syl.instructors.append(chosen)
+        elif option == "Edit":
+            syl.instructors.remove(chosen)
+        
+        syl.put()
         self.redirect('/')
         
 
