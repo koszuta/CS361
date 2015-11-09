@@ -8,18 +8,19 @@ from google.appengine.ext import ndb
 import user
 import course
 import syllabus
-import instructor
-import hours
+import Instructor
+import Hours
+import Textbook
 
 user = user.User()
 user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
-dylan = instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
-nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
-shane = instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
+scott = Instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
+dylan = Instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
+nathan = Instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
+shane = Instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -38,7 +39,7 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
+        x = Instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
         for item in user.savedInstructors:
             if item.isSelected:
                 x = item
@@ -55,6 +56,7 @@ class MainHandler(webapp2.RequestHandler):
             'sel_building': x.building,
             'sel_room': x.room,
             #'sel_hours': x.hours,
+            'books': Textbook.Textbook.query().fetch(),
         }
         
         self.response.write(template.render(context))
@@ -64,7 +66,7 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
-        chosen = instructor.Instructor(first="Butts", last="Boner")
+        chosen = Instructor.Instructor(first="Butts", last="Boner")
         
         for item in user.savedInstructors:
             if item.key() == selected:
@@ -81,7 +83,7 @@ class AddHandler(webapp2.RequestHandler):
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
-        chosen = instructor.Instructor(first="Butts", last="Boner")
+        chosen = Instructor.Instructor(first="Butts", last="Boner")
         
         for item in syl.instructors:
             if item.key() == selected:
@@ -105,4 +107,7 @@ app = webapp2.WSGIApplication([
     ('/addinstructor', AddHandler),
     ('/removeinstructor', RemoveHandler),
     ('/editinstructor', EditHandler),
+    ('/editbooks', Textbook.TextbookHandler),
+    ('/editbook', Textbook.EditTextbookHandler),
+    ('/removebooks', Textbook.RemoveTextbookHandler),
 ], debug=True)

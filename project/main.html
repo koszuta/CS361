@@ -308,27 +308,27 @@
 					<div class="administratorViewEditBannerName">
 						<p>Textbooks:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton"type="button" value="Edit" onclick="swapDiv('textbookViewMain', 'textbookEditMain', 'administratorViewEditTextbookButton');">
+					<form method="get" action="/editbooks">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton" type="submit" value="Edit">
 					</form>			
 				</div>
 				<div class="administratorViewModuleDisplay">
 				
 					<!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
                     <div id="textbookViewMain">
-                        <h1>Textbooks:</h1>
-                        <span class="textbookViewTitle">Essential Skills for the Agile Developer</span>,
-                        <span class="textbookViewAuthor">Shalloway</span>,
-                        <span class="textbookViewPublisher">Addison-Wesley Professional</span>,
-                        ISBN: <span class="textbookViewISBN">0785342543735</span>
+                        {% for book in books %}
+                        <span class="textbookViewTitle">{{ book.title }}</span>,
+                        {% if book.edition %}
+                        <span class="textbookViewEdition">{{ book.edition }}</span>,
+                        {% endif %}
+                        <span class="textbookViewAuthor">{{ book.author }}</span>,
+                        <span class="textbookViewPublisher">{{ book.publisher }}</span>,
+                        ISBN: <span class="textbookViewISBN">{{ book.isbn }}</span>
                         
+                        {% if not loop.last %}
                         <br>
-
-                        <span class="textbookViewTitle">Programming Google App Engine</span>,
-                        <span class="textbookViewEditon">2nd. Ed.</span>,
-                        <span class="textbookViewAuthor">Sanderson</span>,
-                        <span class="textbookViewPublisher">O'Reilly Media</span>,
-                        ISBN: <span class="textbookViewISBN">9781449398262</span>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                     <!--END TEXTBOOK DISPLAY MODULE-->
                     
