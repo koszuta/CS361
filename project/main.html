@@ -139,7 +139,7 @@
 
                         <div class = "instructorSelectionList" id="instructorsToAdd">
                             <h1> To Add: </h1>
-                            <form id="instructorsToAddForm" action="/editinstructor" method="post">
+                            <form id="instructorsToAddForm" action="/addinstructor" method="post">
                                 <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
                                     {% for instructor in savedInstructors %}
                                     <option> {{ instructor.key() }} </option>
