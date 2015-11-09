@@ -1,6 +1,7 @@
 import webapp2
 import jinja2
 import os
+import time
 
 from google.appengine.ext import ndb
 
@@ -10,20 +11,19 @@ import syllabus
 import instructor
 import hours
 
+user = user.User()
+user.put()
+syl = syllabus.Syllabus()
+syl.put()
+
 h = hours.Hours(day="Monday", start="9:00am", end="11:00am")
 i = hours.Hours(day="Wednesday", start="1:00pm", end="2:00pm")
 j = hours.Hours(day="Thursday", start="10:00am", end="11:00am")
 
-scott = instructor.Instructor(first='Scott', last='Ehlert', hours=[h, i]) 
-dylan = instructor.Instructor(first='Dylan', last='Harrison', hours=[h, i, j]) 
-nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', hours=[h, i, j]) 
-shane = instructor.Instructor(first='Shane', last='Sedgwick', hours=[h]) 
-
-listoinstructors = {'Ehlert, Scott': scott, 'Harrison, Dylan': dylan, 'Koszuta, Nathan': nathan, 'Sedgwick, Shane': shane}
-onSyllabus = {}
-
-for key, value in listoinstructors.iteritems():
-    onSyllabus[key] = value
+scott = instructor.Instructor(first='Scott', last='Ehlert') 
+dylan = instructor.Instructor(first='Dylan', last='Harrison') 
+nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147') 
+shane = instructor.Instructor(first='Shane', last='Sedgwick')
     
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -31,13 +31,24 @@ template_env = jinja2.Environment(
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        user.savedInstructors.append(scott)
+        user.savedInstructors.append(nathan)
+        user.savedInstructors.append(dylan)
+        user.savedInstructors.append(shane)
+        
+        self.response.write('''user.savedInstructors = ''')
+        self.response.write(user.savedInstructors)
+        self.response.write('''<br><br>''')
+        self.response.write('''syl.instructors = ''')
+        self.response.write(syl.instructors)
+        self.response.write('''<br><br>''')
         
         x = scott
         
         template = template_env.get_template('main.html')
         context = {
-            'instructorsList': listoinstructors,
-            'onSyllabus': onSyllabus,
+            'savedInstructors': user.savedInstructors,
+            'syllabusInstructors': syl.instructors,
             'sel_first': x.first,
             'sel_last': x.last,
             'sel_email': x.email,
@@ -48,11 +59,20 @@ class MainHandler(webapp2.RequestHandler):
         }
         
         self.response.write(template.render(context))
+
            
-class EditHandler(webapp2.RequestHandler):
+class AddHandler(webapp2.RequestHandler):
     def post(self):
-        currentInstructor = self.request.get("availableInstructors")
+        option = self.request.get("instructorToAddButton")
+        chosen = self.request.get("availableInstructors")
         
+        if option == "Add" and option != "":
+            syllabus.instructors.append(chosen)
+            
+        elif option == "Edit":
+            syllabus.instructors()
+        
+            
         self.redirect('/')
         
 
@@ -64,9 +84,16 @@ class RemoveHandler(webapp2.RequestHandler):
             
         self.redirect('/')
         
+       
+class EditHandler(webapp2.RequestHandler):
+    def post(self):
+        
+        self.redirect('/')
+        
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/editinstructor', EditHandler),
+    ('/addinstructor', AddHandler),
     ('/removeinstructor', RemoveHandler),
+    ('/editinstructor', EditHandler),
 ], debug=True)
