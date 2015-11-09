@@ -1,14 +1,14 @@
-import Textbook
+import textbook
 import calendar
-import Instructor
-import Policy
-import Assessment
+import instructor
+import policy
+import assessment
 
 from google.appengine.ext import ndb
 
 class Syllabus(ndb.Model):
-        textbooks = ndb.LocalStructuredProperty(Textbook.Textbook, repeated=True)
+        textbooks = ndb.LocalStructuredProperty(textbook.Textbook, repeated=True)
         calendars = ndb.LocalStructuredProperty(calendar.Calendar, repeated=True)
-        instructors = ndb.LocalStructuredProperty(Instructor.Instructor, repeated=True)
-        policies = ndb.LocalStructuredProperty(Policy.Policy, repeated=True)
-        assessments = ndb.LocalStructuredProperty(Assessment.Assessment, repeated=True)
+        instructors = ndb.LocalStructuredProperty(instructor.Instructor, repeated=True)
+        policies = ndb.LocalStructuredProperty(policy.Policy, repeated=True)
+        assessments = ndb.LocalStructuredProperty(assessment.Assessment, repeated=True)

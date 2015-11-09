@@ -8,19 +8,19 @@ from google.appengine.ext import ndb
 import user
 import course
 import syllabus
-import Instructor
-import Hours
-import Textbook
+import instructor
+import hours
+import textbook
 
 user = user.User()
 user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = Instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
-dylan = Instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
-nathan = Instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
-shane = Instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
+scott = instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
+dylan = instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
+nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
+shane = instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -39,7 +39,7 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        x = Instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
+        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
         for item in user.savedInstructors:
             if item.isSelected:
                 x = item
@@ -56,7 +56,7 @@ class MainHandler(webapp2.RequestHandler):
             'sel_building': x.building,
             'sel_room': x.room,
             #'sel_hours': x.hours,
-            'books': Textbook.Textbook.query().fetch(),
+            'books': textbook.Textbook.query().fetch(),
         }
         
         self.response.write(template.render(context))
@@ -66,7 +66,7 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
-        chosen = Instructor.Instructor(first="Butts", last="Boner")
+        chosen = instructor.Instructor(first="Boner", last="Butts")
         
         for item in user.savedInstructors:
             if item.key() == selected:
@@ -83,7 +83,7 @@ class AddHandler(webapp2.RequestHandler):
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
-        chosen = Instructor.Instructor(first="Butts", last="Boner")
+        chosen = instructor.Instructor(first="Butts", last="Boner")
         
         for item in syl.instructors:
             if item.key() == selected:
@@ -97,7 +97,30 @@ class RemoveHandler(webapp2.RequestHandler):
        
 class EditHandler(webapp2.RequestHandler):
     def post(self):
-        button = self.request.get("editInstructorSubmit")
+        option = self.request.get("editInstructorSubmit")
+        myfirst = self.request.get("instructorFirstName")
+        mylast = self.request.get("instrcutorLastName")
+        myemail = self.request.get("instructorEmail")
+        myphone = self.request.get("instructorPhone")
+        mybuilding = self.request.get("instructorBuildingSelect")
+        myroom = self.request.get("instructorOfficeRoom")
+        
+        chosen = instructor.Instructor(first="Boner", last="Butts")
+        
+        for item in syl.instructors:
+            if item.isSelected:
+                chosen=item
+                
+        if option == "Update Info":
+            chosen.first = myfirst
+            chosen.last = mylast
+            chosen.email = myemail
+            chosen.phone = myphone
+            chosen.building = mybuilding
+            chosen.room = myroom
+            
+        elif option == "Create New":
+            user.savedInstructors.append(instructor.Instructor(first = myfirst, last = mylast, email = myemail, phone = myphone, building = mybuilding, room = myroom))
 
         self.redirect('/#administratorViewInstructorInfoMain')
         
@@ -107,7 +130,7 @@ app = webapp2.WSGIApplication([
     ('/addinstructor', AddHandler),
     ('/removeinstructor', RemoveHandler),
     ('/editinstructor', EditHandler),
-    ('/editbooks', Textbook.TextbookHandler),
-    ('/editbook', Textbook.EditTextbookHandler),
-    ('/removebooks', Textbook.RemoveTextbookHandler),
+    ('/editbooks', textbook.TextbookHandler),
+    ('/editbook', textbook.EditTextbookHandler),
+    ('/removebooks', textbook.RemoveTextbookHandler),
 ], debug=True)

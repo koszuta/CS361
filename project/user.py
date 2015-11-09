@@ -1,17 +1,17 @@
 import course
-import Policy
+import policy
 import scale
-import Instructor
+import instructor
 
 from google.appengine.ext import ndb
 
 class User(ndb.Model):
         username = ndb.StringProperty()
         password = ndb.StringProperty()
-        courses = ndb.LocalStructuredProperty(course, repeated=True)
-        savedPolicies = ndb.LocalStructuredProperty(Policy, repeated=True)
-        savedScales = ndb.LocalStructuredProperty(scale, repeated=True)
-        savedInstructors = ndb.LocalStructuredProperty(Instructor, repeated=True)
+        courses = ndb.LocalStructuredProperty(course.Course, repeated=True)
+        savedPolicies = ndb.LocalStructuredProperty(policy.Policy, repeated=True)
+        savedScales = ndb.LocalStructuredProperty(scale.Scale, repeated=True)
+        savedInstructors = ndb.LocalStructuredProperty(instructor.Instructor, repeated=True)
     
 '''    
     def addCourse(self, Course):
