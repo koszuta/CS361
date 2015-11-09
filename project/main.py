@@ -11,6 +11,8 @@ import syllabus
 import Instructor
 import Hours
 
+from Textbook import TextbookHandler, EditTextbookHandler
+
 user = user.User()
 user.put()
 syl = syllabus.Syllabus()
@@ -105,4 +107,6 @@ app = webapp2.WSGIApplication([
     ('/addinstructor', AddHandler),
     ('/removeinstructor', RemoveHandler),
     ('/editinstructor', EditHandler),
+    ('/editbooks', TextbookHandler),
+    ('/editbook', EditTextbookHandler),
 ], debug=True)
