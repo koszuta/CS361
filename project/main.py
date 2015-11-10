@@ -12,6 +12,7 @@ import instructor
 import hours
 import textbook
 import calendarEdit
+import scalesEdit
 
 user = user.User()
 user.put()
@@ -159,4 +160,5 @@ app = webapp2.WSGIApplication([
     ('/editbook', textbook.EditTextbookHandler),
     ('/removebooks', textbook.RemoveTextbookHandler),
     ('/editcalendar', calendarEdit.CalendarHandler),
+    ('/editscales', scalesEdit.ScalesHandler),
 ], debug=True)
