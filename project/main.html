@@ -123,11 +123,11 @@
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
                                             <td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
-                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br>  </td>
+                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br> Office Hours: {{ i.hours }} </td>
                                     </tr>
                                     {% endfor %}
                                     {% else %}
-                                    <tr> <th> -- NO INSTRUCTORS INFO ON SYLLABUS -- </th> </tr>
+                                    <tr> <th> -- NO INSTRUCTORS ADDED TO SYLLABUS -- </th> </tr>
                                     {% endif %}
                             </table>
                     </div>
@@ -155,6 +155,7 @@
 				
 					<!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
                     <div id="textbookViewMain">
+                        {% if books: %}
                         {% for book in books %}
                         <span class="textbookViewTitle">{{ book.title }}</span>,
                         {% if book.edition %}
@@ -168,6 +169,9 @@
                         <br>
                         {% endif %}
                         {% endfor %}
+                        {% else %}
+                        <p style="font-weight: bold;"> -- NO BOOKS ADDED TO SYLLABUS -- </p>
+                        {% endif %}
                     </div>
                     <!--END TEXTBOOK DISPLAY MODULE-->
                     
@@ -184,8 +188,8 @@
 					<div class="administratorViewEditBannerName">
 						<p>Assessment:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton"type="button" value="Edit" onclick="swapDiv('assessmentViewMain', 'assessmentEditMain', 'administratorViewEditAssessmentButton');">
+					<form method="get" action="/editassessment">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
 					</form>			
 				</div>
 				<div class="administratorViewModuleDisplay">
@@ -194,167 +198,23 @@
 				
 					<!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
                     <div id="assessmentViewMain">
-                        <h1>Assessment:</h1>
-                        <table id="assessmentViewTable">
-                            <tr>
-                                <td class="assessmentCategory">Project<br>40%</td>
-                                <td class="assessmentDescription">The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.</td>
-                            </tr>
-                            <tr>
-                                <td class="assessmentCategory">Quizzes<br>10%</td>
-                                <td class="assessmentDescription">Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.</td>
-                            </tr>
-                            <tr>
-                                <td class="assessmentCategory">Midterm<br>20%</td>
-                                <td class="assessmentDescription">The midterm will be given during regular lecture time.</td>
-                            </tr>
-                            <tr>
-                                <td class="assessmentCategory">Final<br>20%</td>
-                                <td class="assessmentDescription">The final exam is cumulative; it is scheduled according to university policy.</td>
-                            </tr>
-                            <tr>
-                                <td class="assessmentCategory">Labs<br>10%</td>
-                                <td class="assessmentDescription">Weekly activities in lab for check-off.<br>Half credit for incomplete or inadequate work is possible.</td>
-                            </tr>
+                        <table id = "instructorsTable">
+                                {% if assessments: %}
+                                {% for i in assessments %}
+                                <tr>
+                                        <td> {{ i.title }} <br> {{ i.percentage }}% </td>
+                                        <td> {{ i.description }} </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr> <th> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </th> </tr>
+                                {% endif %}
                         </table>
                     </div>
                     <!--END ASSESSMENT VIEW DISPLAY MODULE-->
                     
                     <!--COPY/PASTE YOUR ASSESSMENT EDIT MODULE HERE-->
-                    <div id="assessmentEditMain" style="display: none">
-                        <h1>Assessments</h1>
-                        <h3>Percentage left to allocate: 0%</h3>
-                        <form id="assess" action="editassessment.html" method="post">
-                          <table>
-                            <tbody>
-                              <tr>
-                                  <td class="assessmentEditTdClass" colspan="2">
-                                    <input value="1" id="assessItem0" type="checkbox">
-                                    <label class="assessmentEditLabelClass" for="assessItem0">Item 1</label>
-                                  </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Percentage</td>
-                                <td class="assessmentEditTdClass">
-                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="40">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Category</td>
-                                <td class="assessmentEditTdClass">
-                                  <input class="assessCategory" value="Project" required type="text">
-                                </td>
-                              </tr>
-                              <tr class="assessmentEditTdClass">
-                                <td class="assessmentEditTdClass">Description</td>
-                                <td class="assessmentEditTdClass">
-                                  <textarea class="assessDescription" required>The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.</textarea>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass" colspan="2">
-                                  <input value="1" id="assessItem1" type="checkbox">
-                                  <label class="assessmentEditLabelClass" for="assessItem1">Item 2</label>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Percentage</td>
-                                <td class="assessmentEditTdClass">
-                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="10">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Category</td>
-                                <td class="assessmentEditTdClass">
-                                  <input class="assessCategory" value="Quizzes" required type="text">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Description</td>
-                                <td class="assessmentEditTdClass">
-                                  <textarea class="assessDescription" required>Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.</textarea>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass" colspan="2">
-                                  <input value="1" id="assessItem2" type="checkbox">
-                                  <label class="assessmentEditLabelClass" for="assessItem2">Item 3</label>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Percentage</td>
-                                <td class="assessmentEditTdClass">
-                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="20">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Category</td>
-                                <td class="assessmentEditTdClass">
-                                  <input class="assessCategory" value="Midterm" required type="text">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Description</td>
-                                <td class="assessmentEditTdClass">
-                                  <textarea class="assessDescription" required>The midterm will be given during regular lecture time.</textarea>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass" colspan="2">
-                                  <input value="1" id="assessItem3" type="checkbox">
-                                  <label class="assessmentEditLabelClass" for="assessItem3">Item 4</label>
-                                </td>
-                              <tr>
-                                <td class="assessmentEditTdClass">Percentage</td>
-                                <td class="assessmentEditTdClass">
-                                  <input type="number" step="5" max="100" min="0" required="" class="assessPercent" value="20">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Category</td>
-                                <td class="assessmentEditTdClass">
-                                  <input class="assessCategory" value="Final" required type="text">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Description</td>
-                                <td class="assessmentEditTdClass">
-                                  <textarea class="assessDescription" required="">The final exam is cumulative; it is scheduled according to university policy.</textarea>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass" colspan="2">
-                                  <input value="1" id="assessItem4" type="checkbox">
-                                  <label class="assessmentEditLabelClass" for="assessItem4">Item 5</label>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Percentage</td>
-                                <td class="assessmentEditTdClass">
-                                  <input type="number" step="5" max="100" min="0" required class="assessPercent" value="10">
-                                </td>
-                              <tr>
-                                <td class="assessmentEditTdClass">Category</td>
-                                <td class="assessmentEditTdClass">
-                                  <input class="assessCategory" value="Labs" required type="text">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="assessmentEditTdClass">Description</td>
-                                <td class="assessmentEditTdClass">
-                                  <textarea class="assessDescription" required="">Weekly activities in lab for check-off.
-                    Half credit for incomplete or inadequate work is possible.</textarea>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <br>
-                          <input name="assessAdd" disabled="disabled" value="Add Item" type="submit">
-                          <input name="assessUpdate" value="Update Text" type="submit">
-                          <input name="assessRemove" value="Remove Selected Items" type="submit">
-                        </form>
- 
-                    </div>
+                    
                     <!--END ASSESSMENT EDIT MODULE-->
 				
 				
@@ -422,24 +282,28 @@
 					<div class="administratorViewEditBannerName">
 						<p>Policy:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton"type="button" value="Edit" onclick="swapDiv('policyViewModule', 'policyEditModule', 'administratorViewEditPolicyScaleButton');">
+					<form method="post" action="/editpolicy">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton" type="submit" value="Edit">
 					</form>		
 				</div>
 				<div class="administratorViewModuleDisplay">
 				
 					<!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
                     <div id="policyViewModule">
-                        <h1>policyViewModule INCOMPLETE</h1>
+                        {% if policies: %}
+                            {% for i in policies %}
+                            <p style="font-weight: bold;"> {{ i.title }} </p>
+                            <pre> {{ i.description }} </pre>
+                            <br />
+                            {% endfor %}
+                            {% else %}
+                            <p style="font-weight: bold;"> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </p>
+                        {% endif %}
                     </div>
                     <!--END POLICY DISPLAY MODULE-->
                     
                     <!--COPY/PASTE YOUR POLICY EDIT MODULE HERE-->
-                    <div id = "policyEditModule" style="display: none">
-                        <h1>Policies</h1>
-                        <textarea cols = "50">Policy Title Goes Here</textarea><br><br>
-                        <textarea rows = "10", cols = "50">Policy goes here</textarea><br><br>
-                    </div>
+                    
                     <!--END POLICY EDIT MODULE-->
 
 				</div>

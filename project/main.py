@@ -9,20 +9,31 @@ import user
 import course
 import syllabus
 import instructor
-import hours
 import textbook
 import calendarEdit
 import scalesEdit
+import assessment
+import policy
 
 user = user.User()
 user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = instructor.Instructor(first='Scott', last='Ehlert', email='scott@uwm.edu', phone='(414) 555-1234', building='PHY', room='333', isSelected=False) 
-dylan = instructor.Instructor(first='Dylan', last='Harrison', email='dylan@uwm.edu', phone='(414) 555-9999', building='LAPH', room='150', isSelected=False) 
-nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
-shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', isSelected=False)
+scott = instructor.Instructor(first='Scott', last='Ehlert', email='scott@uwm.edu', phone='(414) 555-1234', building='PHY', room='333', hours='MW 11am', isSelected=False) 
+dylan = instructor.Instructor(first='Dylan', last='Harrison', email='dylan@uwm.edu', phone='(414) 555-9999', building='LAPH', room='150', hours='MWF 2pm', isSelected=False) 
+nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', hours='MWR 10am', isSelected=False) 
+shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', hours='TR 12pm', isSelected=False)
+
+p = assessment.Assessment(title="Project", percentage=40, description="The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.", isSelected=False)
+p2 = assessment.Assessment(title="Quizzes", percentage=10, description="Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.", isSelected=False)
+
+user.savedAssessments.append(p)
+user.savedAssessments.append(p2)
+
+p3 = policy.Policy(title="Academic Misconduct", description="The university has a responsibility to promote academic honesty and integrity and to develop procedures to deal effectively with instances of academic dishonesty. Students are responsible for the honest completion and representation of their work, for the appropriate citation of sources, and for respect of others' academic endeavors. A more detailed description of Student Academic Disciplinary Procedures may be found at http://www4.uwm.edu/acad_aff/policy/academicmisconduct.cfm", isSelected=False)
+
+user.savedPolicies.append(p3)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -41,20 +52,25 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        i = 0
-        for j in user.savedInstructors:
-            if i == 0:
-                j.isSelected = True
-            i += 1
-        
-        list = []
-        for a in syl.instructors:
-            list.append(a)
+                
+        ilist = []
+        for i in syl.instructors:
+            ilist.append(i)
+            
+        alist = []
+        for i in syl.assessments:
+            alist.append(i)
+            
+        plist = []
+        for i in syl.policies:
+            plist.append(i)
             
         template = template_env.get_template('main.html')
         context = {
             'books': textbook.Textbook.query().fetch(),
-            'instructors': list,
+            'instructors': ilist,
+            'assessments': alist,
+            'policies': plist,
         }
         
         self.response.write(template.render(context))
@@ -77,6 +93,7 @@ class AddHandler(webapp2.RequestHandler):
         chosen.isSelected = True
         
         chosen.put()
+        syl.put()
         self.redirect('/editinstructor')
         
 
@@ -92,7 +109,8 @@ class RemoveHandler(webapp2.RequestHandler):
             item.isSelected = False
                 
         chosen.isSelected = True  
-           
+        
+        syl.put()   
         self.redirect('/editinstructor')
         
        
@@ -115,7 +133,7 @@ class EditHandler(webapp2.RequestHandler):
             'sel_phone': x.phone,
             'sel_building': x.building,
             'sel_room': x.room,
-            #'sel_hours': x.hours,
+            'sel_hours': x.hours,
         }
 
         self.response.write(template.render(context))
@@ -152,8 +170,177 @@ class EditHandler(webapp2.RequestHandler):
             
             user.savedInstructors.append(chosen) 
 
-        chosen.put()
+            chosen.put()
+        syl.put()
         self.redirect('/editinstructor')
+        
+    
+class AssEditHandler(webapp2.RequestHandler):
+    def get(self):
+        x = assessment.Assessment()
+        for item in user.savedAssessments:
+            if item.isSelected:
+                x = item.copy()
+                
+        template = template_env.get_template('assessmentEdit.html')
+        context = {
+            'savedAssessments': user.savedAssessments,
+            'selected': x.key(),
+            'assessments': syl.assessments,
+            'title': x.title,
+            'description': x.description,
+            'percentage': x.percentage,
+        }
+
+        self.response.write(template.render(context))
+        
+    def post(self):
+        option = self.request.get("assessmentEditorButton")
+        
+        mytitle = self.request.get("assessmentTitle")
+        mypercentage = int(self.request.get("assessmentPercentage"))
+        mydescription = self.request.get("assessmentDescription")
+        
+        chosen = assessment.Assessment()
+                
+        if option == "Update":
+            for item in user.savedAssessments:
+                if item.isSelected:
+                    item.title = mytitle
+                    item.percentage = mypercentage
+                    item.description = mydescription
+                    
+        elif option == "Create New":
+            chosen.title = mytitle
+            chosen.percentage = mypercentage
+            chosen.description = mydescription
+            
+            user.savedAssessments.append(chosen) 
+
+            chosen.put()
+        syl.put()
+        self.redirect('/editassessment')
+        
+
+class AssAddHandler(webapp2.RequestHandler):
+    def post(self):
+        option = self.request.get("savedAssessmentButton")
+        selected = self.request.get("savedAssessments")
+        chosen = assessment.Assessment()
+        
+        for item in user.savedAssessments:
+            if item.key() == selected:
+                chosen = item
+            item.isSelected = False
+        
+        if option == "Add":
+            syl.assessments.append(chosen)
+        
+        chosen.isSelected = True
+        
+        chosen.put()
+        syl.put()
+        self.redirect("/editassessment")
+        
+        
+class AssRemoveHandler(webapp2.RequestHandler):
+    def post(self):
+        selected = self.request.get("assessmentsOnSyllabus")
+        chosen = assessment.Assessment()
+        
+        for item in syl.assessments:
+            if item.key() == selected:
+                chosen=item
+                syl.assessments.remove(item) 
+            item.isSelected = False
+                
+        chosen.isSelected = True  
+           
+        syl.put()
+        self.redirect("/editassessment")
+        
+        
+class PolicyEditHandler(webapp2.RequestHandler):
+    def get(self):
+        x = policy.Policy()
+        for item in user.savedPolicies:
+            if item.isSelected:
+                x = item.copy()
+            
+        template = template_env.get_template('policyEdit.html')
+        
+        context = {
+            'savedPolicies': user.savedPolicies,
+            'selected': x.key(),
+            'policies': syl.policies,
+            'title': x.title,
+            'description': x.description,
+        }
+
+        self.response.write(template.render(context))
+        
+    def post(self):
+        option = self.request.get("policyEditorButton")
+        
+        mytitle = self.request.get("policyTitle")
+        mydescription = self.request.get("policyDescription")
+        
+        chosen = policy.Policy()
+                
+        if option == "Update":
+            for item in user.savedPolicies:
+                if item.isSelected:
+                    item.title = mytitle
+                    item.description = mydescription
+                    
+        elif option == "Create New":
+            chosen.title = mytitle
+            chosen.description = mydescription
+            
+            user.savedPolicies.append(chosen) 
+
+            chosen.put()
+            
+        syl.put()
+        self.redirect('/editpolicy')
+        
+
+class PolicyAddHandler(webapp2.RequestHandler):
+    def post(self):
+        option = self.request.get("savedPolicyButton")
+        selected = self.request.get("savedpolicies")
+        chosen = policy.Policy()
+        
+        for item in user.savedPolicies:
+            if item.key() == selected:
+                chosen = item
+            item.isSelected = False
+        
+        if option == "Add":
+            syl.policies.append(chosen)
+        
+        chosen.isSelected = True
+        
+        chosen.put()
+        syl.put()
+        self.redirect("/editpolicy")
+        
+        
+class PolicyRemoveHandler(webapp2.RequestHandler):
+    def post(self):
+        selected = self.request.get("policiesOnSyllabus")
+        chosen = policy.Policy()
+        
+        for item in syl.policies:
+            if item.key() == selected:
+                chosen=item
+                syl.policies.remove(item) 
+            item.isSelected = False
+                
+        chosen.isSelected = True  
+           
+        syl.put()
+        self.redirect("/editpolicy")
         
         
 app = webapp2.WSGIApplication([
@@ -166,4 +353,10 @@ app = webapp2.WSGIApplication([
     ('/removebooks', textbook.RemoveTextbookHandler),
     ('/editcalendar', calendarEdit.CalendarHandler),
     ('/editscales', scalesEdit.ScalesHandler),
+    ('/editassessment', AssEditHandler),
+    ('/addassessment', AssAddHandler),
+    ('/removeassessment', AssRemoveHandler),
+    ('/editpolicy', PolicyEditHandler),
+    ('/addpolicy', PolicyAddHandler),
+    ('/removepolicy', PolicyRemoveHandler),
 ], debug=True)
