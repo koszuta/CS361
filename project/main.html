@@ -123,7 +123,7 @@
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
                                             <td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
-                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br>  </td>
+                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br> Office Hours: {{ i.hours }} </td>
                                     </tr>
                                     {% endfor %}
                                     {% else %}
@@ -184,8 +184,8 @@
 					<div class="administratorViewEditBannerName">
 						<p>Assessment:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton"type="button" value="Edit" onclick="swapDiv('assessmentViewMain', 'assessmentEditMain', 'administratorViewEditAssessmentButton');">
+					<form method="get" action="/editassessments">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
 					</form>			
 				</div>
 				<div class="administratorViewModuleDisplay">

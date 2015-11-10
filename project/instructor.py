@@ -1,5 +1,3 @@
-import hours
-
 from google.appengine.ext import ndb
 
 class Instructor(ndb.Model):
@@ -9,7 +7,7 @@ class Instructor(ndb.Model):
     phone = ndb.StringProperty()
     building = ndb.StringProperty()
     room = ndb.StringProperty()
-    #hours = ndb.LocalStructuredProperty(hours.Hours, repeated=True)
+    hours = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
     
     def key(self):

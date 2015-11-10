@@ -16,22 +16,24 @@
                     <option> {{ instructor.key() }} </option>
                     {% endfor %}
                 </select>
+                <br />
                 <input type="submit" value="Add" name="instructorToAddButton" id="availableInstructorsSubmit" />
                 <input type="submit" value="Edit" name="instructorToAddButton" id="editInstructorButton" />
             </form>
             </div>
             
-            <div class="instructorSelectionList" id="instructorsOnSyllabus">
-                <h2> On Syllabus: </h2>
-                <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
-                <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
+        <div class="instructorSelectionList" id="instructorsOnSyllabus">
+            <h2> On Syllabus: </h2>
+            <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
                 <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
                 {% for instructor in syllabusInstructors %}
                 <option> {{ instructor.key() }} </option>
                 {% endfor %}
                 </select>
-                </form>
-            </div>
+                <br />
+                <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
+            </form>
+        </div>
         
         <div id="instructorInfoEditor">
                 <hr />
