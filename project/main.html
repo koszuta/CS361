@@ -199,17 +199,17 @@
 					<!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
                     <div id="assessmentViewMain">
                         <table id = "instructorsTable">
-                                    {% if assessments: %}
-                                    {% for i in assessments %}
-                                    <tr>
-                                            <td> {{ i.title }} <br> {{ i.percentage }}% </td>
-                                            <td> {{ i.description }} </td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% else %}
-                                    <tr> <th> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </th> </tr>
-                                    {% endif %}
-                            </table>
+                                {% if assessments: %}
+                                {% for i in assessments %}
+                                <tr>
+                                        <td> {{ i.title }} <br> {{ i.percentage }}% </td>
+                                        <td> {{ i.description }} </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr> <th> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </th> </tr>
+                                {% endif %}
+                        </table>
                     </div>
                     <!--END ASSESSMENT VIEW DISPLAY MODULE-->
                     
@@ -282,24 +282,27 @@
 					<div class="administratorViewEditBannerName">
 						<p>Policy:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton"type="button" value="Edit" onclick="swapDiv('policyViewModule', 'policyEditModule', 'administratorViewEditPolicyScaleButton');">
+					<form method="post" action="/editpolicy">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton" type="submit" value="Edit">
 					</form>		
 				</div>
 				<div class="administratorViewModuleDisplay">
 				
 					<!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
-                    <div id="policyViewModule">
-                        <h1>policyViewModule INCOMPLETE</h1>
+                    <div id="policyViewModule">{% if policies: %}
+                            {% for i in policies %}
+                            <p style="font-weight: bold;"> {{ i.title }} </p>
+                            <pre> {{ i.description }} </pre>
+                            <br />
+                            {% endfor %}
+                            {% else %}
+                            <p style="font-weight: bold;"> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </p>
+                            {% endif %}
                     </div>
                     <!--END POLICY DISPLAY MODULE-->
                     
                     <!--COPY/PASTE YOUR POLICY EDIT MODULE HERE-->
-                    <div id = "policyEditModule" style="display: none">
-                        <h1>Policies</h1>
-                        <textarea cols = "50">Policy Title Goes Here</textarea><br><br>
-                        <textarea rows = "10", cols = "50">Policy goes here</textarea><br><br>
-                    </div>
+                    
                     <!--END POLICY EDIT MODULE-->
 
 				</div>
