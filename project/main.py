@@ -39,6 +39,11 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        i = 0
+        for j in user.savedInstructors:
+            if i == 0:
+                j.isSelected = True
+            i += 1
         
         template = template_env.get_template('main.html')
         context = {
@@ -52,11 +57,12 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
-        chosen = instructor.Instructor(first="Boner", last="Butts")
+        chosen = instructor.Instructor()
         
         for item in user.savedInstructors:
             if item.key() == selected:
                 chosen = item
+            item.isSelected = False
         
         if option == "Add":
             syl.instructors.append(chosen)
@@ -70,12 +76,13 @@ class AddHandler(webapp2.RequestHandler):
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
-        chosen = instructor.Instructor(first="Butts", last="Boner")
+        chosen = instructor.Instructor()
         
         for item in syl.instructors:
             if item.key() == selected:
                 chosen=item
                 syl.instructors.remove(item) 
+            item.isSelected = False
                 
         chosen.isSelected = True  
            
@@ -84,16 +91,17 @@ class RemoveHandler(webapp2.RequestHandler):
        
 class EditHandler(webapp2.RequestHandler):
     def get(self):
-        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
+        x = instructor.Instructor()
         for item in user.savedInstructors:
             if item.isSelected:
-                x = item
+                x = item.copy()
             
         template = template_env.get_template('instructorEdit.html')
         
         context = {
             'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syl.instructors,
+            'selected': x.key(),
             'sel_first': x.first,
             'sel_last': x.last,
             'sel_email': x.email,
