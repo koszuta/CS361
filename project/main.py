@@ -11,6 +11,7 @@ import syllabus
 import instructor
 import hours
 import textbook
+import calendarEdit
 
 user = user.User()
 user.put()
@@ -39,23 +40,14 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
-        for item in user.savedInstructors:
-            if item.isSelected:
-                x = item
-            item.isSelected = False
+        i = 0
+        for j in user.savedInstructors:
+            if i == 0:
+                j.isSelected = True
+            i += 1
         
         template = template_env.get_template('main.html')
         context = {
-            'savedInstructors': user.savedInstructors,
-            'syllabusInstructors': syl.instructors,
-            'sel_first': x.first,
-            'sel_last': x.last,
-            'sel_email': x.email,
-            'sel_phone': x.phone,
-            'sel_building': x.building,
-            'sel_room': x.room,
-            #'sel_hours': x.hours,
             'books': textbook.Textbook.query().fetch(),
         }
         
@@ -66,52 +58,85 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
-        chosen = instructor.Instructor(first="Boner", last="Butts")
+        chosen = instructor.Instructor()
         
         for item in user.savedInstructors:
             if item.key() == selected:
                 chosen = item
+            item.isSelected = False
         
         if option == "Add":
             syl.instructors.append(chosen)
         
-        chosen.isSelected = True        
+        chosen.isSelected = True
         
-        self.redirect('/#administratorViewInstructorInfoMain')
+        chosen.put()
+        self.redirect('/editinstructor')
         
 
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
-        chosen = instructor.Instructor(first="Butts", last="Boner")
+        chosen = instructor.Instructor()
         
         for item in syl.instructors:
             if item.key() == selected:
                 chosen=item
                 syl.instructors.remove(item) 
+            item.isSelected = False
                 
         chosen.isSelected = True  
            
-        self.redirect('/#administratorViewInstructorInfoMain')
+        self.redirect('/editinstructor')
         
        
 class EditHandler(webapp2.RequestHandler):
+    def get(self):
+        x = instructor.Instructor()
+        for item in user.savedInstructors:
+            if item.isSelected:
+                x = item.copy()
+            
+        template = template_env.get_template('instructorEdit.html')
+        
+        context = {
+            'savedInstructors': user.savedInstructors,
+            'syllabusInstructors': syl.instructors,
+            'selected': x.key(),
+            'sel_first': x.first,
+            'sel_last': x.last,
+            'sel_email': x.email,
+            'sel_phone': x.phone,
+            'sel_building': x.building,
+            'sel_room': x.room,
+            #'sel_hours': x.hours,
+        }
+
+        self.response.write(template.render(context))
+        
     def post(self):
         option = self.request.get("editInstructorSubmit")
+        
         myfirst = self.request.get("instructorFirstName")
-        mylast = self.request.get("instrcutorLastName")
+        mylast = self.request.get("instructorLastName")
         myemail = self.request.get("instructorEmail")
         myphone = self.request.get("instructorPhone")
         mybuilding = self.request.get("instructorBuildingSelect")
         myroom = self.request.get("instructorOfficeRoom")
         
-        chosen = instructor.Instructor(first="Boner", last="Butts")
-        
-        for item in syl.instructors:
-            if item.isSelected:
-                chosen=item
+        chosen = instructor.Instructor()
                 
         if option == "Update Info":
+            for item in user.savedInstructors:
+                if item.isSelected:
+                    item.first = myfirst
+                    item.last = mylast
+                    item.email = myemail
+                    item.phone = myphone
+                    item.building = mybuilding
+                    item.room = myroom
+        
+        elif option == "Create New":
             chosen.first = myfirst
             chosen.last = mylast
             chosen.email = myemail
@@ -119,10 +144,10 @@ class EditHandler(webapp2.RequestHandler):
             chosen.building = mybuilding
             chosen.room = myroom
             
-        elif option == "Create New":
-            user.savedInstructors.append(instructor.Instructor(first = myfirst, last = mylast, email = myemail, phone = myphone, building = mybuilding, room = myroom))
+            user.savedInstructors.append(chosen) 
 
-        self.redirect('/#administratorViewInstructorInfoMain')
+        chosen.put()
+        self.redirect('/editinstructor')
         
         
 app = webapp2.WSGIApplication([
@@ -133,4 +158,5 @@ app = webapp2.WSGIApplication([
     ('/editbooks', textbook.TextbookHandler),
     ('/editbook', textbook.EditTextbookHandler),
     ('/removebooks', textbook.RemoveTextbookHandler),
+    ('/editcalendar', calendarEdit.CalendarHandler),
 ], debug=True)
