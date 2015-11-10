@@ -39,23 +39,9 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
-        for item in user.savedInstructors:
-            if item.isSelected:
-                x = item
-            item.isSelected = False
         
         template = template_env.get_template('main.html')
         context = {
-            'savedInstructors': user.savedInstructors,
-            'syllabusInstructors': syl.instructors,
-            'sel_first': x.first,
-            'sel_last': x.last,
-            'sel_email': x.email,
-            'sel_phone': x.phone,
-            'sel_building': x.building,
-            'sel_room': x.room,
-            #'sel_hours': x.hours,
             'books': textbook.Textbook.query().fetch(),
         }
         
@@ -67,6 +53,7 @@ class AddHandler(webapp2.RequestHandler):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
         chosen = instructor.Instructor(first="Boner", last="Butts")
+        chosen.put()
         
         for item in user.savedInstructors:
             if item.key() == selected:
@@ -75,9 +62,9 @@ class AddHandler(webapp2.RequestHandler):
         if option == "Add":
             syl.instructors.append(chosen)
         
-        chosen.isSelected = True        
+        chosen.isSelected = True
         
-        self.redirect('/#administratorViewInstructorInfoMain')
+        self.redirect('/editinstructor')
         
 
 class RemoveHandler(webapp2.RequestHandler):        
@@ -92,10 +79,33 @@ class RemoveHandler(webapp2.RequestHandler):
                 
         chosen.isSelected = True  
            
-        self.redirect('/#administratorViewInstructorInfoMain')
+        self.redirect('/editinstructor')
         
        
 class EditHandler(webapp2.RequestHandler):
+    def get(self):
+        x = instructor.Instructor(first="Butts", last="Boner", email="fake@fake.com", phone="(555) 123-1234", isSelected=True)
+        for item in user.savedInstructors:
+            if item.isSelected:
+                x = item
+            item.isSelected = False
+            
+        template = template_env.get_template('instructorEdit.html')
+        
+        context = {
+            'savedInstructors': user.savedInstructors,
+            'syllabusInstructors': syl.instructors,
+            'sel_first': x.first,
+            'sel_last': x.last,
+            'sel_email': x.email,
+            'sel_phone': x.phone,
+            'sel_building': x.building,
+            'sel_room': x.room,
+            #'sel_hours': x.hours,
+        }
+
+        self.response.write(template.render(context))
+        
     def post(self):
         option = self.request.get("editInstructorSubmit")
         myfirst = self.request.get("instructorFirstName")
@@ -122,7 +132,7 @@ class EditHandler(webapp2.RequestHandler):
         elif option == "Create New":
             user.savedInstructors.append(instructor.Instructor(first = myfirst, last = mylast, email = myemail, phone = myphone, building = mybuilding, room = myroom))
 
-        self.redirect('/#administratorViewInstructorInfoMain')
+        self.redirect('/editinstructor')
         
         
 app = webapp2.WSGIApplication([
