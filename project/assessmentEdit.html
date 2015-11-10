@@ -10,28 +10,32 @@
         <a href="/#administratorViewAssessmentMain"> &lt; Back </a>
         
         <div id="assessmentsListSection">
-            <form class="assessmentList" id="savedAssessments" method="post" action="/addassessment">
-                <h2> Saved Assessments: </h2>
-                <select size="8" name="savedAssessments" id="savedAssessments" class="assessmentsList">
-                    {% for assessment in savedAssessments %}
-                    <option> {{ assessment.key() }} </option>
-                    {% endfor %}
-                </select>
-                <br />
-                <input type="submit" value="Edit" name="savedAssessmentButton" id="editAssessmentButton" />
-                <input type="submit" value="Add" name="savedAssessmentButton" id="addAssessmentButton" />
-            </form>
+            <div id="savedAssessmentsSection" class="assessmentList">
+                <form id="savedAssessments" method="post" action="/addassessment">
+                    <h2> To Add: </h2>
+                    <select size="8" name="savedAssessments" id="savedAssessments" class="assessmentsList">
+                        {% for assessment in savedAssessments %}
+                        <option> {{ assessment.key() }} </option>
+                        {% endfor %}
+                    </select>
+                    <br />
+                    <input type="submit" value="Edit" name="savedAssessmentButton" id="editAssessmentButton" />
+                    <input type="submit" value="Add" name="savedAssessmentButton" id="addAssessmentButton" />
+                </form>
+            </div>
             
-            <form class="assessmentList" id="assessmentsOnSyllabus" method="post" action="/removeassessment">
-                <h2> On Syllabus: </h2>
-                <select size="8" name="assessmentsOnSyllabus" id="assessmentsOnSyllabus" class="assessmentsList">
-                    {% for assessment in assessments %}
-                    <option> {{ assessment.key() }} </option>
-                    {% endfor %}
-                </select>
-                <br />
-                <input type="submit" value="Remove" name="removeAssessmentButton" id="removeAssessmentButton" />
-            </form>
+            <div id="assessmentsOnSyllabusSection" class="assessmentList">
+                <form id="assessmentsOnSyllabus" method="post" action="/removeassessment">
+                    <h2> On Syllabus: </h2>
+                    <select size="8" name="assessmentsOnSyllabus" id="assessmentsOnSyllabus" class="assessmentsList">
+                        {% for assessment in assessments %}
+                        <option> {{ assessment.key() }} </option>
+                        {% endfor %}
+                    </select>
+                    <br />
+                    <input type="submit" value="Remove" name="removeAssessmentButton" id="removeAssessmentButton" />
+                </form>
+            </div>
         </div>
         
         <hr />

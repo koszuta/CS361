@@ -13,4 +13,4 @@ class Assessment(ndb.Model):
 		if self.title == "" or self.title is None:
 			return "none"
 			
-		return self.title + ": " + str(self.percentage) + "%"
+		return self.title + " (" + str(self.percentage) + "%)"
