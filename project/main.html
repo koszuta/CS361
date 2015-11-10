@@ -369,8 +369,8 @@
 					<div class="administratorViewEditBannerName">
 						<p>Grading Scale:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditGradingScaleButton"type="button" value="Edit" onclick="swapDiv('gradeScaleView', 'gradingScaleEditModule', 'administratorViewEditGradingScaleButton');">
+					<form method="get" action="/editscales">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditGradingScaleButton"type="submit" value="Edit">
 					</form>		
 				</div>
 				<div class="administratorViewModuleDisplay">
@@ -411,9 +411,7 @@
                     <!--END GRADING SCALE POLICY-->
                     
                     <!--COPY/PASTE YOUR GRADING SCALE EDIT MODULE HERE-->
-                        <div id="gradingScaleEditModule" style="display:none">
-                            <h1>gradingScaleEditModule INCOMPLETE</h1>
-                        </div>
+                    
                     <!--END GRADING SCALE EDIT MODULE-->
 				
 				</div>
