@@ -70,7 +70,7 @@ class ScalesHandler(webapp2.RequestHandler):
 			newScale.minAVal = int(self.request.get("minAVal"))
 			newScale.scaleName = self.request.get("scaleName")
 			scale = self.request.get("scale")
-			
+			#This decides which radio button was used
 			if scale == "normScale":
 				newScale.normScale = True
 			elif scale == "halfScale":
