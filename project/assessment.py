@@ -1,4 +1,6 @@
 from google.appengine.ext import ndb
 
 class Assessment(ndb.Model):
-	temp = ndb.StringProperty()
+	title = ndb.StringProperty()
+	description = ndb.TextProperty()
+	percentage = ndb.IntegerProperty()
