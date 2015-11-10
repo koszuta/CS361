@@ -93,6 +93,7 @@ class AddHandler(webapp2.RequestHandler):
         chosen.isSelected = True
         
         chosen.put()
+        syl.put()
         self.redirect('/editinstructor')
         
 
@@ -108,7 +109,8 @@ class RemoveHandler(webapp2.RequestHandler):
             item.isSelected = False
                 
         chosen.isSelected = True  
-           
+        
+        syl.put()   
         self.redirect('/editinstructor')
         
        
@@ -169,6 +171,7 @@ class EditHandler(webapp2.RequestHandler):
             user.savedInstructors.append(chosen) 
 
             chosen.put()
+        syl.put()
         self.redirect('/editinstructor')
         
     
@@ -215,6 +218,7 @@ class AssEditHandler(webapp2.RequestHandler):
             user.savedAssessments.append(chosen) 
 
             chosen.put()
+        syl.put()
         self.redirect('/editassessment')
         
 
@@ -235,6 +239,7 @@ class AssAddHandler(webapp2.RequestHandler):
         chosen.isSelected = True
         
         chosen.put()
+        syl.put()
         self.redirect("/editassessment")
         
         
@@ -251,6 +256,7 @@ class AssRemoveHandler(webapp2.RequestHandler):
                 
         chosen.isSelected = True  
            
+        syl.put()
         self.redirect("/editassessment")
         
         
@@ -295,6 +301,7 @@ class PolicyEditHandler(webapp2.RequestHandler):
 
             chosen.put()
             
+        syl.put()
         self.redirect('/editpolicy')
         
 
@@ -315,6 +322,7 @@ class PolicyAddHandler(webapp2.RequestHandler):
         chosen.isSelected = True
         
         chosen.put()
+        syl.put()
         self.redirect("/editpolicy")
         
         
@@ -331,6 +339,7 @@ class PolicyRemoveHandler(webapp2.RequestHandler):
                 
         chosen.isSelected = True  
            
+        syl.put()
         self.redirect("/editpolicy")
         
         
