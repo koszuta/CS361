@@ -11,6 +11,7 @@ import syllabus
 import instructor
 import hours
 import textbook
+import calendarEdit
 
 user = user.User()
 user.put()
@@ -157,4 +158,5 @@ app = webapp2.WSGIApplication([
     ('/editbooks', textbook.TextbookHandler),
     ('/editbook', textbook.EditTextbookHandler),
     ('/removebooks', textbook.RemoveTextbookHandler),
+    ('/editcalendar', calendarEdit.CalendarHandler),
 ], debug=True)

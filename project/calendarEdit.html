@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calendar Edit</title>
-        <link rel="stylesheet" type="text/css" href="calendarEdit.css">    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title> Calendar &gt; Edit </title>
+        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/calendarEdit.css" rel="stylesheet" type="text/css" />    
     </head>   
     <body>
         <a href="/#administratorViewCalendarMain"> &lt; Back </a>
@@ -11,7 +13,7 @@
         <div id="calendarEditMain">
             <h1>Course Calendar Edit View:</h1>
             <hr/>
-            <form method="POST">
+            <form method="POST" action="/editcalendar">
                 <table>
                     <tr>
                         <td>Work from existing calendar:</td>
@@ -28,7 +30,7 @@
                 </table>
             </form>
             <hr/>
-            <form method="POST">
+            <form method="POST" action="/editcalendar">
                 <table>
                     <tr>
                         <td>Start Month: </td>
@@ -63,14 +65,14 @@
             </form>
             <hr/>
             <table>
-                <form method="POST">
+                <form method="POST" action="/editcalendar">
                     <tr>
                         <td>Row: </td>
                         <td><input type="text" name="targetRowInsert"></td>
                         <td><input type="submit" value="Insert" name="insertRow"></td>
                     </tr>
                 </form>
-                <form method="POST">
+                <form method="POST" action="/editcalendar">
                     <tr>
                         <td>Row: </td>
                         <td><input type="text" name="targetRowRemove"></td>
@@ -79,7 +81,7 @@
                 </form>                
             </table>
             <hr/>
-            <form method="POST">
+            <form method="POST" action="/editcalendar">
                 <table id="calendarEditCalendarTable">
                     {% for i in myCalendarSchedule %}
                         <tr class="calendarEditCalendarRow">
@@ -95,7 +97,7 @@
                 <input type="submit" value="Save" name="save">
             </form>            
             <hr/>
-            <form method="POST">
+            <form method="POST" action="/editcalendar">
                 <input type="submit" value="Exit" name="exit">
             </form>           
         </div>   

@@ -173,105 +173,7 @@
                     <!--END TEXTBOOK DISPLAY MODULE-->
                     
                     <!--COPY/PASTE YOUR TEXTBOOK EDIT MODULE HERE-->
-                    <div id="textbookEditMain" style="display: none">
-                    <h1>Textbooks</h1>
-                        <form id="currentBooks" action="textbookEdit.html" method="post">
-                          <p>Currently selected textbook(s):</p>
-                          <input id="book0" name="book0" checked value="1" type="checkbox">
-                          <label for="book0">
-                            <span class="bookTitle">Essential Skills for the Agile Developer</span>,
-                            <span class="bookAuthor">Shalloway</span>,
-                            <span class="bookPublisher">Addison-Wesley Professional</span>,
-                            ISBN: <span class="bookISBN">0785342543735</span>
-                            &ndash; <a href="bookInfoEdit.html">Edit</a>
-                          </label>
-                          <br>
-                          <input id="book1" name="book1" checked value="1" type="checkbox">
-                          <label for="book1">
-                            <span class="bookTitle">Programming Google App Engine</span>,
-                            <span class="bookEditon">2nd. Ed.</span>,
-                            <span class="bookAuthor">Sanderson</span>,
-                            <span class="bookPublisher">O'Reilly Media</span>,
-                            ISBN: <span class="bookISBN">9781449398262</span>
-                            &ndash; <a href="bookInfoEdit.html">Edit</a>
-                          </label>
-                          <br><br>
-                          <input type="submit" name="updateSelectedBooks" value="Update Selections">
-                        </form>
-                        <hr>
-                        <br>
-                        <form id="searchBooks" action="textbookEdit.html" method="post">
-                          <label for="bookQuery">Search for available textbooks to add: </label><br />
-                          <select id="bookQueryType" name="bookQueryType">
-                            <option value="title" selected>Title</option>
-                            <option value="author">Author</option>
-                            <option value="publisher">Publisher</option>
-                            <option value="isbn">ISBN</option>
-                          </select>
-                          <input type="text" id="bookQuery" required>
-                          <input type="submit" name="queryBooks" value="Search">
-                        </form>
-                        <p>Other available textbook(s):</p>
-                        <form id="availableBooks" action="textbookEdit.html" method="post">
-                          <input id="book2" name="book2" value="1" type="checkbox">
-                          <label for="book2">
-                            <span class="bookTitle">Discrete Mathematics and its Applications</span>,
-                            <span class="bookEdition">7th Ed.</span>,
-                            <span class="bookAuthor">Rosen</span>,
-                            <span class="bookPublisher">McGraw-Hill</span>,
-                            ISBN: <span class="bookISBN">9780073383095</span>
-                            &ndash; <a href="bookInfoEdit.html">Edit</a>
-                          </label>
-                          <br>
-                          <input id="book3" name="book3" value="1" type="checkbox">
-                          <label for="book3">
-                            <span class="bookTitle">C++ for Java Programmers</span>,
-                            <span class="bookAuthor">Weiss</span>,
-                            <span class="bookPublisher">Prentice Hall</span>,
-                            ISBN: <span class="bookISBN">9780139194245</span>
-                            &ndash; <a href="bookInfoEdit.html">Edit</a>
-                          </label>
-                          <br>
-                          <input id="book4" name="book4" value="1" type="checkbox">
-                          <label for="book4">
-                            <span class="bookTitle">The C/Unix Programmer's Guide</span>,
-                            <span class="bookAuthor">Bacon</span>,
-                            <span class="bookPublisher">Acadix</span>,
-                            ISBN: <span class="bookISBN">0967059607</span>
-                            &ndash; <a href="bookInfoEdit.html">Edit</a>
-                          </label>
-                          <br><br>
-                          <input type="submit" name="updateSelectedBooks" value="Update Selections">
-                        </form>
-                        <hr>
-                        <p>Add a new textbook:</p>
-                        <form id="addBooks" action="textbookEdit.html" method="post">
-                          <div>
-                            <label for="newBookTitle">Title: </label>
-                            <input type="text" id="newBookTitle" required>
-                          </div>
-                          <div>
-                            <label for="newBookAuthor">Author:</label>
-                            <input type="text" id="newBookAuthor" required>
-                          </div>
-                          <div>
-                            <label for="newBookEdition">Edition: </label>
-                            <input type="text" id="newBookEdition">
-                          </div>
-                          <div>
-                            <label for="newBookPublisher">Publisher: </label>
-                            <input type="text" id="newBookPublisher" required>
-                          </div>
-                          <div>
-                            <label for="newBookISBN">ISBN: </label>
-                            <input type="text" id="newBookISBN" required>
-                          </div>
-                          <br>
-                          <div>
-                            <input type="submit" name="addBook" value="Add">
-                          </div>
-                        </form>
-                    </div>
+                    
                     <!--END TEXTBOOK EDIT MODULE-->
 				
 				</div>
@@ -552,8 +454,8 @@
 					<div class="administratorViewEditBannerName">
 						<p>Calendar:</p>
 					</div>
-					<form>
-							<input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton"type="button" value="Edit" onclick="swapDiv('calendarViewMain', 'calendarEditMain', 'administratorViewEditCalendarButton');">
+					<form method="get" action="/editcalendar">
+							<input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton" type="submit" value="Edit">
 					</form>		
 				</div>
 				<div class="administratorViewModuleDisplay">
@@ -656,100 +558,7 @@
                     <!--end calendarView-->
                     
                     <!--calendarEdit-->
-                    <div id="calendarEditMain" style="display: none">
-                        <form>
-                            <h1>Course Calendar Edit View:</h1>
-                            <table id="calendarEditCalendarTable">
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c1" value="Week"></span></td>
-                                    <td class="calendarEditReadingColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c2" value="Reading"></span></td>
-                                    <td class="calendarEditTopicsColumn"><span style="font-size:14px; font-weight:bold;"><input class="calendarEditInput" type="text" name="r1c3" value="Topics"></span></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r2c1" value="9/2"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r2c2" value="1"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r2c3" value="What is software engineering?"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r3c1" value="9/9"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r3c2" value="2, HTML5/CSS"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r3c3" value="HTML5/CSS"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r4c1" value="9/16"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r4c2" value="3,Scrum"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r3c3" value="Scrum: Intro, PB grooming"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r5c1" value="9/23"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r5c2" value="4"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r5c3" value="Lecture 1: Scrum: Sprint planning; Lecture 2: introduce project: sprint 0; Lab PB grooming, sprint planning"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r6c1" value="9/30"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r6c2" value=""></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r6c3" value="Lecture 1: daily scrum, execution"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r7c1" value="10/7"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r7c1" value="Test-Driven Dev"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r7c3" value=""></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r8c1" value="10/14"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r8c2" value="Midterm"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r8c3" value=""></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r9c1" value="10/21"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r9c2" value="S: ch.7"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r9c3" value="Test driven development"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r10c1" value="10/28"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r10c2" value="Sprint 1"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r10c3" value="10/21"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r11c1" value="11/4"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r11c2" value="S: ch.5"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r11c3" value="Encapsulation"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r12c1" value="11/11"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r12c2" value="Z: ch 6"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r12c3" value="Interface Oriented Design"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r13c1" value="11/18"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r13c2" value="Sprint 2"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r13c3" value="10/28"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r14c1" value="11/25"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r14c2" value="Sprint 2"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r14c3" value=""></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r15c1" value="12/2"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r15c2" value="S: ch. 9"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r15c3" value="Continuous integration"></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r16c1" value="12/9"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r16c2" value=""></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r16c3" value=""></td>
-                                </tr>
-                                <tr class="calendarEditCalendarRow">
-                                    <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r17c1" value="12/16"></td>
-                                    <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r17c2" value="Final Exam"></td>
-                                    <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r17c3" value=""></td>
-                                </tr>
-                            </table>               
-                            <input type="submit" value="Save">
-                            <input type="submit" value="Exit">               
-                        </form>
-                    </div> 
+                    
                     <!--end calendarEdit-->
                     
 				</div>

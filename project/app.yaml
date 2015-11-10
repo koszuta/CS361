@@ -12,13 +12,7 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
   
-- url: /editinstructors
-  script: main.app
-  
-- url: /removeinstructors
-  script: main.app
-
-- url: /.*
+- url: .*
   script: main.app
 
 libraries:
