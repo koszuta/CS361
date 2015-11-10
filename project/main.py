@@ -19,10 +19,10 @@ user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = instructor.Instructor(first='Scott', last='Ehlert', isSelected=False) 
-dylan = instructor.Instructor(first='Dylan', last='Harrison', isSelected=False) 
+scott = instructor.Instructor(first='Scott', last='Ehlert', email='scott@uwm.edu', phone='(414) 555-1234', building='PHY', room='333', isSelected=False) 
+dylan = instructor.Instructor(first='Dylan', last='Harrison', email='dylan@uwm.edu', phone='(414) 555-9999', building='LAPH', room='150', isSelected=False) 
 nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
-shane = instructor.Instructor(first='Shane', last='Sedgwick', isSelected=False)
+shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', isSelected=False)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -47,9 +47,14 @@ class MainHandler(webapp2.RequestHandler):
                 j.isSelected = True
             i += 1
         
+        list = []
+        for a in syl.instructors:
+            list.append(a)
+            
         template = template_env.get_template('main.html')
         context = {
             'books': textbook.Textbook.query().fetch(),
+            'instructors': list,
         }
         
         self.response.write(template.render(context))
