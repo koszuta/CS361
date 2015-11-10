@@ -113,23 +113,22 @@
 	       <!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
                     <div id = "instructorsViewModule">
                             <table id = "instructorsTable">
+                                    {% if instructors: %}
                                     <tr>
                                             <th> Instructor </th>
                                             <th> Class </th>
                                             <th> Office </th>
                                     </tr>
-                                    
+                                    {% for i in instructors %}
                                     <tr>
-                                            <td> Jason Rock <br> rock@uwm.edu </td>
+                                            <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
                                             <td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
-                                            <td> EMS E307 Phone: (262) 825-4129 <br> Office Hours: MTR 11am </td>
+                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br>  </td>
                                     </tr>
-                                    
-                                    <tr>
-                                            <td> Tanawat Khunlertkit <br> tanawat@uwm.edu </td>
-                                            <td> </td>
-                                            <td> EMS 962 Phone: (262) 825-4129 <br> Office Hours: </td>
-                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr> <th> -- NO INSTRUCTORS INFO ON SYLLABUS -- </th> </tr>
+                                    {% endif %}
                             </table>
                     </div>
                 <!--END INSTRUCTOR INFO DISPLAY MODULE-->
