@@ -12,9 +12,3 @@ class User(ndb.Model):
         savedPolicies = ndb.LocalStructuredProperty(policy.Policy, repeated=True)
         savedScales = ndb.LocalStructuredProperty(scale.Scale, repeated=True)
         savedInstructors = ndb.LocalStructuredProperty(instructor.Instructor, repeated=True)
-    
-'''    
-    def addCourse(self, Course):
-        
-        return Course
-'''
