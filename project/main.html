@@ -289,7 +289,8 @@
 				<div class="administratorViewModuleDisplay">
 				
 					<!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
-                    <div id="policyViewModule">{% if policies: %}
+                    <div id="policyViewModule">
+                        {% if policies: %}
                             {% for i in policies %}
                             <p style="font-weight: bold;"> {{ i.title }} </p>
                             <pre> {{ i.description }} </pre>
@@ -297,7 +298,7 @@
                             {% endfor %}
                             {% else %}
                             <p style="font-weight: bold;"> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </p>
-                            {% endif %}
+                        {% endif %}
                     </div>
                     <!--END POLICY DISPLAY MODULE-->
                     
