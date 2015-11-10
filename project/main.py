@@ -25,8 +25,10 @@ nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@u
 shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', hours='TR 12pm', isSelected=False)
 
 p = assessment.Assessment(title="Project", percentage=40, description="The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.")
+p2 = assessment.Assessment(title="Quizzes", percentage=10, description="Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.")
 
 user.savedAssessments.append(p)
+user.savedAssessments.append(p2)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -156,11 +158,11 @@ class EditHandler(webapp2.RequestHandler):
             
             user.savedInstructors.append(chosen) 
 
-        chosen.put()
+            chosen.put()
         self.redirect('/editinstructor')
         
     
-class AssessmentHandler(webapp2.RequestHandler):
+class AssEditHandler(webapp2.RequestHandler):
     def get(self):
         x = assessment.Assessment()
         for item in user.savedAssessments:
@@ -181,8 +183,66 @@ class AssessmentHandler(webapp2.RequestHandler):
         self.response.write(template.render(context))
         
     def post(self):
+        option = self.request.get("assessmentEditorButton")
         
-        self.redirect('/editassessments')
+        mytitle = self.request.get("assessmentTitle")
+        mypercentage = int(self.request.get("assessmentPercentage"))
+        mydescription = self.request.get("assessmentDescription")
+        
+        chosen = assessment.Assessment()
+                
+        if option == "Update":
+            for item in user.savedAssessments:
+                if item.isSelected:
+                    item.title = mytitle
+                    item.percentage = mypercentage
+                    item.description = mydescription
+                    
+        elif option == "Create New":
+            chosen.title = mytitle
+            chosen.percentage = mypercentage
+            chosen.description = mydescription
+            
+            user.savedAssessments.append(chosen) 
+
+            chosen.put()
+        self.redirect('/editassessment')
+        
+
+class AssAddHandler(webapp2.RequestHandler):
+    def post(self):
+        option = self.request.get("savedAssessmentButton")
+        selected = self.request.get("savedAssessments")
+        chosen = assessment.Assessment()
+        
+        for item in user.savedAssessments:
+            if item.key() == selected:
+                chosen = item
+            item.isSelected = False
+        
+        if option == "Add":
+            syl.assessments.append(chosen)
+        
+        chosen.isSelected = True
+        
+        chosen.put()
+        self.redirect("/editassessment")
+        
+        
+class AssRemoveHandler(webapp2.RequestHandler):
+    def post(self):
+        selected = self.request.get("assessmentsOnSyllabus")
+        chosen = assessment.Assessment()
+        
+        for item in syl.assessments:
+            if item.key() == selected:
+                chosen=item
+                syl.assessments.remove(item) 
+            item.isSelected = False
+                
+        chosen.isSelected = True  
+           
+        self.redirect("/editassessment")
         
         
 app = webapp2.WSGIApplication([
@@ -195,5 +255,7 @@ app = webapp2.WSGIApplication([
     ('/removebooks', textbook.RemoveTextbookHandler),
     ('/editcalendar', calendarEdit.CalendarHandler),
     ('/editscales', scalesEdit.ScalesHandler),
-    ('/editassessments', AssessmentHandler),
+    ('/editassessment', AssEditHandler),
+    ('/addassessment', AssAddHandler),
+    ('/removeassessment', AssRemoveHandler),
 ], debug=True)
