@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title> Assessments &gt; Edit </title>
+        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/assessmentEdit.css" rel="stylesheet" type="text/css" />
+    </head>
+    
+    <body>
+        <a href="/#administratorViewAssessmentMain"> &lt; Back </a>
+        
+        <div id="assessmentsListSection">
+            <form class="assessmentList" id="savedAssessments" method="post" action="/editassessments">
+                <h2> Saved Assessments: </h2>
+                <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
+                    {% for assessment in savedAssessments %}
+                    <option> {{ assessment.key() }} </option>
+                    {% endfor %}
+                </select>
+                <br />
+                <input type="submit" value="Edit" name="savedAssessmentButton" id="editAssessmentButton" />
+                <input type="submit" value="Add" name="savedAssessmentButton" id="addAssessmentButton" />
+            </form>
+            
+            <form class="assessmentList" id="assessmentsOnSyllabus" method="post" action="/editassessments">
+                <h2> On Syllabus: </h2>
+                <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
+                    {% for assessment in assessments %}
+                    <option> {{ assessment.key() }} </option>
+                    {% endfor %}
+                </select>
+                <br />
+                <input type="submit" value="Remove" name="savedAssessmentButton" id="editAssessmentButton" />
+            </form>
+        </div>
+        
+        <hr />
+        
+        <div id="assessmentEditor">
+            <form id="assessmentEditorForm" method="post" action="/editassessment">    
+                <h2 style="font-weight: bold;"> Editing: {{ selected }} </h2>
+                <br />
+                <input type="text" name="assessmentTitle" id="assessmentTitle" placeholder="Title" size="15" required value="{% if title != None %}{{ title }}{% endif %}" />
+                &nbsp;
+                <input type="number" name="assessmentPercentage" id="assessmentPercentage" placeholder="Percent" step="5" min="0" max="100" required value="{% if percentage != None %}{{ percentage }}{% endif %}" />
+                %
+                <br />
+                <br />
+                <textarea name="assessmentDescription" id="assessmentDescription" placeholder="Description..." rows="5" cols="30" required>{% if description != None %}{{ description }}{% endif %}</textarea>
+                <br />
+                <br />
+                <input type="submit" value="Update" name="assessmentEditorButton" id="assessmentEditorButton" />
+                <input type="submit" value="Create New" name="assessmentEditorButton" id="assessmentEditorButton" />
+            </form>
+        </div>
+    </body>
+</html>

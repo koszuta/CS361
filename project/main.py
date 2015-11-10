@@ -9,20 +9,24 @@ import user
 import course
 import syllabus
 import instructor
-import hours
 import textbook
 import calendarEdit
 import scalesEdit
+import assessment
 
 user = user.User()
 user.put()
 syl = syllabus.Syllabus()
 syl.put()
 
-scott = instructor.Instructor(first='Scott', last='Ehlert', email='scott@uwm.edu', phone='(414) 555-1234', building='PHY', room='333', isSelected=False) 
-dylan = instructor.Instructor(first='Dylan', last='Harrison', email='dylan@uwm.edu', phone='(414) 555-9999', building='LAPH', room='150', isSelected=False) 
-nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', isSelected=False) 
-shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', isSelected=False)
+scott = instructor.Instructor(first='Scott', last='Ehlert', email='scott@uwm.edu', phone='(414) 555-1234', building='PHY', room='333', hours='MW 11am', isSelected=False) 
+dylan = instructor.Instructor(first='Dylan', last='Harrison', email='dylan@uwm.edu', phone='(414) 555-9999', building='LAPH', room='150', hours='MWF 2pm', isSelected=False) 
+nathan = instructor.Instructor(first='Nathan', last='Koszuta', email='nkoszuta@uwm.edu', phone='(414) 531-7488', building='CHEM', room='147', hours='MWR 10am', isSelected=False) 
+shane = instructor.Instructor(first='Shane', last='Sedgwick', email='shane@uwm.edu', phone='(262) 555-0101', building='EMS', room='E190', hours='TR 12pm', isSelected=False)
+
+p = assessment.Assessment(title="Project", percentage=40, description="The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.")
+
+user.savedAssessments.append(p)
 
 user.savedInstructors.append(scott)
 user.savedInstructors.append(nathan)
@@ -41,20 +45,20 @@ template_env = jinja2.Environment(
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        i = 0
-        for j in user.savedInstructors:
-            if i == 0:
-                j.isSelected = True
-            i += 1
-        
-        list = []
-        for a in syl.instructors:
-            list.append(a)
+                
+        ilist = []
+        for i in syl.instructors:
+            ilist.append(i)
+            
+        alist = []
+        for i in syl.assessments:
+            alist.append(i)
             
         template = template_env.get_template('main.html')
         context = {
             'books': textbook.Textbook.query().fetch(),
-            'instructors': list,
+            'instructors': ilist,
+            'assessments': alist,
         }
         
         self.response.write(template.render(context))
@@ -115,7 +119,7 @@ class EditHandler(webapp2.RequestHandler):
             'sel_phone': x.phone,
             'sel_building': x.building,
             'sel_room': x.room,
-            #'sel_hours': x.hours,
+            'sel_hours': x.hours,
         }
 
         self.response.write(template.render(context))
@@ -155,6 +159,31 @@ class EditHandler(webapp2.RequestHandler):
         chosen.put()
         self.redirect('/editinstructor')
         
+    
+class AssessmentHandler(webapp2.RequestHandler):
+    def get(self):
+        x = assessment.Assessment()
+        for item in user.savedAssessments:
+            if item.isSelected:
+                x = item.copy()
+            
+        template = template_env.get_template('assessmentEdit.html')
+        
+        context = {
+            'savedAssessments': user.savedAssessments,
+            'selected': x.key(),
+            'assessments': syl.assessments,
+            'title': x.title,
+            'description': x.description,
+            'percentage': x.percentage,
+        }
+
+        self.response.write(template.render(context))
+        
+    def post(self):
+        
+        self.redirect('/editassessments')
+        
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -166,4 +195,5 @@ app = webapp2.WSGIApplication([
     ('/removebooks', textbook.RemoveTextbookHandler),
     ('/editcalendar', calendarEdit.CalendarHandler),
     ('/editscales', scalesEdit.ScalesHandler),
+    ('/editassessments', AssessmentHandler),
 ], debug=True)
