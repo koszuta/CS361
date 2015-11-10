@@ -3,8 +3,8 @@ import hours
 from google.appengine.ext import ndb
 
 class Instructor(ndb.Model):
-    first = ndb.StringProperty(required=True)
-    last = ndb.StringProperty(required=True)
+    first = ndb.StringProperty()
+    last = ndb.StringProperty()
     email = ndb.StringProperty()
     phone = ndb.StringProperty()
     building = ndb.StringProperty()

@@ -53,7 +53,6 @@ class AddHandler(webapp2.RequestHandler):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
         chosen = instructor.Instructor(first="Boner", last="Butts")
-        chosen.put()
         
         for item in user.savedInstructors:
             if item.key() == selected:
@@ -64,6 +63,7 @@ class AddHandler(webapp2.RequestHandler):
         
         chosen.isSelected = True
         
+        chosen.put()
         self.redirect('/editinstructor')
         
 
@@ -88,7 +88,6 @@ class EditHandler(webapp2.RequestHandler):
         for item in user.savedInstructors:
             if item.isSelected:
                 x = item
-            item.isSelected = False
             
         template = template_env.get_template('instructorEdit.html')
         
@@ -108,20 +107,27 @@ class EditHandler(webapp2.RequestHandler):
         
     def post(self):
         option = self.request.get("editInstructorSubmit")
+        
         myfirst = self.request.get("instructorFirstName")
-        mylast = self.request.get("instrcutorLastName")
+        mylast = self.request.get("instructorLastName")
         myemail = self.request.get("instructorEmail")
         myphone = self.request.get("instructorPhone")
         mybuilding = self.request.get("instructorBuildingSelect")
         myroom = self.request.get("instructorOfficeRoom")
         
-        chosen = instructor.Instructor(first="Boner", last="Butts")
-        
-        for item in syl.instructors:
-            if item.isSelected:
-                chosen=item
+        chosen = instructor.Instructor()
                 
         if option == "Update Info":
+            for item in user.savedInstructors:
+                if item.isSelected:
+                    item.first = myfirst
+                    item.last = mylast
+                    item.email = myemail
+                    item.phone = myphone
+                    item.building = mybuilding
+                    item.room = myroom
+        
+        elif option == "Create New":
             chosen.first = myfirst
             chosen.last = mylast
             chosen.email = myemail
@@ -129,9 +135,9 @@ class EditHandler(webapp2.RequestHandler):
             chosen.building = mybuilding
             chosen.room = myroom
             
-        elif option == "Create New":
-            user.savedInstructors.append(instructor.Instructor(first = myfirst, last = mylast, email = myemail, phone = myphone, building = mybuilding, room = myroom))
+            user.savedInstructors.append(chosen) 
 
+        chosen.put()
         self.redirect('/editinstructor')
         
         
