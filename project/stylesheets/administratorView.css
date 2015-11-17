@@ -7,6 +7,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     background: transparent;
 }
 
+pre {
+	font-family: sans-serif;
+	word-break: break-word;
+	white-space: pre-wrap;
+}
+
 #administratorViewMain {
 	width: 100%;
 	background-color: #090909;
