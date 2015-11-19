@@ -13,7 +13,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
   extensions=['jinja2.ext.autoescape'],
   autoescape=True)
 
-
+# create a new grading scale and save to data store
 class GradeScale:
 	scaleName = ndb.StringProperty()
 	def __init__(self):
