@@ -1,8 +1,12 @@
+import webapp2
+import jinja2
+import os
+
+from google.appengine.ext import ndb
+
 import syllabus
 import calendars
 import textbook
-
-from google.appengine.ext import ndb
 
 class Course:
         name = ndb.StringProperty()

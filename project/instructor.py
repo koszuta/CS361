@@ -1,3 +1,7 @@
+import webapp2
+import jinja2
+import os
+
 from google.appengine.ext import ndb
 
 class Instructor(ndb.Model):
@@ -13,56 +17,13 @@ class Instructor(ndb.Model):
     def key(self):
         if self.last == "" or self.last is None or self.first == "" or self.last is None:
             return "nobody"
-        '''    
-        if self.isSelected:
-            return str(self.last + ", " + self.first + " (True)")
-        else:
-            return str(self.last + ", " + self.first + " (False)")
-        '''
+            
         return self.last + ", " + self.first
         
     def copy(self):
         return Instructor(first=self.first, last=self.last, email=self.email, phone=self.phone, building=self.building, room=self.room, isSelected=self.isSelected)
-
-        
-class AddHandler(webapp2.RequestHandler):
-    def post(self):
-        option = self.request.get("instructorToAddButton")
-        selected = self.request.get("availableInstructors")
-        chosen = instructor.Instructor()
-        
-        for item in user.savedInstructors:
-            if item.key() == selected:
-                chosen = item
-            item.isSelected = False
-        
-        if option == "Add":
-            syl.instructors.append(chosen)
-        
-        chosen.isSelected = True
-        
-        chosen.put()
-        syl.put()
-        self.redirect('/editinstructor')
-        
-
-class RemoveHandler(webapp2.RequestHandler):        
-    def post(self):
-        selected = self.request.get("selectedInstructors")
-        chosen = instructor.Instructor()
-        
-        for item in syl.instructors:
-            if item.key() == selected:
-                chosen=item
-                syl.instructors.remove(item) 
-            item.isSelected = False
-                
-        chosen.isSelected = True  
-        
-        syl.put()   
-        self.redirect('/editinstructor')
-        
-       
+      
+      
 class EditHandler(webapp2.RequestHandler):
     def get(self):
         x = instructor.Instructor()
@@ -121,4 +82,42 @@ class EditHandler(webapp2.RequestHandler):
 
             chosen.put()
         syl.put()
+        self.redirect('/editinstructor')
+        
+        
+class AddHandler(webapp2.RequestHandler):
+    def post(self):
+        option = self.request.get("instructorToAddButton")
+        selected = self.request.get("availableInstructors")
+        chosen = instructor.Instructor()
+        
+        for item in user.savedInstructors:
+            if item.key() == selected:
+                chosen = item
+            item.isSelected = False
+        
+        if option == "Add":
+            syl.instructors.append(chosen)
+        
+        chosen.isSelected = True
+        
+        chosen.put()
+        syl.put()
+        self.redirect('/editinstructor')
+        
+
+class RemoveHandler(webapp2.RequestHandler):        
+    def post(self):
+        selected = self.request.get("selectedInstructors")
+        chosen = instructor.Instructor()
+        
+        for item in syl.instructors:
+            if item.key() == selected:
+                chosen=item
+                syl.instructors.remove(item) 
+            item.isSelected = False
+                
+        chosen.isSelected = True  
+        
+        syl.put()   
         self.redirect('/editinstructor')
