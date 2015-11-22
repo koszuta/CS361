@@ -14,6 +14,7 @@ import calendarEdit
 import scalesEdit
 import assessment
 import policy
+import preview
 
 user = user.User()
 user.put()
@@ -359,4 +360,5 @@ app = webapp2.WSGIApplication([
     ('/editpolicy', PolicyEditHandler),
     ('/addpolicy', PolicyAddHandler),
     ('/removepolicy', PolicyRemoveHandler),
+    ('/preview', preview.PreviewHandler),
 ], debug=True)

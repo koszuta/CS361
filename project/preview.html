@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Syllablaster &gt; Syllabus Preview</title>
+        
+        <link rel="stylesheet" type="text/css" href="stylesheets/calendarView.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/textbookView.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/assessmentView.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/instructorView.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/gradingScaleView.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/main.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/custom.css">
+    </head>
+    
+    <body>
+        <div id="studentViewMain">
+        
+			<div id="courseInfoView">
+				<h1>
+					<span id="courseTitle">{{ course.title }}</span> - 
+					<span id="courseTerm">{{ course.term }}</span>
+				</h1>	
+			</div>
+					
+			<div id="instructorsView">
+				<table id="instructorsTable">
+					<tr>
+						<th class="instructorTableHeader">Instructor</th>
+						<th class="instructorTableHeader">Class</th>
+						<th class="instructorTableHeader">Office</th>
+					<tr>
+					{% for instructor in instructors %}
+					<tr>
+						<td class="instructorInfoCell">
+							<span class="instructorName">{{ instructor.name }}</span>
+							{% if instructor.email %}
+							<br><span class="instructorEmail">{{ instructor.email }}</span>
+							{% endif %}
+						</td>
+						<td class="instructorClassCell">
+							{% if instructor.class %}
+							<span class="instructorClass">{{ instructor.class }}</span>
+							{% endif %}
+						</td>
+						<td class="instructorOfficeCell">
+							<span class="instructorOfficeRoom">{{ instructor.officeRoom }}</span>
+							<span class="instructorOfficePhone">{{ instructor.officePhone }}</span>
+							<br>
+							Office Hours: <span class="instructorOfficeHours">{{ instructor.officeHours }}</span>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+					
+            <div id="textbookViewMain">
+                <h1 id="textbookViewHeader" class="sectionHeader">Textbooks:</h1>
+                {% if textbooks %}
+                {% for textbook in textbooks %}
+                <span class="textbookViewTitle">{{ textbook.title }}</span>,
+                {% if textbook.edition %}
+                <span class="textbookViewEditon">{{ textbook.edition }}</span>,
+                {% endif %}
+                <span class="textbookViewAuthor">{{ textbook.author }}</span>,
+                <span class="textbookViewPublisher">{{ textbook.publisher }}</span>,
+                ISBN: <span class="textbookViewISBN">{{ textbook.isbn }}</span>
+                
+                {% if not loop.last %}
+                <br>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <span class="noData">--- NO BOOKS ADDED TO SYLLABUS ---</span>
+                {% endif %}
+        	</div>
+					
+            <div id="assessmentViewMain">
+                <h1 id="assessmentViewHeader" class="sectionHeader">Assessment:</h1>
+                <table id="assessmentViewTable">
+                	{% if assessments %}
+                	{% for assessment in assessments %}
+                	<tr>
+                		<td class="assessmentCategory">{{ assessment.title }}<br>{{ assessment.weight }}%</td>
+                		<td class="assessmentDescription">
+                			{{ assessment.description|safe }}
+                		</td>
+                	</tr>
+                	{% endfor %}
+                	{% else %}
+                	<span class="noData">--- NO ASSESSMENTS ADDED TO SYLLABUS ---</span>
+                	{% endif %}
+                </table>
+            </div>
+			
+			<div id="gradeScaleView">
+				<table id="gradeScaleView">
+					{% if gradingScale %}
+					<tr class="gradeLetter">
+						{% for letter in gradingScale.keys() %}
+						<td>{{ letter }}</td>
+						{% endfor %}
+					</tr>
+					<tr class="gradeValue">
+						{% for value in gradingScale.values() %}
+						<td>{{ value }}</td>
+						{% endfor %}
+					</tr>
+					{% else %}
+					<span class="noData">--- NO GRADING SCALE ADDED TO SYLLABUS ---</span>
+					{% endif %}
+				</table>
+			</div>
+
+			<div id="policyViewMain">
+				<h1 id="policyViewHeader" class="sectionHeader">Policies:</h1>
+				{% if policies: %}
+				{% for policy in policies %}
+				<span class="policyTitle" style="font-weight: bold;">{{ policy.title }}</span><br>
+				<p class="policyDesc">{{ policy.desc|safe }}</p>
+				{% endfor %}
+				{% else %}
+				<span class="noData">--- NO POLICIES ADDED TO SYLLABUS ---</span>
+				{% endif %}
+			</div>
+
+            <div id="calendarViewMain">
+                    <h1 id="calendarViewHeader" class="sectionHeader">Course Calendar:</h1>
+                    <table id="calendarViewCalendarTable">
+                        {% if calendar %}
+                        <tr class="calendarViewCalendarRow">
+                            <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">Week</span></td>
+                            <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">Reading</span></td>
+                            <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">Topics</span></td>
+                        </tr>
+                        {% for entry in calendar %}
+                        <tr class="calendarViewCalendarRow">
+                            <td class="calendarViewWeekColumn">{{ entry.date }}</td>
+                            <td class="calendarViewReadingColumn">{{ entry.reading|safe }}</td>
+                            <td class="calendarViewTopicsColumn">{{ entry.topic|safe }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <span class="noData">--- NO CALENDAR DATA ADDED TO SYLLABUS ---</span>
+                        {% endif %}
+                    </table>
+                </div>				
+  
+        </div>  
+    </body>
+</html>
