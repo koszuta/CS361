@@ -4,6 +4,18 @@ import os
 
 from google.appengine.ext import ndb
 
+import syllabus
+import term
+import user
+def getCurrentUser():
+    for u in user.User.query().fetch():
+        if u.isSelected:
+            return u
+   
+template_env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(os.getcwd())
+    )          
+            
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
     last = ndb.StringProperty()
@@ -26,24 +38,27 @@ class Instructor(ndb.Model):
       
 class EditHandler(webapp2.RequestHandler):
     def get(self):
-        x = instructor.Instructor()
-        for item in user.savedInstructors:
-            if item.isSelected:
-                x = item.copy()
+        selected = Instructor()
+        u = getCurrentUser()
+        i = Instructor().query(ancestor = u.key).get()
+                
+        syl = syllabus.Syllabus()
+        for t in term.Term().query(ancestor = u.key).fetch():
+            if t.isSelected:
+                syl = syllabus.Syllabus().query(ancestor = t.key).fetch()
             
         template = template_env.get_template('instructorEdit.html')
-        
         context = {
-            'savedInstructors': user.savedInstructors,
-            'syllabusInstructors': syl.instructors,
-            'selected': x.key(),
-            'sel_first': x.first,
-            'sel_last': x.last,
-            'sel_email': x.email,
-            'sel_phone': x.phone,
-            'sel_building': x.building,
-            'sel_room': x.room,
-            'sel_hours': x.hours,
+            'savedInstructors': Instructor().query(ancestor = u.key).fetch(),
+            'syllabusInstructors': Instructor().query(ancestor = syl.key).fetch(),
+            'selected': selected.key(),
+            'sel_first': selected.first,
+            'sel_last': selected.last,
+            'sel_email': selected.email,
+            'sel_phone': selected.phone,
+            'sel_building': selected.building,
+            'sel_room': selected.room,
+            'sel_hours': selected.hours,
         }
 
         self.response.write(template.render(context))
@@ -58,7 +73,7 @@ class EditHandler(webapp2.RequestHandler):
         mybuilding = self.request.get("instructorBuildingSelect")
         myroom = self.request.get("instructorOfficeRoom")
         
-        chosen = instructor.Instructor()
+        chosen = Instructor()
                 
         if option == "Update Info":
             for item in user.savedInstructors:
@@ -89,7 +104,7 @@ class AddHandler(webapp2.RequestHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
-        chosen = instructor.Instructor()
+        chosen = Instructor()
         
         for item in user.savedInstructors:
             if item.key() == selected:
