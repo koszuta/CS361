@@ -2,11 +2,12 @@ import webapp2
 import jinja2
 import os
 
+from google.appengine.api import oauth
 from google.appengine.ext import ndb
 
 import login
 import user
-import course
+import term
 import syllabus
 import instructor
 import textbook
@@ -20,26 +21,26 @@ template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
 
-def getCurrent():
+def getCurrentUser():
     for u in user.User.query().fetch():
-        if u.isActive:
-            return u
-
+        return u
+            
+            
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        currentUser = getCurrentUser()
+        currentUser.put()
         
-        currentUser = None
-        users = user.User.query().fetch()
-        for u in users:
-            if u.isActive:
-                currentUser = u
-            
+        t = term.Term(parent = currentUser.key, semester = "Spring", year = 2016, isSelected = False)
+        t.put()
+         
         if not currentUser:
             self.redirect("/login")
             
         template = template_env.get_template('main.html')
         context = {
-            'books': textbook.Textbook.query().fetch(),
+            'books': textbook.Textbook.query(ancestor = currentUser.key).fetch(),
+            'instructors': instructor.Instructor.query(ancestor = currentUser.key).fetch(),
         }
         
         self.response.write(template.render(context))
