@@ -1,16 +1,35 @@
-import course
+import term
 import policy
 import scale
 import instructor
 import assessment
+import calendars
+import textbook
 
 from google.appengine.ext import ndb
 
 class User(ndb.Model):
-        username = ndb.StringProperty()
-        password = ndb.StringProperty()
-        courses = ndb.LocalStructuredProperty(course.Course, repeated=True)
-        savedPolicies = ndb.LocalStructuredProperty(policy.Policy, repeated=True)
-        savedScales = ndb.LocalStructuredProperty(scale.Scale, repeated=True)
-        savedInstructors = ndb.LocalStructuredProperty(instructor.Instructor, repeated=True)
-        savedAssessments = ndb.LocalStructuredProperty(assessment.Assessment, repeated=True)
+    username = ndb.StringProperty()
+    password = ndb.StringProperty()
+    isSelected = ndb.BooleanProperty()
+    @property
+    def savedPolicies(self):
+        return policy.Policy(ancestor = self.key).fetch()
+    @property
+    def savedScales(self):
+        return scale.Scale(ancestor = self.key).fetch()
+    @property
+    def savedInstructors(self):
+        return instructor.Instructor(ancestor = self.key).fetch()
+    @property
+    def savedAssessments(self):
+        return assessment.Assessment(ancestor = self.key).fetch()
+    @property
+    def savedCalendars(self):
+        return calendars.Calendar(ancestor = self.key).fetch()
+    @property
+    def savedTextbooks(self):
+        return textbook.Textbook(ancestor = self.key).fetch()
+    @property
+    def terms(self):
+        return term.Term.query(ancestor = self.key).fetch()

@@ -7,8 +7,18 @@ import assessment
 from google.appengine.ext import ndb
 
 class Syllabus(ndb.Model):
-        textbooks = ndb.LocalStructuredProperty(textbook.Textbook, repeated=True)
-        calendars = ndb.LocalStructuredProperty(calendars.Calendar, repeated=True)
-        instructors = ndb.LocalStructuredProperty(instructor.Instructor, repeated=True)
-        policies = ndb.LocalStructuredProperty(policy.Policy, repeated=True)
-        assessments = ndb.LocalStructuredProperty(assessment.Assessment, repeated=True)
+    @property
+    def textbooks(self):
+        return textbook.Textbook.query(ancestor = self.key).fetch()
+    @property
+    def calendars(self):
+        return calendars.Calendar(ancestor = self.key).fetch()
+    @property
+    def instructors(self):
+        return istructor.Instructor(ancestor = self.key).fetch()
+    @property
+    def policies(self):
+        return policy.Policy(ancestor = self.key).fetch()
+    @property
+    def assessments(self):
+        return assessment.Assessment(ancestor = self.key).fetch()
