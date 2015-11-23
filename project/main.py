@@ -15,7 +15,7 @@ import calendarEdit
 import scalesEdit
 import assessment
 import policy
-
+import preview
     
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -63,4 +63,5 @@ app = webapp2.WSGIApplication([
     ('/editpolicy', policy.EditHandler),
     ('/addpolicy', policy.AddHandler),
     ('/removepolicy', policy.RemoveHandler),
+    ('/preview', preview.PreviewHandler),
 ], debug=True)

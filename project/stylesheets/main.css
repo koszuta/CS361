@@ -3,6 +3,14 @@ body {
 	font-size: 14px;
 }
 
+pre {
+	width: 100%;
+}
+
 #error {
 	color: red;
+}
+
+.noData {
+	font-weight: bold;
 }

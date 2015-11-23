@@ -1,7 +1,6 @@
 #calendarViewMain {
     display: block;
     padding: 10px;
-    background-color: white;
 }
 table[id="calendarViewCalendarTable"] {
     font-size: 12px;
