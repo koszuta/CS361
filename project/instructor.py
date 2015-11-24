@@ -7,27 +7,14 @@ from google.appengine.ext import ndb
 import syllabus
 import term
 import user
-
-
-u = user.User()    
-for us in user.User.query().get():
-    if us.isSelected:
-        u = us
-
-selected = Instructor.query(ancestor = u.key).get()
-if not selected:
-    selected = Instructor()
-                    
-syl = syllabus.Syllabus()
-for t in term.Term.query(ancestor = u.key).fetch():
-    if t.isSelected:
-        syl = syllabus.Syllabus.query(ancestor = t.key).fetch()
-      
-      
+def getCurrentUser():
+    for u in user.User.query().fetch():
+        if u.isSelected:
+            return u
+   
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )          
-      
             
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
@@ -47,14 +34,23 @@ class Instructor(ndb.Model):
         
     def copy(self):
         return Instructor(first=self.first, last=self.last, email=self.email, phone=self.phone, building=self.building, room=self.room, isSelected=self.isSelected)
-   
-                  
+      
+      
 class EditHandler(webapp2.RequestHandler):
-    def get(self):            
+    def get(self):
+        selected = Instructor()
+        u = getCurrentUser()
+        i = Instructor().query(ancestor = u.key).get()
+                
+        syl = syllabus.Syllabus()
+        for t in term.Term().query(ancestor = u.key).fetch():
+            if t.isSelected:
+                syl = syllabus.Syllabus().query(ancestor = t.key).fetch()
+            
         template = template_env.get_template('instructorEdit.html')
         context = {
-            'savedInstructors': Instructor.query(ancestor = u.key).fetch(),
-            'syllabusInstructors': Instructor.query(ancestor = syl.key).fetch(),
+            'savedInstructors': Instructor().query(ancestor = u.key).fetch(),
+            'syllabusInstructors': Instructor().query(ancestor = syl.key).fetch(),
             'selected': selected.key(),
             'sel_first': selected.first,
             'sel_last': selected.last,
@@ -128,15 +124,15 @@ class AddHandler(webapp2.RequestHandler):
 class RemoveHandler(webapp2.RequestHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
-        chosen = Instructor()
+        chosen = instructor.Instructor()
         
-        for i in syl.instructors:
-            if i.key() == selected:
-                chosen=i
-                syl.instructors.remove(i) 
-            i.isSelected = False
+        for item in syl.instructors:
+            if item.key() == selected:
+                chosen=item
+                syl.instructors.remove(item) 
+            item.isSelected = False
                 
-        chosen.isSelected = True
-        syl.put()  
-         
+        chosen.isSelected = True  
+        
+        syl.put()   
         self.redirect('/editinstructor')
