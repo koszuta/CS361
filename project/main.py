@@ -5,7 +5,6 @@ import os
 from google.appengine.api import oauth
 from google.appengine.ext import ndb
 
-import login
 import user
 import term
 import syllabus
@@ -17,18 +16,19 @@ import assessment
 import policy
 import preview
     
+    
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
 
-def getCurrentUser():
-    for u in user.User.query().fetch():
-        return u
-            
             
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        currentUser = getCurrentUser()
+    
+        currentUser = user.User()
+        for u in user.User.query().fetch():
+            if u.isSelected:
+                currentUser = u
         currentUser.put()
         
         t = term.Term(parent = currentUser.key, semester = "Spring", year = 2016, isSelected = False)
