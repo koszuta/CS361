@@ -25,7 +25,7 @@ class Policy(ndb.Model):
 		        
 class EditHandler(webapp2.RequestHandler):
     def get(self):
-        x = Policy()
+        x = policy.Policy()
         for item in user.savedPolicies:
             if item.isSelected:
                 x = item.copy()
@@ -48,7 +48,7 @@ class EditHandler(webapp2.RequestHandler):
         mytitle = self.request.get("policyTitle")
         mydescription = self.request.get("policyDescription")
         
-        chosen = Policy()
+        chosen = policy.Policy()
                 
         if option == "Update":
             for item in user.savedPolicies:
