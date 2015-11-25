@@ -4,13 +4,11 @@ import os
 
 from google.appengine.ext import ndb
 
+from basehandler import BaseHandler
 import syllabus
 import term
 import user
-def getCurrentUser():
-    for u in user.User.query().fetch():
-        if u.isSelected:
-            return u
+
    
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -36,10 +34,10 @@ class Instructor(ndb.Model):
         return Instructor(first=self.first, last=self.last, email=self.email, phone=self.phone, building=self.building, room=self.room, isSelected=self.isSelected)
       
       
-class EditHandler(webapp2.RequestHandler):
+class EditHandler(BaseHandler):
     def get(self):
         selected = Instructor()
-        u = getCurrentUser()
+        u = getUser()
         i = Instructor().query(ancestor = u.key).get()
                 
         syl = syllabus.Syllabus()
@@ -100,19 +98,20 @@ class EditHandler(webapp2.RequestHandler):
         self.redirect('/editinstructor')
         
         
-class AddHandler(webapp2.RequestHandler):
+class AddHandler(BaseHandler):
     def post(self):
         option = self.request.get("instructorToAddButton")
         selected = self.request.get("availableInstructors")
         chosen = Instructor()
         
-        for item in user.savedInstructors:
-            if item.key() == selected:
-                chosen = item
-            item.isSelected = False
+        u = getCurrentUser()
+        for i in Instructor.query(ancestor = u.key).fetch():
+            if i.key() == selected:
+                chosen = i
+            i.isSelected = False
         
         if option == "Add":
-            syl.instructors.append(chosen)
+            chosen.parent = syl.key
         
         chosen.isSelected = True
         
@@ -121,7 +120,7 @@ class AddHandler(webapp2.RequestHandler):
         self.redirect('/editinstructor')
         
 
-class RemoveHandler(webapp2.RequestHandler):        
+class RemoveHandler(BaseHandler):        
     def post(self):
         selected = self.request.get("selectedInstructors")
         chosen = instructor.Instructor()

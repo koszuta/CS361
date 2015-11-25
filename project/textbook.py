@@ -5,6 +5,8 @@ import urllib
 from jinja2 import Environment, FileSystemLoader
 from google.appengine.ext import ndb
 
+from basehandler import BaseHandler
+
 jinja_env = Environment(
   loader=FileSystemLoader(os.path.dirname(__file__)),
   extensions=['jinja2.ext.autoescape'],
@@ -37,7 +39,7 @@ def doRefresh(webapp, title, message, url, timeout=2):
     }
     webapp.response.write(template.render(context))
     
-class RemoveTextbookHandler(webapp2.RequestHandler):
+class RemoveTextbookHandler(BaseHandler):
     def post(self):
         selectedBooks = self.request.get_all('bookSelect')
         books = Textbook.query().fetch()
@@ -48,7 +50,7 @@ class RemoveTextbookHandler(webapp2.RequestHandler):
         msg = 'Updating book selections...'
         doRefresh(self, 'Updating Book Selections', msg, '/editbooks')
 
-class EditTextbookHandler(webapp2.RequestHandler):
+class EditTextbookHandler(BaseHandler):
     def get(self):
         isbn = self.request.get('isbn')
         currentBook = self.getCurrentBook(isbn)
@@ -118,7 +120,7 @@ class EditTextbookHandler(webapp2.RequestHandler):
         return Textbook.query(Textbook.isbn == isbn).get()
             
     
-class TextbookHandler(webapp2.RequestHandler):
+class TextbookHandler(BaseHandler):
     def getBooks(self):
         return Textbook.query().fetch()
 

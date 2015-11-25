@@ -5,13 +5,13 @@ import os
 from google.appengine.api import oauth
 
 import user
-import main
+from basehandler import BaseHandler
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
     
-class LoginHandler(webapp2.RequestHandler):
+class LoginHandler(BaseHandler):
     def get(self):
                 
         template = template_env.get_template('login.html')

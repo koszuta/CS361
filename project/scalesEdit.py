@@ -8,6 +8,8 @@ from google.appengine.ext import ndb
 import jinja2
 import webapp2
 
+from basehandler import BaseHandler
+
 JINJA_ENVIRONMENT = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
   extensions=['jinja2.ext.autoescape'],
@@ -45,7 +47,7 @@ class GradeScale:
 newScale = GradeScale()
 
 
-class ScalesHandler(webapp2.RequestHandler):
+class ScalesHandler(BaseHandler):
 	def get(self):
 		nScale = []
 		hScale = []
