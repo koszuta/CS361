@@ -10,7 +10,7 @@ class BaseHandler(webapp2.RequestHandler):
         self.session_store = sessions.get_store(request = self.request)
         
         try:
-            self.session_store.save_sessions(self.response)
+            webapp2.RequestHandler.dispatch(self)
         finally:
             self.session_store.save_sessions(self.response)
             
