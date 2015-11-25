@@ -25,3 +25,39 @@ class BaseHandler(webapp2.RequestHandler):
         session['syllabus'] = Syllabus.query(ancestor = user.key).filter(Syllabus.isSelected == True).get()
         
         return session
+       
+        
+import main        
+import user    
+import assessment
+import instructor
+import login
+import calendarEdit
+import policy
+import preview
+import scalesEdit
+import textbook    
+     
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'secret_key',
+} 
+app = webapp2.WSGIApplication([
+    ('/', main.MainHandler),
+    ('/login', login.LoginHandler),
+    ('/addinstructor', instructor.AddHandler),
+    ('/removeinstructor', instructor.RemoveHandler),
+    ('/editinstructor', instructor.EditHandler),
+    ('/editbooks', textbook.TextbookHandler),
+    ('/editbook', textbook.EditTextbookHandler),
+    ('/removebooks', textbook.RemoveTextbookHandler),
+    ('/editcalendar', calendarEdit.CalendarHandler),
+    ('/editscales', scalesEdit.ScalesHandler),
+    ('/editassessment', assessment.EditHandler),
+    ('/addassessment', assessment.AddHandler),
+    ('/removeassessment', assessment.RemoveHandler),
+    ('/editpolicy', policy.EditHandler),
+    ('/addpolicy', policy.AddHandler),
+    ('/removepolicy', policy.RemoveHandler),
+    ('/preview', preview.PreviewHandler),
+], debug=True, config=config)
