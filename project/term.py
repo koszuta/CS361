@@ -1,12 +1,11 @@
 import webapp2
 import jinja2
 import os
-
 from google.appengine.ext import ndb
 
-import syllabus
-import calendars
-import textbook
+'''
+from syllabus import Syllabus
+'''
 
 class Term(ndb.Model):
         semester = ndb.StringProperty()
@@ -14,4 +13,4 @@ class Term(ndb.Model):
         isSelected = ndb.BooleanProperty()
         @property
         def syllabi(self):
-            return syllabus.Syllabus.query(ancestor = self.key).fetch()
+            return Syllabus.query(ancestor = self.key).fetch()

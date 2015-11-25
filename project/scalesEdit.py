@@ -1,12 +1,7 @@
-import os
-import urllib
-import cgi
-
-from google.appengine.api import users
-from google.appengine.ext import ndb
-
 import jinja2
 import webapp2
+import os
+from google.appengine.ext import ndb
 
 from basehandler import BaseHandler
 

@@ -1,18 +1,12 @@
-import calendar
-import os
-import urllib
-import cgi
-
-from google.appengine.api import users
-from google.appengine.ext import ndb
-
 import jinja2
 import webapp2
+import os
+from google.appengine.ext import ndb
+import calendar
 
 from basehandler import BaseHandler
 
 class CalendarClass:
-    
     def __init__(self):
         self.myFilename = "myCourseSchedule.cal"
         self.myCalendar = calendar.Calendar(0)

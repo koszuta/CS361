@@ -1,15 +1,8 @@
 import webapp2
 import jinja2
 import os
-
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
-import syllabus
-import term
-import user
-
-   
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )          
@@ -27,12 +20,16 @@ class Instructor(ndb.Model):
     def key(self):
         if self.last == "" or self.last is None or self.first == "" or self.last is None:
             return "nobody"
-            
         return self.last + ", " + self.first
         
     def copy(self):
         return Instructor(first=self.first, last=self.last, email=self.email, phone=self.phone, building=self.building, room=self.room, isSelected=self.isSelected)
-      
+    
+    
+from basehandler import BaseHandler
+from syllabus import Syllabus
+from term import Term
+from user import User  
       
 class EditHandler(BaseHandler):
     def get(self):

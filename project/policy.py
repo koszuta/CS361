@@ -1,13 +1,8 @@
 import webapp2
 import jinja2
 import os
-
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
-import syllabus
-import calendars
-import textbook
 
 class Policy(ndb.Model):
 	title = ndb.StringProperty()
@@ -23,6 +18,11 @@ class Policy(ndb.Model):
 			
 		return self.title
 	
+    
+from basehandler import BaseHandler
+from calendars import Calendar
+from syllabus import Syllabus
+from textbook import Textbook
 		        
 class EditHandler(BaseHandler):
     def get(self):

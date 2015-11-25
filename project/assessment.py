@@ -1,13 +1,7 @@
 import webapp2
 import jinja2
 import os
-
 from google.appengine.ext import ndb
-
-from basehandler import BaseHandler
-import syllabus
-import calendars
-import textbook
 
 class Assessment(ndb.Model):
 	title = ndb.StringProperty()
@@ -23,11 +17,18 @@ class Assessment(ndb.Model):
 			return "none"
 			
 		return self.title + " (" + str(self.percentage) + "%)"
-		
+	
+  
+from basehandler import BaseHandler	
+'''
+from syllabus import Syllabus
+from calendars import Calendar
+from textbook import Textbook
+'''
 		
 class EditHandler(BaseHandler):
     def get(self):
-        x = assessment.Assessment()
+        x = Assessment()
         for item in user.savedAssessments:
             if item.isSelected:
                 x = item.copy()
