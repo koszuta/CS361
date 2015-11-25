@@ -1,11 +1,11 @@
 import webapp2
 import jinja2
 import os
-
 from google.appengine.api import oauth
 
-import user
 from basehandler import BaseHandler
+
+from user import User
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
