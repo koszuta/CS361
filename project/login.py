@@ -5,6 +5,7 @@ import os
 from google.appengine.api import oauth
 
 import user
+
 from basehandler import BaseHandler
 
 template_env = jinja2.Environment(
