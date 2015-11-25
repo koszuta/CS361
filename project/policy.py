@@ -4,6 +4,7 @@ import os
 
 from google.appengine.ext import ndb
 
+from basehandler import BaseHandler
 import syllabus
 import calendars
 import textbook
@@ -23,7 +24,7 @@ class Policy(ndb.Model):
 		return self.title
 	
 		        
-class EditHandler(webapp2.RequestHandler):
+class EditHandler(BaseHandler):
     def get(self):
         x = policy.Policy()
         for item in user.savedPolicies:
@@ -68,7 +69,7 @@ class EditHandler(webapp2.RequestHandler):
         self.redirect('/editpolicy')
         
 
-class AddHandler(webapp2.RequestHandler):
+class AddHandler(BaseHandler):
     def post(self):
         option = self.request.get("savedPolicyButton")
         selected = self.request.get("savedpolicies")
@@ -89,7 +90,7 @@ class AddHandler(webapp2.RequestHandler):
         self.redirect("/editpolicy")
         
         
-class RemoveHandler(webapp2.RequestHandler):
+class RemoveHandler(BaseHandler):
     def post(self):
         selected = self.request.get("policiesOnSyllabus")
         chosen = policy.Policy()

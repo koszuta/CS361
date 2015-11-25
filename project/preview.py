@@ -5,6 +5,8 @@ from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, Undefined
 from google.appengine.ext import ndb
 
+from basehandler import BaseHandler
+
 class SilentUndefined(Undefined):
     def _fail_with_undefined_error(self, *args, **kwargs):
         return '{{ ' + self._undefined_name + '.undefined }}'
@@ -15,7 +17,7 @@ jinja_env = Environment(
   autoescape=True,
   undefined=SilentUndefined)
   
-class PreviewHandler(webapp2.RequestHandler):
+class PreviewHandler(BaseHandler):
     @staticmethod
     def createDummyContext():
         course = {

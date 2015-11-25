@@ -9,6 +9,8 @@ from google.appengine.ext import ndb
 import jinja2
 import webapp2
 
+from basehandler import BaseHandler
+
 class CalendarClass:
     
     def __init__(self):
@@ -200,7 +202,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
     
     
-class CalendarHandler(webapp2.RequestHandler):
+class CalendarHandler(BaseHandler):
     def get(self):    
         moChecked = ""
         tuChecked = ""

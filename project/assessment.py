@@ -4,6 +4,7 @@ import os
 
 from google.appengine.ext import ndb
 
+from basehandler import BaseHandler
 import syllabus
 import calendars
 import textbook
@@ -24,7 +25,7 @@ class Assessment(ndb.Model):
 		return self.title + " (" + str(self.percentage) + "%)"
 		
 		
-class EditHandler(webapp2.RequestHandler):
+class EditHandler(BaseHandler):
     def get(self):
         x = assessment.Assessment()
         for item in user.savedAssessments:
@@ -71,7 +72,7 @@ class EditHandler(webapp2.RequestHandler):
         self.redirect('/editassessment')
         
 
-class AddHandler(webapp2.RequestHandler):
+class AddHandler(BaseHandler):
     def post(self):
         option = self.request.get("savedAssessmentButton")
         selected = self.request.get("savedAssessments")
@@ -92,7 +93,7 @@ class AddHandler(webapp2.RequestHandler):
         self.redirect("/editassessment")
         
         
-class RemoveHandler(webapp2.RequestHandler):
+class RemoveHandler(BaseHandler):
     def post(self):
         selected = self.request.get("assessmentsOnSyllabus")
         chosen = assessment.Assessment()
