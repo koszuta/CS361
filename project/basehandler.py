@@ -1,6 +1,7 @@
 import jinja2
 import webapp2
 import os
+import urllib
 from google.appengine.ext import ndb
 from webapp2_extras import sessions
 
@@ -20,10 +21,40 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def session(self):
         session = self.session_store.get_session()
-        session['user'] = User.query(User.isSelected == True).get()
-        session['term'] = Term.query(ancestor = user.key).filter(Term.isSelected == True).get()
-        session['syllabus'] = Syllabus.query(ancestor = user.key).filter(Syllabus.isSelected == True).get()
         
+        user = User.query(User.isSelected == True).get()
+        if user:
+            session['user'] = user.key.urlsafe()    
+              
+            term = Term.query(ancestor = user.key).filter(Term.isSelected == True).get()
+            if term:
+                session['term'] = term.key.urlsafe()
+                
+                syllabus = Syllabus.query(ancestor = term.key).filter(Syllabus.isSelected == True).get()
+                if syllabus:
+                    session['syllabus'] = syllabus.key.urlsafe()
+                else:
+                    s = Syllabus(parent = term.key) # dummy
+                    s.put()
+                    session['syllabus'] = s.key.urlsafe()
+            else:
+                t = Term(parent = user.key)
+                t.put()
+                s = Syllabus(parent = t.key)
+                s.put()
+                session['term'] = t.key.urlsafe()
+                session['syllabus'] = s.key.urlsafe()
+        else:
+            u = User()
+            u.put()
+            t = Term(parent = u.key)
+            t.put()
+            s = Syllabus(parent = t.key)
+            s.put()
+            session['user'] = u.key.urlsafe()
+            session['term'] = t.key.urlsafe()
+            session['syllabus'] = s.key.urlsafe()
+                    
         return session
        
         
