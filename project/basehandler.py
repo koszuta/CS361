@@ -20,8 +20,8 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def session(self):
         session = self.session_store.get_session()
-        session['user'] = user.User.query(user.User.isSelected).get()
-        session['syllabus'] = syllabus.Syllabus.query(ndb.AND(ancestor == session['term'].key, Syllabus.isSelected == True)).get()
-        session['term'] = term.Term.query(ndb.AND(ancestor == session['user'].key, Term.isSelected == True))
+        session['user'] = User.query(User.isSelected == True).get()
+        session['term'] = Term.query(ancestor = user.key).filter(Term.isSelected == True).get()
+        session['syllabus'] = Syllabus.query(ancestor = user.key).filter(Syllabus.isSelected == True).get()
         
         return session

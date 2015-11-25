@@ -5,7 +5,17 @@ from google.appengine.ext import ndb
 from google.appengine.api import oauth
 
 from basehandler import BaseHandler
-    
+       
+import user    
+import assessment
+import instructor
+import login
+import calendarEdit
+import policy
+import preview
+import scalesEdit
+import textbook
+
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
@@ -15,25 +25,16 @@ class MainHandler(BaseHandler):
     
         template = template_env.get_template('main.html')
         context = {
-            'books': textbook.Textbook.query().fetch(),
-            'instructors': instructor.Instructor.query().fetch(),
+            'books': textbook.Textbook.query(ancestor = self.session['syllabus'].key).fetch(),
+            'instructors': instructor.Instructor.query(ancestor = self.session['syllabus'].key).fetch(),
         }
         
         self.response.write(template.render(context))
-      
-import user    
-import assessment
-import instructor
-import login
-import calendarEdit
-import policy
-import preview
-import scalesEdit
-import textbook    
+       
      
 config = {}
 config['webapp2_extras.sessions'] = {
-    'secret_key': 'my-super-secret-key',
+    'secret_key': 'secret_key',
 } 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
