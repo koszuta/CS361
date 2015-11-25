@@ -22,7 +22,6 @@ template_env = jinja2.Environment(
       
 class MainHandler(BaseHandler):
     def get(self):
-    
         template = template_env.get_template('main.html')
         context = {
             'books': textbook.Textbook.query(ancestor = self.session['syllabus'].key).fetch(),

@@ -13,7 +13,7 @@ handlers:
   static_dir: stylesheets
   
 - url: .*
-  script: main.app
+  script: basehandler.app
 
 libraries:
 - name: webapp2
