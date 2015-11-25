@@ -23,7 +23,7 @@ class BaseHandler(webapp2.RequestHandler):
         session['user'] = User.query(User.isSelected == True).get()
         session['term'] = Term.query(ancestor = user.key).filter(Term.isSelected == True).get()
         session['syllabus'] = Syllabus.query(ancestor = user.key).filter(Syllabus.isSelected == True).get()
-        #test
+        
         return session
        
         
