@@ -42,9 +42,15 @@ class EditHandler(BaseHandler):
         if not selected:
             selected = Instructor(parent = user.key)
                 
+        instr = []
+        for i in Instructor.query(ancestor = user.key).fetch():
+            instr.append(i)
+        for i in Instructor.query(ancestor = syllabus.key).fetch():
+            instr.remove(i)
+                        
         template = template_env.get_template('instructorEdit.html')
         context = {
-            'savedInstructors': Instructor().query(ancestor = user.key).fetch(),
+            'savedInstructors': instr,
             'syllabusInstructors': Instructor().query(ancestor = syllabus.key).fetch(),
             'selected': selected.name(),
             'sel_first': selected.first,
@@ -100,7 +106,7 @@ class AddHandler(BaseHandler):
         
         temp = Instructor()
         
-        for before in Instructor.query(ancestor = user.key).filter().fetch():
+        for before in Instructor.query(ancestor = user.key).fetch():
             before.isSelected = False
             if before.name() == selected:
                 before.isSelected = True
@@ -109,7 +115,6 @@ class AddHandler(BaseHandler):
             
         if option == "Add":
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected)
-            temp.key.delete()
             new.put()
             
         self.redirect('/editinstructor')
@@ -125,7 +130,7 @@ class RemoveHandler(BaseHandler):
         for i in Instructor.query(ancestor = syllabus.key).fetch():
             if i.name() == selected:
                 chosen = i
-                ndb.delete(chosen)
+                chosen.key.delete()
             i.isSelected = False
          
         self.redirect('/editinstructor')
