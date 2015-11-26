@@ -12,6 +12,18 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
   
+- url: /signup
+  script: basehandler.app
+  secure: always
+  
+- url: /login
+  script: basehandler.app
+  secure: always
+  
+- url: /forgot
+  script: basehandler.app
+  secure: always
+  
 - url: .*
   script: basehandler.app
 
