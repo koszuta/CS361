@@ -34,22 +34,22 @@ class BaseHandler(webapp2.RequestHandler):
                 if syllabus:
                     session['syllabus'] = syllabus.key.urlsafe()
                 else:
-                    s = Syllabus(parent = term.key) # dummy
+                    s = Syllabus(parent = term.key, isSelected = True)
                     s.put()
                     session['syllabus'] = s.key.urlsafe()
             else:
-                t = Term(parent = user.key)
+                t = Term(parent = user.key, isSelected = True)
                 t.put()
-                s = Syllabus(parent = t.key)
+                s = Syllabus(parent = t.key, isSelected = True)
                 s.put()
                 session['term'] = t.key.urlsafe()
                 session['syllabus'] = s.key.urlsafe()
         else:
-            u = User()
+            u = User(isSelected = True)
             u.put()
-            t = Term(parent = u.key)
+            t = Term(parent = user.key, isSelected = True)
             t.put()
-            s = Syllabus(parent = t.key)
+            s = Syllabus(parent = t.key, isSelected = True)
             s.put()
             session['user'] = u.key.urlsafe()
             session['term'] = t.key.urlsafe()
