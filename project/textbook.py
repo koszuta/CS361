@@ -24,10 +24,11 @@ class Textbook(ndb.Model):
     edition = ndb.StringProperty()
     publisher = ndb.StringProperty()
     isbn = ndb.StringProperty()
+    onSyllabus = ndb.BooleanProperty()
     
     @staticmethod
-    def exists(isbn):
-        return Textbook.query(Textbook.isbn == isbn).get() is not None
+    def exists(parent, isbn):
+        return Textbook.query(ancestor=parent.key).filter(Textbook.isbn == isbn).get() is not None
 
 def doRefresh(webapp, title, message, url, timeout=2):
     template = jinja_env.get_template('refresh.html')
@@ -38,22 +39,37 @@ def doRefresh(webapp, title, message, url, timeout=2):
         'message': message
     }
     webapp.response.write(template.render(context))
+
+# Clones datastore entity (extra_args overrides values)
+def clone_entity(e, **extra_args):
+    cls = e.__class__
+    props = dict((v._code_name, v.__get__(e, cls)) for v in cls._properties.itervalues() if type(v) is not ndb.ComputedProperty)
+    props.update(extra_args)
+    return cls(**props)
     
 class RemoveTextbookHandler(BaseHandler):
     def post(self):
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+
         selectedBooks = self.request.get_all('bookSelect')
-        books = Textbook.query().fetch()
+        books = Textbook.query(ancestor=syllabus.key).fetch()
         books[:] = [x for x in books if x not in selectedBooks]
         for book in books:
             if book.isbn not in selectedBooks:
                 book.key.delete()
-        msg = 'Updating book selections...'
-        doRefresh(self, 'Updating Book Selections', msg, '/editbooks')
+        self.redirect('/editbooks')
 
 class EditTextbookHandler(BaseHandler):
     def get(self):
         isbn = self.request.get('isbn')
-        currentBook = self.getCurrentBook(isbn)
+        onSyllabus = self.request.get('onSyllabus')
+        try:
+            onSyllabus = int(onSyllabus) == 1
+        except:
+            onSyllabus = False
+
+        currentBook = self.getCurrentBook(onSyllabus, isbn)
         
         if (currentBook is not None):
             template = jinja_env.get_template('bookInfoEdit.html')
@@ -63,7 +79,8 @@ class EditTextbookHandler(BaseHandler):
                 'edition': currentBook.edition,
                 'publisher': currentBook.publisher,
                 'isbn': currentBook.isbn,
-                'editISBN': currentBook.isbn
+                'editISBN': currentBook.isbn,
+                'onSyllabus': '1' if onSyllabus else '0'
             }
             self.response.write(template.render(context))
         else:
@@ -77,7 +94,17 @@ class EditTextbookHandler(BaseHandler):
         publisher = self.request.get('bookPublisher')
         isbn = self.request.get('bookISBN')
         editISBN = self.request.get('isbn')
+
+        onSyllabus = self.request.get('onSyllabus')
+        try:
+            onSyllabus = int(onSyllabus) == 1
+        except:
+            onSyllabus = False
+
         errors = []
+        
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
 
         if (title == ''):
             errors.append('Title field must not be empty')
@@ -87,11 +114,11 @@ class EditTextbookHandler(BaseHandler):
             errors.append('Publisher field must not be empty')
         if (isbn == ''):
             errors.append('ISBN field must not be empty')
-        elif (isbn != editISBN and Textbook.exists(isbn)):
+        elif (isbn != editISBN and Textbook.exists(user, isbn)):
             errors.append('Book with ISBN already exists')
-        
+            
         context = {}
-        currentBook = self.getCurrentBook(editISBN)
+        currentBook = self.getCurrentBook(onSyllabus, editISBN)
         
         if errors:
             template = jinja_env.get_template('bookInfoEdit.html')
@@ -103,7 +130,8 @@ class EditTextbookHandler(BaseHandler):
                 'edition': edition,
                 'publisher': publisher,
                 'isbn': isbn,
-                'editISBN': editISBN
+                'editISBN': editISBN,
+                'onSyllabus': '1' if onSyllabus else '0'
             })
             self.response.write(template.render(context))
         else:
@@ -113,16 +141,23 @@ class EditTextbookHandler(BaseHandler):
             currentBook.publisher = publisher
             currentBook.isbn = isbn
             currentBook.put()
-            msg = 'Updating {0}...'.format(title)
-            doRefresh(self, 'Updating Textbook', msg, '/editbooks')
+            self.redirect('/editbooks')
 
-    def getCurrentBook(self, isbn):
-        return Textbook.query(Textbook.isbn == isbn).get()
-            
-    
+    def getCurrentBook(self, onSyllabus, isbn):
+        if onSyllabus:
+            syllabusKey = self.session.get('syllabus')
+            parent = ndb.Key(urlsafe = syllabusKey).get()
+        else:
+            userKey = self.session.get('user')
+            parent = ndb.Key(urlsafe = userKey).get()
+        
+        return Textbook.query(ancestor=parent.key).filter(ndb.AND(Textbook.isbn == isbn, Textbook.onSyllabus == onSyllabus)).get()
+
 class TextbookHandler(BaseHandler):
     def getBooks(self):
-        return Textbook.query().fetch()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        return syllabus.textbooks
 
     def get(self):
         template = jinja_env.get_template('textbookEdit.html')
@@ -134,6 +169,11 @@ class TextbookHandler(BaseHandler):
         self.response.write(template.render(context))
 		
     def post(self):
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+
         template = jinja_env.get_template('textbookEdit.html')
         title = self.request.get('newBookTitle')
         author = self.request.get('newBookAuthor')
@@ -150,7 +190,7 @@ class TextbookHandler(BaseHandler):
             errors.append('Publisher field must not be empty')
         if (isbn == ''):
             errors.append('ISBN field must not be empty')
-        elif (Textbook.exists(isbn)):
+        elif (Textbook.exists(user, isbn)):
             errors.append('Book with ISBN already exists')
 
         context = {
@@ -168,8 +208,13 @@ class TextbookHandler(BaseHandler):
             })
             self.response.write(template.render(context))
         else:
-            newBook = Textbook(title=title, author=author, edition=edition,
-                                publisher=publisher, isbn=isbn)
+            # Add this new book to the current syllabus
+            newBook = Textbook(parent=syllabus.key, title=title, author=author, edition=edition,
+                                publisher=publisher, isbn=isbn, onSyllabus=True)
             newBook.put()
-            msg = 'Adding {0}...'.format(title)
-            doRefresh(self, "Adding Textbook", msg, "/editbooks")
+            
+            # Add copy of book associated with this user
+            userBook = clone_entity(newBook, parent=user.key, onSyllabus=False)
+            userBook.put()
+
+            self.redirect("/editbooks")
