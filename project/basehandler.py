@@ -65,10 +65,7 @@ class BaseHandler(webapp2.RequestHandler):
   
     @webapp2.cached_property  
     def user_model(self):
-        user_model, timestamp =
-            self.auth.store.user_model.get_by_auth_token(
-                self.user['user_id'],
-                self.user['token']) if self.user else (None, None)
+        user_model, timestamp = self.auth.store.user_model.get_by_auth_token(self.user['user_id'], self.user['token']) if self.user else (None, None)
         return user_model
         
     '''

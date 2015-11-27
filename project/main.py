@@ -38,7 +38,7 @@ import textbook
      
 config = {}
 config['webapp2_extras.auth'] = {
-    'user_model': User,
+    'user_model': user.User,
 }
 config['webapp2_extras.sessions'] = {
     'secret_key': 'secret_key',
