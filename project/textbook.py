@@ -59,7 +59,48 @@ class RemoveTextbookHandler(BaseHandler):
             if book.isbn not in selectedBooks:
                 book.key.delete()
         self.redirect('/editbooks')
+        
+class FindTextbookHandler(BaseHandler):
+    def post(self):
+        searchFields = ['title', 'author', 'edition', 'publisher', 'isbn']
 
+        query = self.request.get('bookQuery').lower()
+        queryField = self.request.get('bookQueryType')
+        
+        self.session['lastBookQuery'] = query
+        if queryField in searchFields:
+            self.session['lastBookQueryType'] = queryField
+        else:
+            self.session['lastBookQueryType'] = 'all'
+        
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+
+        allBooks = Textbook.query(ancestor=user.key).filter(Textbook.onSyllabus == False).fetch()
+        books = []
+
+        if queryField in searchFields:
+            # Search in specified field
+            for book in allBooks:
+                if query in book.to_dict()[queryField].lower():
+                    books.append(book)
+        else:
+            for book in allBooks:
+                # Search in all fields
+                for field in searchFields:
+                    if query in book.to_dict()[field].lower():
+                        books.append(book)
+                        break
+        
+        template = jinja_env.get_template('textbookSearch.html')
+        context = {
+            'query': query,
+            'queryField': queryField,
+            'books': books,
+        }
+        self.response.write(template.render(context))
+        
+        
 class EditTextbookHandler(BaseHandler):
     def get(self):
         isbn = self.request.get('isbn')
@@ -163,7 +204,9 @@ class TextbookHandler(BaseHandler):
         template = jinja_env.get_template('textbookEdit.html')
         
         context = {
-            'books': self.getBooks()
+            'books': self.getBooks(),
+            'lastQuery': self.session.get('lastBookQuery'),
+            'lastQueryType': self.session.get('lastBookQueryType')
         }
 
         self.response.write(template.render(context))
@@ -194,7 +237,9 @@ class TextbookHandler(BaseHandler):
             errors.append('Book with ISBN already exists')
 
         context = {
-            'books': self.getBooks()
+            'books': self.getBooks(),
+            'lastQuery': self.session.get('lastBookQuery'),
+            'lastQueryType': self.session.get('lastBookQueryType')
         }
         
         if (errors):
