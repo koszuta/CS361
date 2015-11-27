@@ -23,7 +23,7 @@
         <span class="bookAuthor">{{ book.author }}</span>,
         <span class="bookPublisher">{{ book.publisher }}</span>,
         ISBN: <span class="bookISBN">{{ book.isbn }}</span>
-        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}">Edit</a>
+        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}&amp;onSyllabus=1">Edit</a>
       </label>
       <br>
       {% endfor %}

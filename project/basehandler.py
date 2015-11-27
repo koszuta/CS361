@@ -47,7 +47,7 @@ class BaseHandler(webapp2.RequestHandler):
         else:
             u = User(isSelected = True)
             u.put()
-            t = Term(parent = user.key, isSelected = True)
+            t = Term(parent = u.key, isSelected = True)
             t.put()
             s = Syllabus(parent = t.key, isSelected = True)
             s.put()
