@@ -5,6 +5,8 @@ import webapp2_extras.appengine.auth.models
 #import time
 
 class User(webapp2_extras.appengine.auth.models.User):
+    isSelected = ndb.BooleanProperty()
+    
     @property
     def savedPolicies(self):
         from policy import Policy

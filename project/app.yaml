@@ -13,19 +13,19 @@ handlers:
   static_dir: stylesheets
   
 - url: /signup
-  script: basehandler.app
+  script: main.app
   secure: always
   
 - url: /login
-  script: basehandler.app
+  script: main.app
   secure: always
   
 - url: /forgot
-  script: basehandler.app
+  script: main.app
   secure: always
   
 - url: .*
-  script: basehandler.app
+  script: main.app
 
 libraries:
 - name: webapp2
