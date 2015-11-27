@@ -6,19 +6,18 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
 	</head>
 	<body>
-		<h1> SyllaBlaster </h1>
+		<h2> Log in to SyllaBlaster </h2>
 		<div id="loginBox">
 			<form method="post" action="/login">
-				Username:
-				<br />
+				Username 
 				<input type="text" name="usernameLogin" id="usernameLogin" required />
 				<br />
-				Password:
-				<br />
+				Password 
 				<input type="password" name="passwordLogin" id="passwordLogin" required />
 				<br />
 				<input type="submit" value="Login" name="loginButton" id="loginButton" />
 			</form>
+			<p> No account? <a href="/signup"> Sign up here. </a> </p>
 		</div>
 	</body>
 </html>

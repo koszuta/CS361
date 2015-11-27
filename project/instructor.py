@@ -1,11 +1,7 @@
 import webapp2
 import jinja2
 import os
-from google.appengine.ext import ndb
-
-template_env = jinja2.Environment(
-    loader = jinja2.FileSystemLoader(os.getcwd())
-    )          
+from google.appengine.ext import ndb   
             
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
@@ -18,18 +14,20 @@ class Instructor(ndb.Model):
     isSelected = ndb.BooleanProperty()
     
     def name(self):
-        if self.last == "" or self.last is None or self.first == "" or self.last is None:
-            return None
-        return self.last + ", " + self.first
+        return self.last + ", " + self.first if (self.first and self.last) else None
         
     def copy(self):
-        return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, isSelected = self.isSelected)
+        return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)
     
     
 from basehandler import BaseHandler
 from syllabus import Syllabus
 from term import Term
-from user import User  
+from user import User 
+
+template_env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(os.getcwd())
+    )  
       
 class EditHandler(BaseHandler):
     def get(self):
@@ -43,15 +41,15 @@ class EditHandler(BaseHandler):
             selected = Instructor(parent = user.key)
                 
         instr = []
-        for i in Instructor.query(ancestor = user.key).fetch():
+        for i in user.savedInstructors:
             instr.append(i)
-        for i in Instructor.query(ancestor = syllabus.key).fetch():
+        for i in syllabus.instructors:
             instr.remove(i)
                         
         template = template_env.get_template('instructorEdit.html')
         context = {
             'savedInstructors': instr,
-            'syllabusInstructors': Instructor().query(ancestor = syllabus.key).fetch(),
+            'syllabusInstructors': syllabus.instructors,
             'selected': selected.name(),
             'sel_first': selected.first,
             'sel_last': selected.last,
@@ -106,7 +104,7 @@ class AddHandler(BaseHandler):
         
         temp = Instructor()
         
-        for before in Instructor.query(ancestor = user.key).fetch():
+        for before in user.savedInstructors:
             before.isSelected = False
             if before.name() == selected:
                 before.isSelected = True
@@ -127,7 +125,7 @@ class RemoveHandler(BaseHandler):
         
         selected = self.request.get("selectedInstructors")
         
-        for i in Instructor.query(ancestor = syllabus.key).fetch():
+        for i in syllabus.instructors:
             if i.name() == selected:
                 chosen = i
                 chosen.key.delete()
