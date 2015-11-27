@@ -37,6 +37,9 @@ import scalesEdit
 import textbook    
      
 config = {}
+config['webapp2_extras.auth'] = {
+    'user_model': User,
+}
 config['webapp2_extras.sessions'] = {
     'secret_key': 'secret_key',
 } 

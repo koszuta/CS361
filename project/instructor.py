@@ -14,9 +14,7 @@ class Instructor(ndb.Model):
     isSelected = ndb.BooleanProperty()
     
     def name(self):
-        if self.last == "" or self.last is None or self.first == "" or self.last is None:
-            return None
-        return self.last + ", " + self.first
+        return self.last + ", " + self.first if (self.first and self.last) else None
         
     def copy(self):
         return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)

@@ -1,8 +1,7 @@
-from google.appengine.ext import ndb
-
+import time
 import webapp2_extras.appengine.auth.models
-
-#import time
+from google.appengine.ext import ndb
+from webapp2_extras import security
 
 class User(webapp2_extras.appengine.auth.models.User):
     isSelected = ndb.BooleanProperty()
