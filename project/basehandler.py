@@ -22,6 +22,7 @@ class BaseHandler(webapp2.RequestHandler):
     def session(self):
         session = self.session_store.get_session()
         
+        '''
         user = User.query(User.isSelected == True).get()
         if user:
             session['user'] = user.key.urlsafe()
@@ -52,7 +53,8 @@ class BaseHandler(webapp2.RequestHandler):
             session['user'] = u.key.urlsafe()
             session['term'] = t.key.urlsafe()
             session['syllabus'] = s.key.urlsafe()
-                    
+        '''  
+               
         return session
         
     @webapp2.cached_property
