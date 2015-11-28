@@ -11,7 +11,7 @@
     <h1>Textbooks</h1>
     <a href="/#administratorViewTextbooksMain">&lt; Back</a>
     {% if books %}
-    <form id="currentBooks" action="/removebooks" method="post">
+    <form id="currentBooks" action="/removebooks?onSyllabus=1" method="post">
 	  <p>Currently selected textbook(s):</p>
 	  {% for book in books %}
       <input id="{{book.isbn}}" name="bookSelect" checked value="{{book.isbn}}" type="checkbox">
