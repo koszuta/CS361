@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Textbooks &gt; Search Results</title>
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/textbookEdit.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Textbook Search Results</h1>
+    <a href="/editbooks">&lt; Back</a>
+    {% if errors %}
+    <ul id="error">
+    {% for error in errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+    <hr>
+    {% endif %}
+    <p>Results for "{{ query }}" in {{ queryField }}:</p>
+    {% if books %}
+    <form id="bookSearch" method="post">
+	  {% for book in books %}
+	  {% if book.isbn in syllabusList %}
+	  {% set onSyllabus = True %}
+	  {% else %}
+	  {% set onSyllabus = False %}
+	  {% endif %}
+      <input id="{{book.isbn}}" name="bookSelect" value="{{book.isbn}}" type="checkbox">
+      <label for="{{book.isbn}}">
+        <span class="bookTitle">{{ book.title }}</span>,
+        {% if book.edition %}
+        <span class="bookEditon">{{ book.edition }}</span>,
+        {% endif %}
+        <span class="bookAuthor">{{ book.author }}</span>,
+        <span class="bookPublisher">{{ book.publisher }}</span>,
+        ISBN: <span class="bookISBN">{{ book.isbn }}</span>
+    	{% if onSyllabus %} <span class="warning">(On Syllabus)</span> {% endif %}
+        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}&amp;onSyllabus=0">Edit</a>
+      </label>
+      <br>
+      {% endfor %}
+      <br>
+      <input type="submit" name="addBooksToSyllabus" formaction="/addbooks?onSyllabus=0" value="Add to Syllabus">
+      <input type="submit" name="removeBooks" formaction="/removebooks?onSyllabus=0" value="Remove">
+    </form>
+    <br>
+    {% else %}
+    <span class="noData">No books match your query.</span>
+    {% endif %}
+  </body>
+</html>

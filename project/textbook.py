@@ -46,20 +46,150 @@ def clone_entity(e, **extra_args):
     props = dict((v._code_name, v.__get__(e, cls)) for v in cls._properties.itervalues() if type(v) is not ndb.ComputedProperty)
     props.update(extra_args)
     return cls(**props)
-    
-class RemoveTextbookHandler(BaseHandler):
+
+class AddTextbookHandler(BaseHandler):
     def post(self):
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
 
-        selectedBooks = self.request.get_all('bookSelect')
-        books = Textbook.query(ancestor=syllabus.key).fetch()
-        books[:] = [x for x in books if x not in selectedBooks]
-        for book in books:
-            if book.isbn not in selectedBooks:
-                book.key.delete()
-        self.redirect('/editbooks')
+        onSyllabus = self.request.get('onSyllabus')
+        try:
+            onSyllabus = int(onSyllabus) == 1
+        except:
+            onSyllabus = False
 
+        errors = []
+        
+        selectedBooks = self.request.get_all('bookSelect')
+        if selectedBooks:
+            bookQuery = Textbook.query(ancestor=user.key)
+            bookQuery = bookQuery.filter(Textbook.onSyllabus == onSyllabus)
+            bookQuery = bookQuery.filter(Textbook.isbn.IN(selectedBooks))
+            books = bookQuery.fetch()
+        else:
+            errors.append('No books were selected to add to the syllabus')
+
+        if not errors:
+            syllabusBooks = Textbook.query(ancestor=syllabus.key).fetch()
+            syllabusList = []
+            for book in syllabusBooks:
+                syllabusList.append(book.isbn)
+            
+            for book in books:
+                if book.isbn in syllabusList:
+                    errors.append('Book with ISBN (' + book.isbn + ') is already on syllabus')
+        
+        if not errors:
+            for book in books:
+                syllabusBook = clone_entity(book, 
+                                            parent=syllabus.key if not onSyllabus else user.key, 
+                                            onSyllabus=(not onSyllabus))
+                syllabusBook.put()
+        
+            self.redirect('/editbooks')
+        else:
+            self.session['bookErrors'] = errors
+            self.redirect('/findbook')
+
+class RemoveTextbookHandler(BaseHandler):
+    def post(self):
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+
+        onSyllabus = self.request.get('onSyllabus')
+        try:
+            onSyllabus = int(onSyllabus) == 1
+        except:
+            onSyllabus = False
+
+        errors = []
+
+        selectedBooks = self.request.get_all('bookSelect')
+        
+        if selectedBooks or onSyllabus:
+            books = Textbook.query(ancestor=user.key).filter(Textbook.onSyllabus == onSyllabus).fetch()
+            books[:] = [x for x in books if x not in selectedBooks]
+            for book in books:
+                if book.isbn not in selectedBooks:
+                    book.key.delete()
+        else:
+            errors.append('No books were selected for removal')
+        
+        if not errors:
+            self.redirect('/editbooks')
+        else:
+            self.session['bookErrors'] = errors
+            self.redirect('/findbook')
+        
+class FindTextbookHandler(BaseHandler):
+    def get(self):
+        self.post()
+
+    def post(self):
+        searchFields = ['title', 'author', 'edition', 'publisher', 'isbn']
+        
+        query = self.request.get('bookQuery')
+        if not query:
+            query = self.session.get('lastBookQuery')
+            if query is None:
+                query = ''
+        else:
+            self.session['lastBookQuery'] = query
+
+        queryField = self.request.get('bookQueryType')
+        if not queryField:
+            queryField = self.session.get('lastBookQueryType')
+        else: 
+            if queryField in searchFields:
+                self.session['lastBookQueryType'] = queryField
+            else:
+                self.session['lastBookQueryType'] = 'all'
+        
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+
+        allBooks = Textbook.query(ancestor=user.key).filter(Textbook.onSyllabus == False).fetch()
+        syllabusBooks = Textbook.query(ancestor=syllabus.key).fetch()
+        import logging
+        logging.info(syllabusBooks)
+        books = []
+        syllabusList = []
+        errors = self.session.get('bookErrors')
+        if errors:
+            del self.session['bookErrors']
+        
+        for b in syllabusBooks:
+            syllabusList.append(b.isbn)
+
+        if queryField in searchFields:
+            # Search in specified field
+            for book in allBooks:
+                if query.lower() in book.to_dict()[queryField].lower():
+                    books.append(book)
+        else:
+            for book in allBooks:
+                # Search in all fields
+                bookDict = book.to_dict()
+                for field in searchFields:
+                    if query.lower() in bookDict[field].lower():
+                        books.append(book)
+                        break
+        
+        template = jinja_env.get_template('textbookSearch.html')
+        context = {
+            'query': query,
+            'queryField': queryField,
+            'books': books,
+            'syllabusList': syllabusList,
+            'errors': errors
+        }
+        self.response.write(template.render(context))
+        
+        
 class EditTextbookHandler(BaseHandler):
     def get(self):
         isbn = self.request.get('isbn')
@@ -163,7 +293,9 @@ class TextbookHandler(BaseHandler):
         template = jinja_env.get_template('textbookEdit.html')
         
         context = {
-            'books': self.getBooks()
+            'books': self.getBooks(),
+            'lastQuery': self.session.get('lastBookQuery'),
+            'lastQueryType': self.session.get('lastBookQueryType')
         }
 
         self.response.write(template.render(context))
@@ -194,7 +326,9 @@ class TextbookHandler(BaseHandler):
             errors.append('Book with ISBN already exists')
 
         context = {
-            'books': self.getBooks()
+            'books': self.getBooks(),
+            'lastQuery': self.session.get('lastBookQuery'),
+            'lastQueryType': self.session.get('lastBookQueryType')
         }
         
         if (errors):
