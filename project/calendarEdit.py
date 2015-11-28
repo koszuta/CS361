@@ -1,203 +1,50 @@
+from calendarClass import CalendarClass
+from basehandler import BaseHandler
+from syllabus import Syllabus
+from term import Term
+from user import User 
+
+import os
+import urllib
+import cgi
+
+from google.appengine.api import users
+from google.appengine.ext import ndb
+
 import jinja2
 import webapp2
-import os
-from google.appengine.ext import ndb
-import calendar
-
-from basehandler import BaseHandler
-
-class CalendarClass:
-    def __init__(self):
-        self.myFilename = "myCourseSchedule.cal"
-        self.myCalendar = calendar.Calendar(0)
-        self.startMonth = -1
-        self.startDate = -1
-        self.startYear = -1
-        self.numWeeks = 0
-        self.meetDays = []
-        self.schedule = []
-        temp = CalendarClass.CalendarClassTableRow()
-        temp.date = "Date"
-        temp.chapter = "Chapter"
-        temp.topic = "Topic"
-        self.schedule.append(temp)
-        
-    def validGenerateDatesState(self):
-    
-        if not ((0 < self.startMonth) and (self.startMonth < 13)):
-            return False
-        if self.startYear < 0:
-            return False
-            
-        testI = self.myCalendar.itermonthdates(self.startYear, self.startMonth)
-        hasDate = False
-        i = next(testI, None)
-        while not(i is None):
-            if i.day == self.startDate:
-                hasDate = True
-            i = next(testI, None)
-        if not(hasDate):
-            return False
-        
-        if len(self.meetDays) > 7:
-            return False
-        hasMon = False
-        hasTue = False
-        hasWed = False
-        hasThu = False
-        hasFri = False
-        hasSat = False
-        hasSun = False
-        for j in self.meetDays:
-            if ((j < 0) or (j > 6)):
-                return False
-            if j == 0:
-                if hasMon == True:
-                    return False
-                hasMon = True
-            if j == 1:
-                if hasTue == True:
-                    return False
-                hasTue = True            
-            if j == 2:
-                if hasWed == True:
-                    return False
-                hasWed = True            
-            if j == 3:
-                if hasThu == True:
-                    return False
-                hasThu = True
-            if j == 4:
-                if hasFri == True:
-                    return False
-                hasFri = True
-            if j == 5:
-                if hasSat == True:
-                    return False
-                hasSat = True
-            if j == 6:
-                if hasSun == True:
-                    return False
-                hasSun = True
-        
-        return True
-                
-    def generateDates(self):
-        if self.validGenerateDatesState():
-            startMonth = self.startMonth
-            startDate = self.startDate 
-            startYear = self.startYear
-            numWeeks = self.numWeeks
-            if len(self.meetDays) == 0:
-                meetDays = [0]
-            else:
-                meetDays = self.meetDays
-
-            weekNum = 0
-            thisMonth = startMonth
-            thisYear = startYear
-            scheduleDays = []
-
-            while weekNum <= numWeeks:
-                
-                i = self.myCalendar.itermonthdates(thisYear, thisMonth)
-                calendarOffset = 0
-                v = next(i, None)
-                #iterate to start of thisMonth
-                while (not(v is None)) and v.month != thisMonth:
-                    calendarOffset = calendarOffset+1
-                    v = next(i, None)
-
-                #iterate to startDate (only on first pass through while loop)
-                while (not(v is None)) and (thisMonth == startMonth) and (thisYear == startYear) and (v.day < startDate):
-                    calendarOffset = calendarOffset+1
-                    v = next(i, None)
-
-                #iterate through thisMonth and save dates that are meetDays
-                while (not(v is None)) and (v.month == thisMonth) and (weekNum <= numWeeks):
-                    for meetday in meetDays:       
-                        if (calendarOffset % 7) == meetday:
-                            scheduleDays.append(v)
-                    v = next(i, None)
-                    calendarOffset = calendarOffset+1
-                    if (calendarOffset%7) == 0:
-                        weekNum = weekNum + 1
                         
-                #advance to next month, or next year and reset month to 1
-                thisMonth = thisMonth+1
-                if thisMonth == 13:
-                    thisYear = thisYear +1
-                    thisMonth = 1
-            
-            #place days in self.schedule and extend it when needed
-            counter = 0
-            for i in scheduleDays:
-                if (counter + 2) > len(self.schedule):
-                    temp = CalendarClass.CalendarClassTableRow()
-                    temp.date = str(i.month) + "/" + str(i.day)
-                    self.schedule.append(temp)
-                else:
-                    self.schedule[counter+1].date = str(i.month) + "/" + str(i.day)
-                counter = counter +1
-                
-        else:
-            print "internal state is not valid for generating dates"
-    
-    def insertNewRowAfter(self, index):
-        if index > -1:
-            temp = CalendarClass.CalendarClassTableRow()
-            if index < len(self.schedule):
-                self.schedule.insert(index+1, temp)
-            else:
-                self.schedule.append(temp)
-                
-    def deleteRow(self, index):
-        if (index > 0) and (index < len(self.schedule)):
-            self.schedule.pop(index)
-            
-    def getCell(self, column, row):
-        if (row > -1) and (row < len(self.schedule)):
-            if column == 0:
-                return self.schedule[row].date
-            if column == 1:
-                return self.schedule[row].chapter
-            if column == 2:
-                return self.schedule[row].topic
-        return ""
-        
-    def setCell(self, column, row, value):
-        if (row > -1) and (row < len(self.schedule)):
-            if column == 0:
-                self.schedule[row].date = str(value)
-            if column == 1:
-                self.schedule[row].chapter = str(value)
-            if column == 2:
-                self.schedule[row].topic = str(value)
-
-    def printToConsole(self):
-        for i in self.schedule:
-            print i.toString()
-                
-    class CalendarClassTableRow:       
-        def __init__(self):
-            self.date = ""
-            self.chapter = ""
-            self.topic = ""
-            
-        def toString(self):
-            return self.date + ", " + self.chapter + ", " + self.topic
-
-mySched = CalendarClass()
 message = ""
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
-    
-    
+        
 class CalendarHandler(BaseHandler):
-    def get(self):    
+    def get(self):
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        myCalendars = CalendarClass.query(ancestor = syllabus.key).fetch()
+        if myCalendars:
+            for i in myCalendars:
+                mySched = i
+        else:
+            CalendarClass.generateDummyCalendar()
+            mySched = CalendarClass(parent = syllabus.key)
+            mySched.schedule.append('Date')
+            mySched.schedule.append('Chapter')
+            mySched.schedule.append('Topic')
+            mySched.put()
+            
+    
+        savedCalendars = CalendarClass.query()
+        savedCalendarNames = []
+        for i in savedCalendars:
+            savedCalendarNames.append(i.myFilename)
+        
         moChecked = ""
         tuChecked = ""
         weChecked = ""
@@ -221,6 +68,7 @@ class CalendarHandler(BaseHandler):
             suChecked = "checked"                       
            
         template_values = {
+            'savedCalendars': savedCalendarNames,
             'startMonth': mySched.startMonth,
             'startDate': mySched.startDate,
             'startYear': mySched.startYear,
@@ -250,11 +98,43 @@ class CalendarHandler(BaseHandler):
         rowRemove = self.request.get('removeRow')
         save = self.request.get('save')
         
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        userKey = self.session.get('user')
+        user = ndb.Key(urlsafe = userKey).get()
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        myCalendars = CalendarClass.query(ancestor = syllabus.key).fetch()
+        if myCalendars:
+            for i in myCalendars:
+                mySched = i
+        else:
+            mySched = CalendarClass.generateDummyCalendar()
+            mySched = CalendarClass(parent = syllabus.key)
+            
         if loadFile:
             message = "loadFile"
-            if self.request.get('fileName') == 'new': 
+            loadFileName = self.request.get('fileName')
+            if loadFileName == 'new': 
                 message = "newFile"
-                mySched = CalendarClass()
+                mySched.parent = None
+                mySched = CalendarClass.new()
+                mySched.parent = syllabus.key
+                mySched.put()
+            else:
+                savedCalendars = CalendarClass.query()
+                message = ""
+                queriedCalendars = []
+                for i in savedCalendars:
+                    queriedCalendars.append(i)
+                    message = message + queriedCalendars[len(queriedCalendars)-1].myFilename + ", "
+                mySched.parent = None
+                mySched.put()
+                mySched = queriedCalendars[int(loadFileName)]
+                mySched.parent = syllabus.key
+                mySched.put()
         
         if generateDates:
             message = "generateDates"
@@ -299,11 +179,13 @@ class CalendarHandler(BaseHandler):
                 mySched.meetDays.append(6)
                 
             mySched.generateDates()
+            mySched.put()
                 
         if rowInsert:
             message = "insertRow"
             try:
                 mySched.insertNewRowAfter(int(self.request.get("targetRowInsert")))
+                mySched.put()
             except:
                 message = "invalidInput"
                 
@@ -311,15 +193,20 @@ class CalendarHandler(BaseHandler):
             message = "removeRow"
             try:
                 mySched.deleteRow(int(self.request.get("targetRowRemove")))
+                mySched.put()
             except:
                 message = "invalidInput"
         
         if save:
             message = "saved"
-            mySched.myFilename = self.request.get('fileName')
+            newFileName = self.request.get('fileName')
             for i in range(len(mySched.schedule)):
                 for j in range(3):
                     mySched.setCell(j,i,self.request.get("r"+str(i)+"c"+str(j)))
-                    
+            if (mySched.myFilename != newFileName):
+                mySched.myFilename = newFileName
+                mySched = mySched.clone()
+            mySched.put()
             
-        self.redirect('/editcalendar')
+        return self.redirect('/editcalendar')
+

@@ -321,109 +321,31 @@
 							<input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton" type="submit" value="Edit">
 					</form>		
 				</div>
-				<div class="administratorViewModuleDisplay">
-								
+				<div class="administratorViewModuleDisplay">								
 					<!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->				
                     <div id="calendarViewMain">
-                        <h1>Course Calendar:</h1>
-                        <table id="calendarViewCalendarTable">
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">Week</span></td>
-                                <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">Reading</span></td>
-                                <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">Topics</span></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">9/2</td>
-                                <td class="calendarViewReadingColumn">1</td>
-                                <td class="calendarViewTopicsColumn">What is software engineering?</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">9/9</td>
-                                <td class="calendarViewReadingColumn">2, 
-                                    <a href="http://www.w3.org/wiki/Web_Standards_Curriculum">HTML5/CSS</a>
-                                </td>
-                                <td class="calendarViewTopicsColumn">HTML5/CSS</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">9/16</td>
-                                <td class="calendarViewReadingColumn">3,Scrum</td>
-                                <td class="calendarViewTopicsColumn">Scrum: Intro, PB grooming</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">9/23</td>
-                                <td class="calendarViewReadingColumn">4</td>
-                                <td class="calendarViewTopicsColumn">Lecture 1: Scrum: Sprint planning; Lecture 2: introduce project: sprint 0; Lab PB grooming, sprint planning</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">9/30</td>
-                                <td class="calendarViewReadingColumn"></td>
-                                <td class="calendarViewTopicsColumn">Lecture 1: daily scrum, execution</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">10/7</td>
-                                <td class="calendarViewReadingColumn">
-                                    <a href="https://www.scrum.org/About/All-Articles">Test-Driven Dev</a>
-                                </td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">10/14</td>
-                                <td class="calendarViewReadingColumn">Midterm</td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">10/21</td>
-                                <td class="calendarViewReadingColumn">S: ch.7</td>
-                                <td class="calendarViewTopicsColumn">Test driven development</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">10/28</td>
-                                <td class="calendarViewReadingColumn">Sprint 1</td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">11/4</td>
-                                <td class="calendarViewReadingColumn">S: ch.5</td>
-                                <td class="calendarViewTopicsColumn">Encapsulation</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">11/11</td>
-                                <td class="calendarViewReadingColumn">Z: ch 6</td>
-                                <td class="calendarViewTopicsColumn">Interface Oriented Design</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">11/18</td>
-                                <td class="calendarViewReadingColumn">Sprint 2</td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">11/25</td>
-                                <td class="calendarViewReadingColumn">Sprint 2</td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">12/2</td>
-                                <td class="calendarViewReadingColumn">S: ch. 9</td>
-                                <td class="calendarViewTopicsColumn">Continuous integration</td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">12/9</td>
-                                <td class="calendarViewReadingColumn"></td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                            <tr class="calendarViewCalendarRow">
-                                <td class="calendarViewWeekColumn">12/16</td>
-                                <td class="calendarViewReadingColumn">Final Exam</td>
-                                <td class="calendarViewTopicsColumn"></td>
-                            </tr>
-                        </table>
+                        {% if ClassCalendar %} 
+                            {% set myCalendarSchedule = ClassCalendar[0].schedule %}
+                            <table id="calendarViewCalendarTable">
+                                <tr class="calendarViewCalendarRow">
+                                    <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[0] }}</span></td>
+                                    <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[1] }}</span></td>
+                                    <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[2] }}</span></td>
+                                </tr>
+                                {% set l = (myCalendarSchedule|length)//3 %}
+                                {% for i in range(1,l) %}
+                                    <tr class="calendarViewCalendarRow">
+                                        <td class="calendarViewWeekColumn">{{ myCalendarSchedule[3*i] }}</td>
+                                        <td class="calendarViewReadingColumn">{{ myCalendarSchedule[3*i+1] }}</td>
+                                        <td class="calendarViewTopicsColumn">{{ myCalendarSchedule[3*i+2] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p style="font-weight: bold;"> -- NO CALENDAR ASSIGNED TO SYLLABUS -- </p>
+                        {% endif %}                           
                     </div>
-                    <!--end calendarView-->
-                    
-                    <!--calendarEdit-->
-                    
-                    <!--end calendarEdit-->
-                    
+                    <!--end calendarView-->                   
 				</div>
 			</div>
 			<hr>
