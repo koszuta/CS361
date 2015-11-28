@@ -30,20 +30,24 @@ class PreviewHandler(BaseHandler):
 
         instructors = [
             {
-                'name': 'Jayson Rock',
+                'first': 'Jayson',
+                'last': 'Rock',
                 'email': 'rock@uwm.edu',
                 'class': 'COMPSCI 361-401 EMS E145 MW 10-10:50am',
-                'officeRoom': 'EMS E307',
-                'officePhone': '(262) 825-4129',
-                'officeHours': 'MTR 11am'
+                'building': 'EMS',
+                'room': 'E307',
+                'phone': '(262) 825-4129',
+                'hours': 'MTR 11am'
             },
             {
-                'name': 'Tanawat Khunlertkit',
+                'first': 'Tanawat',
+                'last': 'Khunlertkit',
                 'email': 'tanawat@uwm.edu',
                 'class': '',
-                'officeRoom': 'EMS 962',
-                'officePhone': '(262) 825-4129',
-                'officeHours': ''
+                'building': 'EMS',
+                'room': '962',
+                'phone': '(262) 825-4129',
+                'hours': ''
             }
         ]
 
@@ -160,7 +164,7 @@ class PreviewHandler(BaseHandler):
             syllabusKey = self.session.get('syllabus')
             syllabus = ndb.Key(urlsafe = syllabusKey).get()
             context = {
-                #'instructors': Instructor.query(ancestor = syllabus.key).fetch(),
+                'instructors': Instructor.query(ancestor = syllabus.key).fetch(),
                 'textbooks': Textbook.query(ancestor = syllabus.key).fetch(),
             }
         self.response.write(template.render(context))

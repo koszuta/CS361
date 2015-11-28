@@ -32,7 +32,7 @@
 					{% for instructor in instructors %}
 					<tr>
 						<td class="instructorInfoCell">
-							<span class="instructorName">{{ instructor.name }}</span>
+							<span class="instructorName">{{ instructor.first }} {{ instructor.last }}</span>
 							{% if instructor.email %}
 							<br><span class="instructorEmail">{{ instructor.email }}</span>
 							{% endif %}
@@ -43,10 +43,10 @@
 							{% endif %}
 						</td>
 						<td class="instructorOfficeCell">
-							<span class="instructorOfficeRoom">{{ instructor.officeRoom }}</span>
-							<span class="instructorOfficePhone">{{ instructor.officePhone }}</span>
+							<span class="instructorOfficeRoom">{{ instructor.building }} {{ instructor.room }}</span>
+							<span class="instructorOfficePhone">{{ instructor.phone }}</span>
 							<br>
-							Office Hours: <span class="instructorOfficeHours">{{ instructor.officeHours }}</span>
+							Office Hours: <span class="instructorOfficeHours">{{ instructor.hours }}</span>
 						</td>
 					</tr>
 					{% endfor %}
