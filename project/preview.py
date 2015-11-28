@@ -5,6 +5,9 @@ from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, Undefined
 from google.appengine.ext import ndb
 
+from instructor import Instructor
+from textbook import Textbook
+
 from basehandler import BaseHandler
 
 class SilentUndefined(Undefined):
@@ -154,5 +157,10 @@ class PreviewHandler(BaseHandler):
         if dummy:
             context = self.createDummyContext()
         else:
-            context = {}
+            syllabusKey = self.session.get('syllabus')
+            syllabus = ndb.Key(urlsafe = syllabusKey).get()
+            context = {
+                #'instructors': Instructor.query(ancestor = syllabus.key).fetch(),
+                'textbooks': Textbook.query(ancestor = syllabus.key).fetch(),
+            }
         self.response.write(template.render(context))
