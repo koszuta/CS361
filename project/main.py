@@ -26,10 +26,11 @@ class MainHandler(BaseHandler):
         
         self.response.write(template.render(context))
                
-import user    
+import user  
+import signup 
+import login 
 import assessment
 import instructor
-import login
 import calendarEdit
 import policy
 import preview
@@ -46,7 +47,7 @@ config['webapp2_extras.sessions'] = {
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', login.LoginHandler),
-    ('/signup', login.SignupHandler),
+    ('/signup', signup.SignupHandler),
     ('/addinstructor', instructor.AddHandler),
     ('/removeinstructor', instructor.RemoveHandler),
     ('/editinstructor', instructor.EditHandler),
