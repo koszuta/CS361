@@ -168,3 +168,16 @@ class PreviewHandler(BaseHandler):
                 'textbooks': Textbook.query(ancestor = syllabus.key).fetch(),
             }
         self.response.write(template.render(context))
+
+class ViewHandler(PreviewHandler):
+    def get(self, term, syllabus):
+        # TODO: Determine valid syllabus names
+        
+        # Deal with possible trailing slash
+        if syllabus[-1] == '/':
+            syllabus = syllabus[:-1]
+
+        if term.upper() == 'F15' and syllabus == 'cs361':
+            PreviewHandler.get(self)
+        else:
+            self.abort(404)
