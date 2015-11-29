@@ -6,7 +6,7 @@ from google.appengine.ext import ndb
 class Info(ndb.Model):
 	title = ndb.StringProperty()
 	subject = ndb.StringProperty()
-	course = ndb.IntegerProperty()
+	number = ndb.IntegerProperty()
 	section = ndb.IntegerProperty()
 	building = ndb.StringProperty()
 	room = ndb.StringProperty()

@@ -5,7 +5,6 @@ from courseinfo import Info
 
 class Syllabus(ndb.Model):
     isActive = ndb.BooleanProperty()
-    title = ndb.StringProperty()
     info = ndb.StructuredProperty(Info)
     scale = ndb.StructuredProperty(Scale)
     calendar = ndb.StructuredProperty(Calendar)

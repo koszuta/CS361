@@ -57,6 +57,10 @@ class CreateSyllabusHandler(BaseHandler):
     def post(self):
         termKey = self.session.get('term')
         term = ndb.Key(urlsafe = termKey).get()
+        
+        subject = str(self.request.get(subjectSelect))
+        number = int(self.request.get(courseNumber))
+        section = int(self.request.get(sectionNumber))
             
         syllabus = Syllabus(parent = term.key, title = 'Temp Title')
         syllabus.put()
