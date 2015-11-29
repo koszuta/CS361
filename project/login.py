@@ -23,16 +23,7 @@ class LoginHandler(BaseHandler):
         password = self.request.get('passwordLogin')
         
         try:
-            u = self.auth.get_user_by_password(username, password, remember = True)
-            self.redirect('/main')
+            self.auth.get_user_by_password(username, password)
+            return self.redirect('/list')
         except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
-            #logging.info('Login failed for user %s because of %s', username, type(e))
-            self._serve_page(True)
-            
-    def _serve_page(self, failed = False):
-        username = self.request.get('username')
-        params = {
-            'username': username,
-            'failed': failed,
-        }
-        self.render_template('login.html', params)
+            self.redirect('/login')

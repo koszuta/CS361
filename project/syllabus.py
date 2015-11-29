@@ -2,6 +2,7 @@ from google.appengine.ext import ndb
 
 class Syllabus(ndb.Model):
     isSelected = ndb.BooleanProperty()
+    title = ndb.StringProperty()
     
     @property
     def textbooks(self):
@@ -27,3 +28,8 @@ class Syllabus(ndb.Model):
     def assessments(self):
         from assessment import Assessment
         return Assessment.query(ancestor = self.key).fetch()
+        
+    @property
+    def scales(self):
+        from scale import Scale
+        return Scale.query(ancestor = self.key).fetch()
