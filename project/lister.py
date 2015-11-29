@@ -6,7 +6,8 @@ from google.appengine.ext import ndb
 from basehandler import BaseHandler, login_required
 from user import User
 from term import Term   
-from syllabus import Syllabus      
+from syllabus import Syllabus
+from courseinfo import Info    
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -58,11 +59,13 @@ class CreateSyllabusHandler(BaseHandler):
         termKey = self.session.get('term')
         term = ndb.Key(urlsafe = termKey).get()
         
-        subject = str(self.request.get(subjectSelect))
-        number = int(self.request.get(courseNumber))
-        section = int(self.request.get(sectionNumber))
+        subject = str(self.request.get('subjectSelect'))
+        number = int(self.request.get('courseNumber'))
+        section = int(self.request.get('sectionNumber'))
             
-        syllabus = Syllabus(parent = term.key, title = 'Temp Title')
+        info = Info(subject = subject, number = number, section = section)
+            
+        syllabus = Syllabus(parent = term.key, info = info)
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
         
@@ -78,7 +81,7 @@ class SelectSyllabusHandler(BaseHandler):
         select = str(self.request.get('syllabusSelectRadio'))
         
         for s in term.syllabi:
-            if s.title == select:
+            if s.info.title == select:
                 self.session['syllabus'] = s.key.urlsafe()
                 
         self.redirect('/')

@@ -82,8 +82,10 @@
 			<form id="selectSyllabus" action="/selectsyllabus" method="post">
 				{% if term %}
 					{% for s in term.syllabi %}
-					<input type="radio" value="{{ s.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
-					{{ s.title }}
+					<input type="radio" value="{{ s.info.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
+					{{ s.info.subject }}
+					{{ s.info.number }}-{{ s.info.section}}:
+					{{ s.info.title }}
 					<a href="">Preview</a>
 					<br />
 					{% endfor %}

@@ -30,7 +30,7 @@ class MainHandler(BaseHandler):
             'scale': syllabus.scale,
             'calendar': syllabus.calendar,
             'assessments': syllabus.assessments,
-            'course_title': syllabus.title
+            'course_title': syllabus.info.title
         }
         
         self.response.write(template.render(context))
@@ -43,7 +43,7 @@ class InfoEditHandler(BaseHandler):
         
         title = str(self.request.get('courseTitle'))
         
-        syllabus.title = title
+        syllabus.info.title = title
         syllabus.put()
         
         self.redirect('/')
