@@ -20,7 +20,7 @@ class MainHandler(BaseHandler):
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
         if not syllabus:   
-            return self.redirect('/list') 
+            return self.redirect('/list')
             
         template = template_env.get_template('main.html')
         context = {

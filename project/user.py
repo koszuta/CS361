@@ -26,8 +26,8 @@ class User(webapp2_extras.appengine.auth.models.User):
         
     @property
     def savedCalendars(self):
-        from calendars import Calendar
-        return Calendar.query(ancestor = self.key).fetch()
+        from calendarClass import CalendarClass
+        return CalendarClass.query(ancestor = self.key).fetch()
         
     @property
     def savedTextbooks(self):

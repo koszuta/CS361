@@ -330,8 +330,8 @@
 				<div class="administratorViewModuleDisplay">								
 					<!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->				
                     <div id="calendarViewMain">
-                        {% if ClassCalendar %} 
-                            {% set myCalendarSchedule = ClassCalendar[0].schedule %}
+                        {% if calendar %} 
+                            {% set myCalendarSchedule = calendar.schedule %}
                             <table id="calendarViewCalendarTable">
                                 <tr class="calendarViewCalendarRow">
                                     <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[0] }}</span></td>
