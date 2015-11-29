@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/list.css" />
+	</head>
+	<body>
+		<div id="listSelectSection">
+			<form action="/termselect" method="post" id="termSelectForm">
+				<select name="listSelectSemester" id="listSelectSemester">
+					<option value="S" {% if semester == "S" %} selected {% endif %}> Spring </option>
+					<option value="M" {% if semester == "M" %} selected {% endif %}> Summer </option>
+					<option value="F" {% if semester == "F" %} selected {% endif %}> Fall </option>
+					<option value="W {% if semester == "W" %} selected {% endif %}"> Winter </option>
+				</select>
+				<input value="{{ year }}" type="number" name="listSelectYear" id="listSelectYear" min="2000">
+				<input type="submit" value="Switch" name="listSelectButton" id="listSelectButton">
+			</form>
+		</div>
+		
+		<div id="listTableSection">
+			<table id="listTable">
+				<tr>
+					<th> M </th>
+					<th> T </th>
+					<th> W </th>
+					<th> R </th>
+					<th> F </th>
+				</tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+			</table>
+		</div>
+		
+		<div id="listLinksSection">
+			<h2> Links </h2>
+			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
+				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton">
+			</form>
+			<form id="selectSyllabus" action="/selectsyllabus" method="post">
+				{% if term %}
+					{% for s in term.syllabi %}
+					<input type="radio" value="{{ s.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
+					<p> {{ s.title }} </p>
+					<a href=""> Preview </a>
+					<br />
+					{% endfor %}
+				{% endif %}
+				<input type="submit" value="Edit"
+			</form>
+	</body>
+</html>
