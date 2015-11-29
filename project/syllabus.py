@@ -1,10 +1,12 @@
 from google.appengine.ext import ndb
 from scale import Scale
 from calendars import Calendar
+from courseinfo import Info
 
 class Syllabus(ndb.Model):
     isActive = ndb.BooleanProperty()
     title = ndb.StringProperty()
+    info = ndb.StructuredProperty(Info)
     scale = ndb.StructuredProperty(Scale)
     calendar = ndb.StructuredProperty(Calendar)
     
