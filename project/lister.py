@@ -54,7 +54,7 @@ class CreateSyllabusHandler(BaseHandler):
         termKey = self.session.get('term')
         term = ndb.Key(urlsafe = termKey).get()
             
-        syllabus = Syllabus(parent = term.key)
+        syllabus = Syllabus(parent = term.key, title = 'Temp Title')
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
         
@@ -62,4 +62,13 @@ class CreateSyllabusHandler(BaseHandler):
         
 class SelectSyllabusHandler(BaseHandler):
     def post(self):
-        select
+        termKey = self.session.get('term')
+        term = ndb.Key(urlsafe = termKey).get()
+        
+        select = str(self.request.get('syllabusSelectRadio'))
+        
+        for s in term.syllabi:
+            if s.title == select:
+                self.session['syllabus'] = s.key.urlsafe()
+                
+        self.redirect('/')

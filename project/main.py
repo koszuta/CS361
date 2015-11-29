@@ -27,8 +27,8 @@ class MainHandler(BaseHandler):
             'books': syllabus.textbooks,
             'instructors': syllabus.instructors,
             'policies': syllabus.policies,
-            'scales': syllabus.scales,
-            'calendars': syllabus.calendars,
+            'scale': syllabus.scale,
+            'calendar': syllabus.calendar,
             'assessments': syllabus.assessments,
             'course_title': syllabus.title
         }
@@ -46,6 +46,7 @@ class InfoEditHandler(BaseHandler):
         syllabus.put()
         
         self.redirect('/')
+        
                
 import user  
 import signup 
