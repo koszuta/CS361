@@ -11,7 +11,6 @@ jinja_env = Environment(
 class Term(ndb.Model):
     semester = ndb.StringProperty()
     year = ndb.IntegerProperty()
-    isSelected = ndb.BooleanProperty()
     
     @property
     def syllabi(self):

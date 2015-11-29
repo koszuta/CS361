@@ -37,20 +37,21 @@
 		</div>
 		
 		<div id="listLinksSection">
-			<h2> Links </h2>
 			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
+				Select ...or
 				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton">
 			</form>
+			
 			<form id="selectSyllabus" action="/selectsyllabus" method="post">
 				{% if term %}
 					{% for s in term.syllabi %}
 					<input type="radio" value="{{ s.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
-					<p> {{ s.title }} </p>
-					<a href=""> Preview </a>
+					{{ s.title }}
+					<a href="">Preview</a>
 					<br />
 					{% endfor %}
 				{% endif %}
-				<input type="submit" value="Edit"
+				<input type="submit" value="Edit" name="selectSyllabusButton" id="selectSyllabusButton" />
 			</form>
 	</body>
 </html>
