@@ -3,17 +3,18 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 from user import User
 from term import Term   
-from syllabus import Syllabus      
+from syllabus import Syllabus
+from courseinfo import Info    
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
     
-#@login_required
 class ListerHandler(BaseHandler):
+    @login_required
     def get(self):
         term = None
         termKey = self.session.get('term')
@@ -30,8 +31,10 @@ class ListerHandler(BaseHandler):
             }
         
         self.response.write(template.render(context))
+  
         
 class TermSelectHandler(BaseHandler):
+    @login_required	
     def post(self):
         user_id = self.auth.get_user_by_session().get('user_id')
         user = self.auth.store.user_model.get_by_id(user_id)
@@ -48,19 +51,29 @@ class TermSelectHandler(BaseHandler):
         self.session['term'] = term.key.urlsafe()
     
         self.redirect('/list')
-        
+ 
+       
 class CreateSyllabusHandler(BaseHandler):
+    @login_required	 
     def post(self):
         termKey = self.session.get('term')
         term = ndb.Key(urlsafe = termKey).get()
+        
+        subject = str(self.request.get('subjectSelect'))
+        number = int(self.request.get('courseNumber'))
+        section = int(self.request.get('sectionNumber'))
             
-        syllabus = Syllabus(parent = term.key, title = 'Temp Title')
+        info = Info(subject = subject, number = number, section = section)
+            
+        syllabus = Syllabus(parent = term.key, info = info)
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
         
         self.redirect('/')
-        
+  
+       
 class SelectSyllabusHandler(BaseHandler):
+    @login_required	 
     def post(self):
         termKey = self.session.get('term')
         term = ndb.Key(urlsafe = termKey).get()
@@ -68,7 +81,7 @@ class SelectSyllabusHandler(BaseHandler):
         select = str(self.request.get('syllabusSelectRadio'))
         
         for s in term.syllabi:
-            if s.title == select:
+            if s.info.title == select:
                 self.session['syllabus'] = s.key.urlsafe()
                 
         self.redirect('/')

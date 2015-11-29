@@ -8,6 +8,7 @@
 	<body>
 		<div id="listSelectSection">
 			<form action="/termselect" method="post" id="termSelectForm">
+				Select term
 				<select name="listSelectSemester" id="listSelectSemester">
 					<option value="S" {% if semester == "S" %} selected {% endif %}> Spring </option>
 					<option value="M" {% if semester == "M" %} selected {% endif %}> Summer </option>
@@ -22,31 +23,69 @@
 		<div id="listTableSection">
 			<table id="listTable">
 				<tr>
+					<th>   </th>
 					<th> M </th>
 					<th> T </th>
 					<th> W </th>
 					<th> R </th>
 					<th> F </th>
 				</tr>
-				<tr></tr>
-				<tr></tr>
-				<tr></tr>
-				<tr></tr>
-				<tr></tr>
+				<tr>
+					<td> 8:00 </td>
+				</tr>
+				<tr>
+					<td> 9:00 </td>
+				</tr>
+				<tr>
+					<td> 10:00 </td>
+				</tr>
+				<tr>
+					<td> 11:00 </td>
+				</tr>
+				<tr>
+					<td> 12:00 </td>
+				</tr>
+				<tr>
+					<td> 1:00 </td>
+				</tr>
+				<tr>
+					<td> 2:00 </td>
+				</tr>
+				<tr>
+					<td> 3:00 </td>
+				</tr>
+				<tr>
+					<td> 4:00 </td>
+				</tr>
+				<tr>
+					<td> 5:00 </td>
+				</tr>
 			</table>
 		</div>
-		
+		<hr />
 		<div id="listLinksSection">
 			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
-				Select ...or
-				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton">
+				<select name="subjectSelect" id="subjectSelect">
+					<option value="" disabled selected> Select Subject </option>
+					<option value="CIV ENG"> Civil & Environmental Eng. </option>
+					<option value="COMPSCI"> Computer Science </option>
+					<option value="ELECENG"> Electrical Eng. </option>
+					<option value="IND ENG"> Industrial & Manufacturing Eng. </option>
+					<option value="MATLENG"> Materials Science & Eng. </option>
+					<option value="MECHENG"> Mechanical Eng. </option>
+				</select>
+				<input type="number" placeholder="Course Number" name="courseNumber" id="courseNumber" />
+				<input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" />
+				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" />
 			</form>
 			
 			<form id="selectSyllabus" action="/selectsyllabus" method="post">
 				{% if term %}
 					{% for s in term.syllabi %}
-					<input type="radio" value="{{ s.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
-					{{ s.title }}
+					<input type="radio" value="{{ s.info.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
+					{{ s.info.subject }}
+					{{ s.info.number }}-{{ s.info.section}}:
+					{{ s.info.title }}
 					<a href="">Preview</a>
 					<br />
 					{% endfor %}

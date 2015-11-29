@@ -19,12 +19,13 @@ class Policy(ndb.Model):
 		return self.title
 	
     
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 from calendars import Calendar
 from syllabus import Syllabus
 from textbook import Textbook
 		        
 class EditHandler(BaseHandler):
+    @login_required	 
     def get(self):
         x = policy.Policy()
         for item in user.savedPolicies:
@@ -43,6 +44,7 @@ class EditHandler(BaseHandler):
 
         self.response.write(template.render(context))
         
+    @login_required	 
     def post(self):
         option = self.request.get("policyEditorButton")
         
@@ -70,6 +72,7 @@ class EditHandler(BaseHandler):
         
 
 class AddHandler(BaseHandler):
+    @login_required	 
     def post(self):
         option = self.request.get("savedPolicyButton")
         selected = self.request.get("savedpolicies")
@@ -91,6 +94,7 @@ class AddHandler(BaseHandler):
         
         
 class RemoveHandler(BaseHandler):
+    @login_required	 
     def post(self):
         selected = self.request.get("policiesOnSyllabus")
         chosen = policy.Policy()
