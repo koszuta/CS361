@@ -75,7 +75,7 @@ config['webapp2_extras.sessions'] = {
 # [FfSsMmWw] - any one these characters may appear (case insensitive)
 #              F (Fall), S (Spring), M (Summer), W (Winterim)
 # [0-9][0-9] - two digit number for the year
-termRegex = '/([FfSsMmWw][0-9][0-9])'
+termRegex = '/(.+)/([FfSsMmWw][0-9][0-9])'
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),

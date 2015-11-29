@@ -4,7 +4,9 @@ import webapp2
 from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, Undefined
 from google.appengine.ext import ndb
+from webapp2_extras.appengine.auth.models import User
 
+from syllabus import Syllabus
 from instructor import Instructor
 from textbook import Textbook
 
@@ -170,14 +172,18 @@ class PreviewHandler(BaseHandler):
         self.response.write(template.render(context))
 
 class ViewHandler(PreviewHandler):
-    def get(self, term, syllabus):
+    def get(self, username, term, syllabus):
         # TODO: Determine valid syllabus names
         
         # Deal with possible trailing slash
         if syllabus[-1] == '/':
             syllabus = syllabus[:-1]
 
-        if term.upper() == 'F15' and syllabus == 'cs361':
+        user = User.get_by_auth_id(username)
+
+        if user and term.upper() == 'F15' and syllabus == 'cs361':
+            self.session['syllabus'] = Syllabus.query(ancestor=user.key).get().key.urlsafe()
             PreviewHandler.get(self)
+            del self.session['syllabus']
         else:
             self.abort(404)
