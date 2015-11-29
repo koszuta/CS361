@@ -31,13 +31,12 @@ class BaseHandler(webapp2.RequestHandler):
     def user(self):
         return self.auth.get_user_by_session()
 
-'''
 def login_required(handler):
     def check_login(self, *args, **kwargs):
-        if not User:
-            return self.redirect('/login')
+        auth = self.auth
+        if not auth.get_user_by_session():
+            self.redirect('/login')
         else:
             return handler(self, *args, **kwargs)
             
     return check_login
-'''
