@@ -19,14 +19,15 @@ class Assessment(ndb.Model):
 		return self.title + " (" + str(self.percentage) + "%)"
 	
   
-from basehandler import BaseHandler	
+from basehandler import BaseHandler, login_required
 '''
 from syllabus import Syllabus
 from calendars import Calendar
 from textbook import Textbook
 '''
-		
+	
 class EditHandler(BaseHandler):
+    @login_required	 
     def get(self):
         x = Assessment()
         for item in user.savedAssessments:
@@ -45,6 +46,7 @@ class EditHandler(BaseHandler):
 
         self.response.write(template.render(context))
         
+    @login_required	 
     def post(self):
         option = self.request.get("assessmentEditorButton")
         
@@ -72,8 +74,9 @@ class EditHandler(BaseHandler):
         syl.put()
         self.redirect('/editassessment')
         
-
+	
 class AddHandler(BaseHandler):
+    @login_required	 
     def post(self):
         option = self.request.get("savedAssessmentButton")
         selected = self.request.get("savedAssessments")
@@ -93,8 +96,9 @@ class AddHandler(BaseHandler):
         syl.put()
         self.redirect("/editassessment")
         
-        
+ 	       
 class RemoveHandler(BaseHandler):
+    @login_required	 
     def post(self):
         selected = self.request.get("assessmentsOnSyllabus")
         chosen = assessment.Assessment()

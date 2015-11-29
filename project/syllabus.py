@@ -1,10 +1,12 @@
 from google.appengine.ext import ndb
 from scale import Scale
+from calendars import Calendar
+from courseinfo import Info
 from calendarClass import CalendarClass
 
 class Syllabus(ndb.Model):
     isActive = ndb.BooleanProperty()
-    title = ndb.StringProperty()
+    info = ndb.StructuredProperty(Info)
     scale = ndb.StructuredProperty(Scale)
     calendar = ndb.StructuredProperty(CalendarClass)
     
@@ -28,6 +30,3 @@ class Syllabus(ndb.Model):
         from assessment import Assessment
         return Assessment.query(ancestor = self.key).fetch()
         
-    @property
-    def calendars(self):
-        return CalendarClass.query(ancestor = self.key).fetch()

@@ -1,5 +1,5 @@
 from calendarClass import CalendarClass
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 from syllabus import Syllabus
 from term import Term
 from user import User 
@@ -18,8 +18,10 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
-        
+  
+  	      
 class CalendarHandler(BaseHandler):
+    @login_required	 
     def get(self):
     
         message = ""
@@ -87,6 +89,7 @@ class CalendarHandler(BaseHandler):
         template = JINJA_ENVIRONMENT.get_template("calendarEdit.html")
         self.response.out.write(template.render(template_values))
 
+    @login_required	 
     def post(self):
         
         message = ""

@@ -20,7 +20,7 @@ class Instructor(ndb.Model):
         return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)
     
     
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 from syllabus import Syllabus
 from term import Term
 from user import User 
@@ -28,8 +28,10 @@ from user import User
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )  
+  
       
 class EditHandler(BaseHandler):
+    @login_required	 
     def get(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
@@ -62,6 +64,7 @@ class EditHandler(BaseHandler):
 
         self.response.write(template.render(context))
         
+    @login_required	 
     def post(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
@@ -91,8 +94,9 @@ class EditHandler(BaseHandler):
             
         self.redirect('/editinstructor')
         
-        
+      
 class AddHandler(BaseHandler):
+    @login_required	 
     def post(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
@@ -118,7 +122,8 @@ class AddHandler(BaseHandler):
         self.redirect('/editinstructor')
         
 
-class RemoveHandler(BaseHandler):        
+class RemoveHandler(BaseHandler):    
+    @login_required	     
     def post(self):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()

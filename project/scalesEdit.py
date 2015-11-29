@@ -3,7 +3,7 @@ import webapp2
 import os
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 
 JINJA_ENVIRONMENT = jinja2.Environment(
   loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -43,6 +43,7 @@ newScale = GradeScale()
 
 
 class ScalesHandler(BaseHandler):
+	@login_required
 	def get(self):
 		nScale = []
 		hScale = []
@@ -58,7 +59,8 @@ class ScalesHandler(BaseHandler):
 			}
 		template = JINJA_ENVIRONMENT.get_template("scalesEdit.html")
 		self.response.out.write(template.render(template_values))
-			
+		
+	@login_required
 	def post(self):
 		createScale = self.request.get('createScale')
 		
