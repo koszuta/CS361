@@ -3,7 +3,7 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
        
 from textbook import Textbook
 from instructor import Instructor
@@ -12,9 +12,9 @@ from calendarClass import CalendarClass
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
-    
-#@login_required
+
 class MainHandler(BaseHandler):
+    @login_required
     def get(self):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
@@ -34,8 +34,9 @@ class MainHandler(BaseHandler):
         }
         
         self.response.write(template.render(context))
-        
+
 class InfoEditHandler(BaseHandler):
+    @login_required
     def post(self):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
