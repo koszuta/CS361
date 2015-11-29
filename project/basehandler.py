@@ -5,10 +5,6 @@ import urllib
 from google.appengine.ext import ndb
 from webapp2_extras import sessions, auth
 
-from user import User
-from syllabus import Syllabus
-from term import Term
-
 class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
         self.session_store = sessions.get_store(request = self.request)
@@ -20,6 +16,10 @@ class BaseHandler(webapp2.RequestHandler):
           
     @webapp2.cached_property
     def session(self):
+        from user import User
+        from syllabus import Syllabus
+        from term import Term
+
         session = self.session_store.get_session()
         return session
        

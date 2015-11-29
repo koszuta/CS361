@@ -58,7 +58,8 @@ import calendarEdit
 import policy
 import preview
 import scalesEdit
-import textbook    
+import textbook
+import term
      
 config = {}
 config['webapp2_extras.auth'] = {
@@ -66,7 +67,14 @@ config['webapp2_extras.auth'] = {
 }
 config['webapp2_extras.sessions'] = {
     'secret_key': 'secret_key',
-} 
+}
+
+# Regular expression to match a URL starting with a term name
+# [FfSsMmWw] - any one these characters may appear (case insensitive)
+#              F (Fall), S (Spring), M (Summer), W (Winterim)
+# [0-9][0-9] - two digit number for the year
+termRegex = '/([FfSsMmWw][0-9][0-9])'
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/infoedit', InfoEditHandler),
@@ -94,4 +102,6 @@ app = webapp2.WSGIApplication([
     ('/addpolicy', policy.AddHandler),
     ('/removepolicy', policy.RemoveHandler),
     ('/preview', preview.PreviewHandler),
+    (termRegex + '/*', term.WeeklyCalendarHandler),
+    (termRegex + '/(.*)', preview.ViewHandler),
 ], debug=True, config=config)
