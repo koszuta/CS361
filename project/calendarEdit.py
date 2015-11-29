@@ -13,8 +13,6 @@ from google.appengine.ext import ndb
 
 import jinja2
 import webapp2
-                        
-message = ""
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -23,24 +21,25 @@ JINJA_ENVIRONMENT = jinja2.Environment(
         
 class CalendarHandler(BaseHandler):
     def get(self):
+    
+        message = ""
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        myCalendars = CalendarClass.query(ancestor = syllabus.key).fetch()
-        if myCalendars:
-            for i in myCalendars:
-                mySched = i
-        else:
-            CalendarClass.generateDummyCalendar()
-            mySched = CalendarClass(parent = syllabus.key)
+        
+        mySched = syllabus.calendar
+        if mySched == None:
+            mySched = CalendarClass(parent = user.key)
             mySched.schedule.append('Date')
             mySched.schedule.append('Chapter')
             mySched.schedule.append('Topic')
             mySched.put()
-            
-    
-        savedCalendars = CalendarClass.query()
+            syllabus.calendar = mySched
+            syllabus.put()
+            message = "syllabus.calendar was empty"
+                
+        savedCalendars = CalendarClass.query(ancestor = user.key)
         savedCalendarNames = []
         for i in savedCalendars:
             savedCalendarNames.append(i.myFilename)
@@ -89,9 +88,8 @@ class CalendarHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
-        global message
-        global mySched
         
+        message = ""
         loadFile = self.request.get('loadFile')
         generateDates = self.request.get('generateCalendar')
         rowInsert = self.request.get('insertRow')
@@ -102,39 +100,41 @@ class CalendarHandler(BaseHandler):
         user = ndb.Key(urlsafe = userKey).get()
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        myCalendars = CalendarClass.query(ancestor = syllabus.key).fetch()
-        if myCalendars:
-            for i in myCalendars:
-                mySched = i
-        else:
-            mySched = CalendarClass.generateDummyCalendar()
-            mySched = CalendarClass(parent = syllabus.key)
+
+        mySched = syllabus.calendar
+        if mySched == None:
+            #this state should be unreachable
+            mySched = CalendarClass(parent = user.key)
+            mySched.schedule.append('Date')
+            mySched.schedule.append('Chapter')
+            mySched.schedule.append('Topic')
+            mySched.put()
+            syllabus.calendar = mySched
+            syllabus.put()
+            message = "syllabus.calendar was empty"
             
         if loadFile:
             message = "loadFile"
             loadFileName = self.request.get('fileName')
             if loadFileName == 'new': 
                 message = "newFile"
-                mySched.parent = None
-                mySched = CalendarClass.new()
-                mySched.parent = syllabus.key
+                mySched = CalendarClass(parent = user.key)
+                mySched.schedule.append('Date')
+                mySched.schedule.append('Chapter')
+                mySched.schedule.append('Topic')
                 mySched.put()
+                syllabus.calendar = mySched
+                syllabus.put()
             else:
-                savedCalendars = CalendarClass.query()
+                savedCalendars = CalendarClass.query(ancestor = user.key)
                 message = ""
                 queriedCalendars = []
                 for i in savedCalendars:
                     queriedCalendars.append(i)
                     message = message + queriedCalendars[len(queriedCalendars)-1].myFilename + ", "
-                mySched.parent = None
-                mySched.put()
                 mySched = queriedCalendars[int(loadFileName)]
-                mySched.parent = syllabus.key
-                mySched.put()
+                syllabus.calendar = mySched
+                syllabus.put()
         
         if generateDates:
             message = "generateDates"
@@ -179,6 +179,8 @@ class CalendarHandler(BaseHandler):
                 mySched.meetDays.append(6)
                 
             mySched.generateDates()
+            syllabus.calendar = mySched
+            syllabus.put()
             mySched.put()
                 
         if rowInsert:
@@ -204,8 +206,10 @@ class CalendarHandler(BaseHandler):
                 for j in range(3):
                     mySched.setCell(j,i,self.request.get("r"+str(i)+"c"+str(j)))
             if (mySched.myFilename != newFileName):
-                mySched.myFilename = newFileName
-                mySched = mySched.clone()
+                mySched = mySched.clone(user.key)
+                mySched.myFilename = newFileName                
+                syllabus.calendar = mySched
+                syllabus.put()               
             mySched.put()
             
         return self.redirect('/editcalendar')

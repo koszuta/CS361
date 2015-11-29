@@ -172,8 +172,8 @@ class CalendarClass(ndb.Model):
             if (column > -1) and (column < 3):
                 self.schedule[(3*row + column)] = str(value)
                 
-    def clone(self):
-        newCal = CalendarClass()
+    def clone(self, parent = None):
+        newCal = CalendarClass(parent)
         newCal.myFilename = self.myFilename
         newCal.startMonth = self.startMonth
         newCal.startDate = self.startDate

@@ -5,7 +5,7 @@ import urllib
 from jinja2 import Environment, FileSystemLoader
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 
 jinja_env = Environment(
   loader=FileSystemLoader(os.path.dirname(__file__)),
@@ -48,6 +48,7 @@ def clone_entity(e, **extra_args):
     return cls(**props)
 
 class AddTextbookHandler(BaseHandler):
+    @login_required
     def post(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
@@ -94,6 +95,7 @@ class AddTextbookHandler(BaseHandler):
             self.redirect('/findbook')
 
 class RemoveTextbookHandler(BaseHandler):
+    @login_required
     def post(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
@@ -124,9 +126,11 @@ class RemoveTextbookHandler(BaseHandler):
             self.redirect('/findbook')
         
 class FindTextbookHandler(BaseHandler):
+    @login_required
     def get(self):
         self.post()
 
+    @login_required
     def post(self):
         searchFields = ['title', 'author', 'edition', 'publisher', 'isbn']
         
@@ -191,6 +195,7 @@ class FindTextbookHandler(BaseHandler):
         
         
 class EditTextbookHandler(BaseHandler):
+    @login_required
     def get(self):
         isbn = self.request.get('isbn')
         onSyllabus = self.request.get('onSyllabus')
@@ -217,6 +222,7 @@ class EditTextbookHandler(BaseHandler):
             msg = 'Error: ISBN {0} does not exist. Returning to textbook listing...'.format(isbn)
             doRefresh(self, 'Bad ISBN', msg, '/editbooks', 3)
     
+    @login_required
     def post(self):
         title = self.request.get('bookTitle')
         author = self.request.get('bookAuthor')
@@ -289,6 +295,7 @@ class TextbookHandler(BaseHandler):
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         return syllabus.textbooks
 
+    @login_required
     def get(self):
         template = jinja_env.get_template('textbookEdit.html')
         
@@ -300,6 +307,7 @@ class TextbookHandler(BaseHandler):
 
         self.response.write(template.render(context))
 		
+    @login_required
     def post(self):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
