@@ -30,10 +30,22 @@ class MainHandler(BaseHandler):
             'scales': syllabus.scales,
             'calendars': syllabus.calendars,
             'assessments': syllabus.assessments,
+            'course_title': syllabus.title
         }
         
         self.response.write(template.render(context))
         
+class InfoEditHandler(BaseHandler):
+    def post(self):
+        syllabusKey = self.session.get('syllabus')
+        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        
+        title = str(self.request.get('courseTitle'))
+        
+        syllabus.title = title
+        syllabus.put()
+        
+        self.redirect('/')
                
 import user  
 import signup 
@@ -57,10 +69,13 @@ config['webapp2_extras.sessions'] = {
 } 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/infoedit', InfoEditHandler),
     ('/login', login.LoginHandler),
     ('/signup', signup.SignupHandler),
     ('/logout', logout.LogoutHandler),
     ('/list', lister.ListerHandler),
+    ('/createsyllabus', lister.CreateSyllabusHandler),
+    ('/selectsyllabus', lister.SelectSyllabusHandler),
     ('/termselect', lister.TermSelectHandler),
     ('/addinstructor', instructor.AddHandler),
     ('/removeinstructor', instructor.RemoveHandler),

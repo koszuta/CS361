@@ -9,13 +9,13 @@
 		<div id="listSelectSection">
 			<form action="/termselect" method="post" id="termSelectForm">
 				<select name="listSelectSemester" id="listSelectSemester">
-					<option value="S"> Spring </option>
-					<option value="M"> Summer </option>
-					<option value="F"> Fall </option>
-					<option value="W"> Winter </option>
+					<option value="S" {% if semester == "S" %} selected {% endif %}> Spring </option>
+					<option value="M" {% if semester == "M" %} selected {% endif %}> Summer </option>
+					<option value="F" {% if semester == "F" %} selected {% endif %}> Fall </option>
+					<option value="W {% if semester == "W" %} selected {% endif %}"> Winter </option>
 				</select>
-				<input type="number" name="listSelectYear" id="listSelectYear" min="2000">
-				<input type="submit" name="listSelectButton" id="listSelectButton">
+				<input value="{{ year }}" type="number" name="listSelectYear" id="listSelectYear" min="2000">
+				<input type="submit" value="Switch" name="listSelectButton" id="listSelectButton">
 			</form>
 		</div>
 		
@@ -38,12 +38,19 @@
 		
 		<div id="listLinksSection">
 			<h2> Links </h2>
-			<br />
-			{% if term %}
-				{% for s in term.syllabi %}
-				<p> {{ s }} </p> <br />
-				{% endfor %}
-			{% endif %}
-		
+			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
+				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton">
+			</form>
+			<form id="selectSyllabus" action="/selectsyllabus" method="post">
+				{% if term %}
+					{% for s in term.syllabi %}
+					<input type="radio" value="{{ s.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
+					<p> {{ s.title }} </p>
+					<a href=""> Preview </a>
+					<br />
+					{% endfor %}
+				{% endif %}
+				<input type="submit" value="Edit"
+			</form>
 	</body>
 </html>

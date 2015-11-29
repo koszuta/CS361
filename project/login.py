@@ -23,9 +23,11 @@ class LoginHandler(BaseHandler):
         password = self.request.get('passwordLogin')
         
         try:
-            self.auth.get_user_by_password(username, password)
-            self.session['term'] = None
-            self.session['syllabus'] = None
+            user_info = self.auth.get_user_by_password(username, password)
+            user_id = user_info.get('user_id')
+            user = self.auth.store.user_model.get_by_id(user_id)
+            self.session['user'] = user.key.urlsafe()
+            
             return self.redirect('/list')
         except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
             self.redirect('/login')

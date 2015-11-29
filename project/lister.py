@@ -5,7 +5,8 @@ from google.appengine.ext import ndb
 
 from basehandler import BaseHandler
 from user import User
-from term import Term         
+from term import Term   
+from syllabus import Syllabus      
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -20,9 +21,13 @@ class ListerHandler(BaseHandler):
             term = ndb.Key(urlsafe = termKey).get()
             
         template = template_env.get_template('list.html')
-        context = {
-            'term': term,
-        }
+        context = {}
+        if term:
+            context = {
+                'semester': term.semester,
+                'year': term.year,
+                'term': term,
+            }
         
         self.response.write(template.render(context))
         
@@ -35,18 +40,26 @@ class TermSelectHandler(BaseHandler):
         year = int(self.request.get('listSelectYear'))
     
         term = Term.query(ancestor = user.key).filter(ndb.AND(Term.semester == semester, Term.year == year)).get()
-        
-        for t in user.terms:
-            t.isSelected = False
-            t.put()
             
-        if term:
-            term.isSelected = True
-        else:
-            term = Term(parent = user.key, semester = semester, year = year, isSelected = True)
+        if not term:
+            term = Term(parent = user.key, semester = semester, year = year)
+            term.put()
             
-        term.put()
         self.session['term'] = term.key.urlsafe()
     
         self.redirect('/list')
         
+class CreateSyllabusHandler(BaseHandler):
+    def post(self):
+        termKey = self.session.get('term')
+        term = ndb.Key(urlsafe = termKey).get()
+            
+        syllabus = Syllabus(parent = term.key)
+        syllabus.put()
+        self.session['syllabus'] = syllabus.key.urlsafe()
+        
+        self.redirect('/')
+        
+class SelectSyllabusHandler(BaseHandler):
+    def post(self):
+        select
