@@ -24,6 +24,8 @@ class LoginHandler(BaseHandler):
         
         try:
             self.auth.get_user_by_password(username, password)
+            self.session['term'] = None
+            self.session['syllabus'] = None
             return self.redirect('/list')
         except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
             self.redirect('/login')
