@@ -87,12 +87,18 @@
                 
 					<!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
 					<div id = "courseInfoViewMain">
-						<h1> CompSci 361: Intro to Software Engineering Fall 2015</h1>	
+						<h1>
+                            {% if course_title %}
+                            {{ course_title }}
+                            {% else %}
+                            -- No title entered --
+                            {% endif %}
+                        </h1>	
 					</div>
                     <!--END COURSE TITLE DISPLAY MODULE-->
 					<div id = "courseInfoEditMain" style="display: none">
-                        <form>
-                            Course Title: <input type="text" name="courseTitle" value="CompSci 361: Intro to Software Engineering Fall 2015" style="width:90%">	
+                        <form method="post" action="/infoedit">
+                            Course Title: <input type="text" name="courseTitle" value="{{ course_title }}" style="width:90%">	
                             <input type="submit">
                         </form>
 					</div>				
