@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/list.css" />
+	</head>
+	<body>
+		<div id="listSelectSection">
+			<form action="/termselect" method="post" id="termSelectForm">
+				<select name="listSelectSemester" id="listSelectSemester">
+					<option value="S"> Spring </option>
+					<option value="M"> Summer </option>
+					<option value="F"> Fall </option>
+					<option value="W"> Winter </option>
+				</select>
+				<input type="number" name="listSelectYear" id="listSelectYear" min="2000">
+				<input type="submit" name="listSelectButton" id="listSelectButton">
+			</form>
+		</div>
+		
+		<div id="listTableSection">
+			<table id="listTable">
+				<tr>
+					<th> M </th>
+					<th> T </th>
+					<th> W </th>
+					<th> R </th>
+					<th> F </th>
+				</tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+			</table>
+		</div>
+		
+		<div id="listLinksSection">
+			<h2> Links </h2>
+			<br />
+			{% if term %}
+				{% for s in term.syllabi %}
+				<p> {{ s }} </p> <br />
+				{% endfor %}
+			{% endif %}
+		
+	</body>
+</html>

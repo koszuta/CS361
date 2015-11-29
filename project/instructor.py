@@ -14,7 +14,7 @@ class Instructor(ndb.Model):
     isSelected = ndb.BooleanProperty()
     
     def name(self):
-        return self.last + ", " + self.first if (self.first and self.last) else None
+        return self.last + ', ' + self.first if (self.first and self.last) else None
         
     def copy(self):
         return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)
@@ -66,17 +66,17 @@ class EditHandler(BaseHandler):
         userKey = self.session.get('user')
         user = ndb.Key(urlsafe = userKey).get()
         
-        option = self.request.get("editInstructorSubmit")
-        myfirst = self.request.get("instructorFirstName")
-        mylast = self.request.get("instructorLastName")
-        myemail = self.request.get("instructorEmail")
-        myphone = self.request.get("instructorPhone")
-        mybuilding = self.request.get("instructorBuildingSelect")
-        myroom = self.request.get("instructorOfficeRoom")
+        option = self.request.get('editInstructorSubmit')
+        myfirst = self.request.get('instructorFirstName')
+        mylast = self.request.get('instructorLastName')
+        myemail = self.request.get('instructorEmail')
+        myphone = self.request.get('instructorPhone')
+        mybuilding = self.request.get('instructorBuildingSelect')
+        myroom = self.request.get('instructorOfficeRoom')
                         
-        if option == "Update Info":
+        if option == 'Update Info':
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
-        elif option == "Create New":
+        elif option == 'Create New':
             i = Instructor(parent = user.key)
         
         if i:    
@@ -99,8 +99,8 @@ class AddHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
-        option = self.request.get("instructorToAddButton")
-        selected = self.request.get("availableInstructors")
+        option = self.request.get('instructorToAddButton')
+        selected = self.request.get('availableInstructors')
         
         temp = Instructor()
         
@@ -111,7 +111,7 @@ class AddHandler(BaseHandler):
                 temp = before
             before.put()
             
-        if option == "Add":
+        if option == 'Add':
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected)
             new.put()
             
@@ -123,7 +123,7 @@ class RemoveHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
-        selected = self.request.get("selectedInstructors")
+        selected = self.request.get('selectedInstructors')
         
         for i in syllabus.instructors:
             if i.name() == selected:

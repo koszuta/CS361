@@ -4,8 +4,6 @@ from google.appengine.ext import ndb
 from webapp2_extras import security
 
 class User(webapp2_extras.appengine.auth.models.User):
-    isSelected = ndb.BooleanProperty()
-    
     @property
     def savedPolicies(self):
         from policy import Policy
@@ -41,6 +39,7 @@ class User(webapp2_extras.appengine.auth.models.User):
         from term import Term
         return Term.query(ancestor = self.key).fetch()
         
+    '''    
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length = 12)
       
@@ -54,3 +53,4 @@ class User(webapp2_extras.appengine.auth.models.User):
             timestamp = int(time.mktime(valid_token.created.timetuple()))
             return user, timestamp
         return None, None
+    '''
