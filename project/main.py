@@ -20,7 +20,7 @@ class MainHandler(BaseHandler):
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
         if not syllabus:   
-            return self.redirect('/list') 
+            return self.redirect('/list')
             
         template = template_env.get_template('main.html')
         context = {
@@ -75,7 +75,7 @@ config['webapp2_extras.sessions'] = {
 # [FfSsMmWw] - any one these characters may appear (case insensitive)
 #              F (Fall), S (Spring), M (Summer), W (Winterim)
 # [0-9][0-9] - two digit number for the year
-termRegex = '/([FfSsMmWw][0-9][0-9])'
+termRegex = '/(.+)/([FfSsMmWw][0-9][0-9])'
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
