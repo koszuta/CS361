@@ -36,19 +36,19 @@
                 
                 <br />
                 Meets
-                <input type="checkbox" {% if "M" in info.days %} checked="checked" {% endif %} value="M" name="mondayCheck" id="mondayCheck" />
+                <input type="checkbox" {% if info.days %}{% if "M" in info.days %} checked="checked" {% endif %}{% endif %} value="M" name="mondayCheck" id="mondayCheck" />
                 M
                 
-                <input type="checkbox" {% if "T" in info.days %} checked="checked" {% endif %} value="T" name="tuesdayCheck" id="tuesdayCheck" />
+                <input type="checkbox" {% if info.days %}{% if "T" in info.days %} checked="checked" {% endif %}{% endif %} value="T" name="tuesdayCheck" id="tuesdayCheck" />
                 T
                 
-                <input type="checkbox" {% if "W" in info.days %} checked="checked" {% endif %} value="W" name="wednesdayCheck" id="wednesdayCheck" />
+                <input type="checkbox" {% if info.days %}{% if "W" in info.days %} checked="checked" {% endif %}{% endif %} value="W" name="wednesdayCheck" id="wednesdayCheck" />
                 W
                 
-                <input type="checkbox" {% if "R" in info.days %} checked="checked" {% endif %} value="R" name="thursdayCheck" id="thursdayCheck" />
+                <input type="checkbox" {% if info.days %}{% if "R" in info.days %} checked="checked" {% endif %}{% endif %} value="R" name="thursdayCheck" id="thursdayCheck" />
                 R
                 
-                <input type="checkbox" {% if "F" in info.days %} checked="checked" {% endif %} value="F" name="fridayCheck" id="fridayCheck" />
+                <input type="checkbox" {% if info.days %}{% if "F" in info.days %} checked="checked" {% endif %}{% endif %} value="F" name="fridayCheck" id="fridayCheck" />
                 F
                 
                 <br />

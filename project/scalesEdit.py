@@ -22,11 +22,9 @@ class GradeScale(ndb.Model):
     scaleName = ndb.StringProperty()
     gradeScale = ndb.StructuredProperty(Grade, repeated=True)
     isSelected = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
-    def key(self):
-              if self.scaleName == "" or self.scaleName is None:
-                  return "none"
-              return self.scaleName
+    
               
 grade = []
 letter = []
@@ -35,6 +33,8 @@ scale = []
 class ScalesHandler(BaseHandler):
     @login_required
     def get(self):
+        userKey = self.session.get("user")
+        user = ndb.Key(urlsafe = userKey).get()
         global grade
         global letter
         global scale
@@ -60,31 +60,40 @@ class ScalesHandler(BaseHandler):
                 scale.append(newGrade)
                 newScale = GradeScale(parent = user.key, scaleName = scaleName, gradeScale = scale)
                 newScale.put()
-                letter = []
-                grade = []
-                scale = []
+            letter = []
+            grade = []
+            scale = []
                     
         template_values = {
-                        "scaleName": scaleName,
-                    "grade": grade,
+                "scaleName": scaleName,
+                "grade": grade,
                 "letter": letter,
                 "size": size,
                 "save": save,
                 "next": next,
+                "savedScales": user.savedScales,
+                
             }
                 
         template = JINJA_ENVIRONMENT.get_template("scalesEdit.html")
         self.response.out.write(template.render(template_values))
-'''      
+   
     @login_required
     def post(self):
     
         self.redirect('/editscales')
               
 class AddScalesHandler(BaseHandler):
-          @login_required
-    def get(self):
-    
-    self.response.out.write("scalesEdit.html")
+    @login_required
+    def post(self):
+        usedscale = self.request.get("selectedScale")
+        userKey = self.session.get("user")
+        user = ndb.Key(urlsafe = userKey).get()
         
-'''
+        for s in user.savedScales:
+            if s.scaleName == usedscale:
+                syScale = GradeScale(parent = syllabus.key)
+        
+        
+        self.response.out.write("scalesEdit.html")
+        
