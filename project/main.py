@@ -28,7 +28,7 @@ class MainHandler(BaseHandler):
             'instructors': syllabus.instructors,
             'policies': syllabus.policies,
             'scale': syllabus.scale,
-            'calendar': syllabus.calendar,
+            'calendar': syllabus.calendars,
             'assessments': syllabus.assessments,
             'course_title': syllabus.info.title
         }

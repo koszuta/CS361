@@ -29,22 +29,21 @@ class CalendarHandler(BaseHandler):
         user = ndb.Key(urlsafe = userKey).get()
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        
-        mySched = syllabus.calendar
-        if mySched == None:
-            mySched = CalendarClass(parent = user.key)
-            mySched.schedule.append('Date')
-            mySched.schedule.append('Chapter')
-            mySched.schedule.append('Topic')
-            mySched.put()
-            syllabus.calendar = mySched
-            syllabus.put()
-            message = "syllabus.calendar was empty"
-                
-        savedCalendars = CalendarClass.query(ancestor = user.key)
+
+        savedCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == False).fetch()
         savedCalendarNames = []
         for i in savedCalendars:
             savedCalendarNames.append(i.myFilename)
+        
+        syllabusCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == True).fetch()
+        if syllabusCalendars:
+            #should have exactly 0 or 1 calendar
+            for i in syllabusCalendars:
+                mySched = i
+        else:
+            mySched = None
+            
+        message = str(len(syllabusCalendars))
         
         moChecked = ""
         tuChecked = ""
@@ -53,27 +52,26 @@ class CalendarHandler(BaseHandler):
         frChecked = ""
         saChecked = ""
         suChecked = ""
-        if 0 in mySched.meetDays:
-            moChecked = "checked"
-        if 1 in mySched.meetDays:
-            tuChecked = "checked"
-        if 2 in mySched.meetDays:
-            weChecked = "checked"
-        if 3 in mySched.meetDays:
-            thChecked = "checked"
-        if 4 in mySched.meetDays:
-            frChecked = "checked"
-        if 5 in mySched.meetDays:
-            saChecked = "checked"
-        if 6 in mySched.meetDays:
-            suChecked = "checked"                       
+        
+        if mySched:
+            if 0 in mySched.meetDays:
+                moChecked = "checked"
+            if 1 in mySched.meetDays:
+                tuChecked = "checked"
+            if 2 in mySched.meetDays:
+                weChecked = "checked"
+            if 3 in mySched.meetDays:
+                thChecked = "checked"
+            if 4 in mySched.meetDays:
+                frChecked = "checked"
+            if 5 in mySched.meetDays:
+                saChecked = "checked"
+            if 6 in mySched.meetDays:
+                suChecked = "checked"
            
         template_values = {
+            'mySchedule': mySched,
             'savedCalendars': savedCalendarNames,
-            'startMonth': mySched.startMonth,
-            'startDate': mySched.startDate,
-            'startYear': mySched.startYear,
-            'numWeeks': mySched.numWeeks,
             'mondayChecked': moChecked,
             'tuesdayChecked': tuChecked,
             'wednesdayChecked': weChecked,
@@ -81,8 +79,6 @@ class CalendarHandler(BaseHandler):
             'fridayChecked': frChecked,
             'saturdayChecked': saChecked,
             'sundayChecked': suChecked,
-            'myCalendarSchedule': mySched.schedule,
-            'myFileName': mySched.myFilename,
             'msg': message
         }
 
@@ -93,6 +89,7 @@ class CalendarHandler(BaseHandler):
     def post(self):
         
         message = ""
+        assignToSyllabus = self.request.get('assignToSyllabus')
         loadFile = self.request.get('loadFile')
         generateDates = self.request.get('generateCalendar')
         rowInsert = self.request.get('insertRow')
@@ -104,40 +101,56 @@ class CalendarHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
 
-        mySched = syllabus.calendar
-        if mySched == None:
-            #this state should be unreachable
-            mySched = CalendarClass(parent = user.key)
-            mySched.schedule.append('Date')
-            mySched.schedule.append('Chapter')
-            mySched.schedule.append('Topic')
-            mySched.put()
-            syllabus.calendar = mySched
-            syllabus.put()
-            message = "syllabus.calendar was empty"
+        syllabusCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == True).fetch()
+        if syllabusCalendars:
+            #should have exactly 1 calendar
+            for i in syllabusCalendars:
+                mySched = i
+        else:
+            #should not be reachable state
+            mySched = None
             
+        if assignToSyllabus:
+            assign = self.request.get('onSyllabus')
+            if assign:
+                if mySched:
+                    if not mySched.onSyllabus:
+                        mySched.workingCalendar = False
+                        mySched.put()
+                        onScheduleCalendar = CalendarClass.query(ancestor=syllabus.key).filter(CalendarClass.onSyllabus == True).fetch()
+                        if onScheduleCalendar:
+                            for i in onScheduleCalendar:
+                                i.key.delete()                                
+                        mySched = mySched.clone(syllabus.key)
+                        mySched.onSyllabus = True
+                        mySched.workingCalendar = True
+                        mySched.put()
+                    
         if loadFile:
             message = "loadFile"
             loadFileName = self.request.get('fileName')
             if loadFileName == 'new': 
                 message = "newFile"
+                if mySched:
+                    mySched.workingCalendar = False
+                    mySched.put()                   
                 mySched = CalendarClass(parent = user.key)
                 mySched.schedule.append('Date')
                 mySched.schedule.append('Chapter')
                 mySched.schedule.append('Topic')
+                mySched.workingCalendar = True
                 mySched.put()
-                syllabus.calendar = mySched
-                syllabus.put()
             else:
-                savedCalendars = CalendarClass.query(ancestor = user.key)
-                message = ""
+                savedCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == False).fetch()
                 queriedCalendars = []
                 for i in savedCalendars:
                     queriedCalendars.append(i)
-                    message = message + queriedCalendars[len(queriedCalendars)-1].myFilename + ", "
+                if mySched:
+                    mySched.workingCalendar = False
+                    mySched.put()
                 mySched = queriedCalendars[int(loadFileName)]
-                syllabus.calendar = mySched
-                syllabus.put()
+                mySched.workingCalendar = True
+                mySched.put()
         
         if generateDates:
             message = "generateDates"
@@ -182,8 +195,6 @@ class CalendarHandler(BaseHandler):
                 mySched.meetDays.append(6)
                 
             mySched.generateDates()
-            syllabus.calendar = mySched
-            syllabus.put()
             mySched.put()
                 
         if rowInsert:
@@ -205,14 +216,19 @@ class CalendarHandler(BaseHandler):
         if save:
             message = "saved"
             newFileName = self.request.get('fileName')
-            for i in range(len(mySched.schedule)):
-                for j in range(3):
-                    mySched.setCell(j,i,self.request.get("r"+str(i)+"c"+str(j)))
-            if (mySched.myFilename != newFileName):
+            if newFileName == mySched.myFilename:                
+                for i in range(len(mySched.schedule)):
+                    for j in range(3):
+                        mySched.setCell(j,i,self.request.get("r"+str(i)+"c"+str(j)))            
+            else:
+                mySched.workingCalendar = False
+                mySched.put()
                 mySched = mySched.clone(user.key)
-                mySched.myFilename = newFileName                
-                syllabus.calendar = mySched
-                syllabus.put()               
+                for i in range(len(mySched.schedule)):
+                    for j in range(3):
+                        mySched.setCell(j,i,self.request.get("r"+str(i)+"c"+str(j)))            
+                mySched.myFilename = newFileName
+                mySched.workingCalendar = True
             mySched.put()
             
         return self.redirect('/editcalendar')
