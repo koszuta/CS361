@@ -10,13 +10,17 @@ class Info(ndb.Model):
     section = ndb.IntegerProperty()
     building = ndb.StringProperty()
     room = ndb.StringProperty()
-    days = ndb.StringProperty(repeated = True)
-    start = ndb.TimeProperty()
-    end = ndb.TimeProperty()
+    days = ndb.StringProperty()
+    start = ndb.StringProperty()
+    end = ndb.StringProperty()
     
     
 from basehandler import BaseHandler, login_required
 
+template_env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader(os.getcwd())
+    )  
+    
 class InfoEditHandler(BaseHandler):
     @login_required
     def get(self):
@@ -35,9 +39,43 @@ class InfoEditHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
-        title = str(self.request.get('courseTitle'))
+        subject = str(self.request.get('subjectSelect'))
+        syllabus.info.subject = subject
         
+        number = int(self.request.get('courseNumber'))
+        syllabus.info.number = number
+        
+        section = int(self.request.get('sectionNumber'))
+        syllabus.info.section = section
+        
+        title = str(self.request.get('courseTitle'))
         syllabus.info.title = title
+        
+        days = ""
+        monday = str(self.request.get('mondayCheck'))
+        days = days + monday
+        tuesday = str(self.request.get('tuesdayCheck'))
+        days = days + tuesday
+        wednesday = str(self.request.get('wednesdayCheck'))
+        days = days + wednesday
+        thursday = str(self.request.get('thursdayCheck'))
+        days = days + thursday
+        friday = str(self.request.get('fridayCheck'))
+        days = days + friday
+        syllabus.info.days = days
+        
+        start = str(self.request.get('startTime'))
+        syllabus.info.start = start
+        
+        end = str(self.request.get('endTime'))
+        syllabus.info.end = end
+        
+        building = str(self.request.get('meetingBuilding'))
+        syllabus.info.building = building
+        
+        room = str(self.request.get('meetingRoom'))
+        syllabus.info.room = room
+        
         syllabus.put()
         
         self.redirect('/editinfo')

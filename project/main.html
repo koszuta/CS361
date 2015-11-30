@@ -79,30 +79,27 @@
 					<div class="administratorViewEditBannerName">
 						<p>Course Title:</p>
 					</div>
-					<form>
-						<input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="button" value="Edit" onclick="swapDiv('courseInfoViewMain', 'courseInfoEditMain', 'administratorViewEditCourseTitleButton');">
+					<form method="get" action="/editinfo">
+						<input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="submit" value="Edit">
 					</form>					
 				</div>
 				<div class="administratorViewModuleDisplay">
                 
 					<!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
 					<div id = "courseInfoViewMain">
-						<h1>
-                            {% if course_title %}
-                            {{ course_title }}
+						<h2>
+                            {% if info.title %}
+                            {{ info.subject }} {{ info.number }}-{{ info.section }}: {{ info.title }}
+                            <br />
+                            from {{ info.start }} to {{ info.end }} on {{ info.days }}
+                            <br />
+                            in {{ info.building }} {{ info.room }}
                             {% else %}
-                            -- No title entered --
+                            -- NO COURSE TITLE ENTERED --
                             {% endif %}
-                        </h1>	
+                        </h2>	
 					</div>
-                    <!--END COURSE TITLE DISPLAY MODULE-->
-					<div id = "courseInfoEditMain" style="display: none">
-                        <form method="post" action="/infoedit">
-                            Course Title: <input type="text" name="courseTitle" value="{{ course_title }}" style="width:90%">	
-                            <input type="submit">
-                        </form>
-					</div>				
-				
+                    <!--END COURSE TITLE DISPLAY MODULE-->				
 				</div>
 			</div>
 			<hr>
