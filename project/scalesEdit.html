@@ -1,70 +1,54 @@
-{% autoescape true%}
 <html>
-	<head>
-		<title> Grade Scales &gt; Edit </title>
-        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
-	</head>
-	<body>
-        <a href="/#administratorViewGradingScaleMain"> &lt; Back </a>
+<head>
+<title>Grade Editor</title>
+<h1>Grade Editor</h1>
+</head>
+<body>
+    <div id="scaleListSection">
+            <div id="savedScaleSection" class="scaleList">
+                <form id="savedscales" method="post" action="/addscale">
+                    <h2> To Add: </h2>
+                    {% for GradeScale in savedscales %}
+                        <input type ="radio" name = "selectedScale" value = "{{GradeScale.key()}}" >{{ GradeScale.key() }}
+						<br>
+                    {% endfor %}
+                    <br />
+                    <input type="submit" value="Edit" name="savedPolicyButton" id="editPolicyButton" />
+                    <input type="submit" value="Add" name="savedPolicyButton" id="addPolicyButton" />
+                </form>
+            </div>
+		</div>
 		
-		<h1>Grade Editor</h1>
-		<form method = 'post' action="/editscales"> 
-				<div id="list1" class="dropdown-check-list" tabindex="100">
-				<span class="anchor">Saved Grade Scales</span>
-				<ul class="Grades">
-					
-						
-				</ul>
-			</div>
-		</form>	
-		<form method = 'post' action="/editscales">
-			
-			<table>
-				<tr>
-					Type of Scale
-				</tr>
-				<tr>
-					<td><input type = "radio"id= "normScale"name = "scale" value = "normScale" checked>Standard Scale</td>
-				</tr>
-				<tr>
-					<td><input type = "radio" id = "normScale"name = "scale" value = "halfScale">Half Scale</td>
-				</tr>
-				<tr>
-					<td>Minimum Value for A: <input type = "number" id = "minAVal" name = "minAVal" value = "{{minAVal}}"></td>
-				</tr>
-				<tr>
-					<td>Difference: <input type = "number" id = "scaleDiff"name = "scaleDiff" value = "{{scaleDiff}}"></td>
-				</tr>
-				<tr>
-					<td>Scale Name: <input type = "text" id = "scaleDiff"name = "scaleName" value = "new calendar"{{scaleName}}></td>
-				</tr>
-			</table>
-			<input type = "submit" id = "createScale" name = "createScale" value = "Create Scale">
-		</form>
+	<div id ="scaleEditSection">
+		<form id = "scaleEdit" action="/editscales" method = "get">
 		<table>
-		<tr>
-		{%if nScale%}
-			{%for d in range(0,5)%}
-				<td>{{normalGrades[d]}}</td>
-			{%endfor%}
-		{%elif hScale%}
-			{%for x in range(0,12)%}
-				<td>{{halfGrades[x]}}
-			{%endfor%}
-		{%endif%}
-		</tr>
-		<tr>
-		{%if nScale%}
-			{% for x in range(0,5)%}
-			<td>{{grades[x]}}</td>
-			{%endfor%}
-		{%elif hScale%}
-			{%for x in range(0,12)%}
-				<td>{{grades[x]}}
-			{%endfor%}
-		{%endif%}
-		</tr>
+			<tr>
+				Name of Scale
+			</tr>
+			<tr>
+				<td><input type = "text"id= "scaleName"name = "scaleName" value = "scaleName"></td>
+			</tr>
 		</table>
-	</body>
+		
+	  
+	  <table>
+	  <tr>
+		<td><label>Letter</label></td>
+		<td><label>Grade</label></td>
+	  </tr>
+		{%for i in range(0,size)%}
+		<tr>
+			<td><input type = "text" id = "letter" name = "letter{{i}}" value = "{{letter[i]}}"></td>
+			<td><input type = "text" id = "grade" name = "grade{{i}}" value = "{{grade[i]}}"></td>
+		</tr>
+		{%endfor%}
+	  </table>
+	  <input type = "submit" id = "next" name = "next" value = "next">
+	  <input type = "submit" id = "save" name = "save" value = "save">
+	  </form>
+  </div>
+  
+  
+</body>
 </html>
-{%endautoescape%}
+

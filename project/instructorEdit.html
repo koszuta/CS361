@@ -13,7 +13,7 @@
             <form id="instructorsToAddForm" action="/addinstructor" method="post">
                 <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
                     {% for instructor in savedInstructors %}
-                    <option> {{ instructor.name() }} </option>
+                    <option> {{ instructor.key() }} </option>
                     {% endfor %}
                 </select>
                 <br />
@@ -27,7 +27,7 @@
             <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
                 <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
                 {% for instructor in syllabusInstructors %}
-                <option> {{ instructor.name() }} </option>
+                <option> {{ instructor.key() }} </option>
                 {% endfor %}
                 </select>
                 <br />

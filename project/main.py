@@ -97,6 +97,7 @@ app = webapp2.WSGIApplication([
     ('/removebooks', textbook.RemoveTextbookHandler),
     ('/editcalendar', calendarEdit.CalendarHandler),
     ('/editscales', scalesEdit.ScalesHandler),
+    #('/addscale', scalesEdit.AddScalesHandler),
     ('/editassessment', assessment.EditHandler),
     ('/addassessment', assessment.AddHandler),
     ('/removeassessment', assessment.RemoveHandler),

@@ -12,6 +12,7 @@ class Instructor(ndb.Model):
     room = ndb.StringProperty()
     hours = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
@@ -41,16 +42,10 @@ class EditHandler(BaseHandler):
         selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
         if not selected:
             selected = Instructor(parent = user.key)
-                
-        instr = []
-        for i in user.savedInstructors:
-            instr.append(i)
-        for i in syllabus.instructors:
-            instr.remove(i)
                         
         template = template_env.get_template('instructorEdit.html')
         context = {
-            'savedInstructors': instr,
+            'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syllabus.instructors,
             'selected': selected.name(),
             'sel_first': selected.first,
@@ -66,8 +61,8 @@ class EditHandler(BaseHandler):
         
     @login_required	 
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
+        user_id = self.auth.get_user_by_session().get('user_id')
+        user = self.auth.store.user_model.get_by_id(user_id)
         
         option = self.request.get('editInstructorSubmit')
         myfirst = self.request.get('instructorFirstName')
@@ -116,7 +111,7 @@ class AddHandler(BaseHandler):
             before.put()
             
         if option == 'Add':
-            new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected)
+            new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             
         self.redirect('/editinstructor')

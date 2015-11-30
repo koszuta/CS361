@@ -27,6 +27,8 @@ class LoginHandler(BaseHandler):
             user_id = user_info.get('user_id')
             user = self.auth.store.user_model.get_by_id(user_id)
             self.session['user'] = user.key.urlsafe()
+            self.session['term'] = None
+            self.session['syllabus'] = None
             
             return self.redirect('/list')
         except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
