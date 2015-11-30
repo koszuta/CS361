@@ -13,6 +13,7 @@ class CalendarClass(ndb.Model):
     meetDays = ndb.IntegerProperty(repeated = True)
     schedule = ndb.StringProperty(repeated = True)
     onSyllabus = ndb.BooleanProperty(default = False)
+    workingCalendar = ndb.BooleanProperty(default = False)
     
     @staticmethod
     def new():
@@ -173,8 +174,8 @@ class CalendarClass(ndb.Model):
             if (column > -1) and (column < 3):
                 self.schedule[(3*row + column)] = str(value)
                 
-    def clone(self, parent = None):
-        newCal = CalendarClass(parent)
+    def clone(self, p = None):
+        newCal = CalendarClass(parent = p)
         newCal.myFilename = self.myFilename
         newCal.startMonth = self.startMonth
         newCal.startDate = self.startDate

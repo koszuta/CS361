@@ -331,7 +331,7 @@
 					<!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->				
                     <div id="calendarViewMain">
                         {% if calendar %} 
-                            {% set myCalendarSchedule = calendar.schedule %}
+                            {% set myCalendarSchedule = calendar[0].schedule %}
                             <table id="calendarViewCalendarTable">
                                 <tr class="calendarViewCalendarRow">
                                     <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[0] }}</span></td>
