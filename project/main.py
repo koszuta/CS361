@@ -30,24 +30,11 @@ class MainHandler(BaseHandler):
             'scale': syllabus.scale,
             'calendar': syllabus.calendars,
             'assessments': syllabus.assessments,
-            'course_title': syllabus.info.title
+            'info': syllabus.info
         }
         
         self.response.write(template.render(context))
-
-class InfoEditHandler(BaseHandler):
-    @login_required
-    def post(self):
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        
-        title = str(self.request.get('courseTitle'))
-        
-        syllabus.info.title = title
-        syllabus.put()
-        
-        self.redirect('/')
-        
+  
                
 import user  
 import signup 
@@ -62,6 +49,7 @@ import preview
 import scalesEdit
 import textbook
 import term
+import courseinfo
      
 config = {}
 config['webapp2_extras.auth'] = {
@@ -79,7 +67,6 @@ termRegex = '/(.+)/([FfSsMmWw][0-9][0-9])'
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/infoedit', InfoEditHandler),
     ('/login', login.LoginHandler),
     ('/signup', signup.SignupHandler),
     ('/logout', logout.LogoutHandler),
@@ -105,6 +92,7 @@ app = webapp2.WSGIApplication([
     ('/addpolicy', policy.AddHandler),
     ('/removepolicy', policy.RemoveHandler),
     ('/preview', preview.PreviewHandler),
+    ('/editinfo', courseinfo.InfoEditHandler),
     (termRegex + '/*', term.WeeklyCalendarHandler),
     (termRegex + '/(.*)', preview.ViewHandler),
 ], debug=True, config=config)
