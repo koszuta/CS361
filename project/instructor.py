@@ -61,8 +61,8 @@ class EditHandler(BaseHandler):
         
     @login_required	 
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
+        user_id = self.auth.get_user_by_session().get('user_id')
+        user = self.auth.store.user_model.get_by_id(user_id)
         
         option = self.request.get('editInstructorSubmit')
         myfirst = self.request.get('instructorFirstName')

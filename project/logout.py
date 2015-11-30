@@ -15,5 +15,6 @@ class LogoutHandler(BaseHandler):
 	def get(self):
 		self.session['term'] = None
 		self.session['syllabus'] = None
+		self.session['user'] = None
 		self.auth.unset_session
 		self.redirect('/login')
