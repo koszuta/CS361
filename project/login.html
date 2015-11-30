@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
+	</head>
+	<body>
+		<h2> Log in to SyllaBlaster </h2>
+		<div id="loginBox">
+			<form method="post" action="/login">
+			
+				<input type="text" placeholder="Username" name="usernameLogin" id="usernameLogin" required />
+				<br />
+				
+				<input type="password" placeholder="Password" name="passwordLogin" id="passwordLogin" required />
+				<br />
+				<input type="submit" value="Login" name="loginButton" id="loginButton" />
+			</form>
+			<p> No account? <a href="/signup"> Sign up here. </a> </p>
+		</div>
+	</body>
+</html>
