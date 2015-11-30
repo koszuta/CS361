@@ -16,22 +16,25 @@ template_env = jinja2.Environment(
 class MainHandler(BaseHandler):
     @login_required
     def get(self):
+        syllabus = None
         syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        if syllabusKey:
+            syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
         if not syllabus:   
             return self.redirect('/list')
             
-        template = template_env.get_template('main.html')
-        context = {
-            'books': syllabus.textbooks,
-            'instructors': syllabus.instructors,
-            'policies': syllabus.policies,
-            'scale': syllabus.scale,
-            'calendar': syllabus.calendars,
-            'assessments': syllabus.assessments,
-            'info': syllabus.info
-        }
+        if syllabus:
+            template = template_env.get_template('main.html')
+            context = {
+                'books': syllabus.textbooks,
+                'instructors': syllabus.instructors,
+                'policies': syllabus.policies,
+                'scale': syllabus.scale,
+                'calendar': syllabus.calendars,
+                'assessments': syllabus.assessments,
+                'info': syllabus.info
+            }
         
         self.response.write(template.render(context))
   

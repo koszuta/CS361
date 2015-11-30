@@ -8,13 +8,15 @@
             <div id="savedScaleSection" class="scaleList">
                 <form id="savedscales" method="post" action="/addscale">
                     <h2> To Add: </h2>
-                    {% for GradeScale in savedscales %}
-                        <input type ="radio" name = "selectedScale" value = "{{GradeScale.key()}}" >{{ GradeScale.key() }}
+                    {% for s in savedScales %}
+                       {% if s.scaleName %}
+                        <input type ="radio" name = "selectedScale" value = "{{s.scaleName}}" >{{ s.scaleName}}
 						<br>
+                        {% endif %}
                     {% endfor %}
                     <br />
-                    <input type="submit" value="Edit" name="savedPolicyButton" id="editPolicyButton" />
-                    <input type="submit" value="Add" name="savedPolicyButton" id="addPolicyButton" />
+                    <input type="submit" value="Edit" name="editScale" id="editScaleButton" />
+                    <input type="submit" value="Add" name="saveScale" id="addScaleButton" />
                 </form>
             </div>
 		</div>
