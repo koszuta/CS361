@@ -34,8 +34,8 @@ class BaseHandler(webapp2.RequestHandler):
 def login_required(handler):
     def check_login(self, *args, **kwargs):
         auth = self.auth
-        if not auth.get_user_by_session():
-            self.redirect('/login')
+        if not self.session['user']:
+            return self.redirect('/login')
         else:
             return handler(self, *args, **kwargs)
             

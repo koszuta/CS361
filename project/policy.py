@@ -5,27 +5,28 @@ from google.appengine.ext import ndb
 
 
 class Policy(ndb.Model):
-	title = ndb.StringProperty()
-	description = ndb.TextProperty()
-	isSelected = ndb.BooleanProperty()
-	
-	def copy(self):
-		return Policy(title=self.title, description=self.description, isSelected=self.isSelected)
-		
-	def key(self):
-		if self.title == "" or self.title is None:
-			return "none"
-			
-		return self.title
-	
+    title = ndb.StringProperty()
+    description = ndb.TextProperty()
+    isSelected = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
+    
+    def copy(self):
+        return Policy(title=self.title, description=self.description, isSelected=self.isSelected)
+        
+    def key(self):
+        if self.title == "" or self.title is None:
+            return "none"
+            
+        return self.title
+    
     
 from basehandler import BaseHandler, login_required
 from calendars import Calendar
 from syllabus import Syllabus
 from textbook import Textbook
-		        
+                
 class EditHandler(BaseHandler):
-    @login_required	 
+    @login_required     
     def get(self):
         x = policy.Policy()
         for item in user.savedPolicies:
@@ -44,7 +45,7 @@ class EditHandler(BaseHandler):
 
         self.response.write(template.render(context))
         
-    @login_required	 
+    @login_required     
     def post(self):
         option = self.request.get("policyEditorButton")
         
@@ -72,7 +73,7 @@ class EditHandler(BaseHandler):
         
 
 class AddHandler(BaseHandler):
-    @login_required	 
+    @login_required     
     def post(self):
         option = self.request.get("savedPolicyButton")
         selected = self.request.get("savedpolicies")
@@ -94,7 +95,7 @@ class AddHandler(BaseHandler):
         
         
 class RemoveHandler(BaseHandler):
-    @login_required	 
+    @login_required     
     def post(self):
         selected = self.request.get("policiesOnSyllabus")
         chosen = policy.Policy()
