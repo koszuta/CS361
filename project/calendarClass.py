@@ -12,7 +12,7 @@ class CalendarClass(ndb.Model):
     numWeeks = ndb.IntegerProperty(default = -1)
     meetDays = ndb.IntegerProperty(repeated = True)
     schedule = ndb.StringProperty(repeated = True)
-    onSyllabus = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
     @staticmethod
     def new():

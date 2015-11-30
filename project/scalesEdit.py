@@ -13,7 +13,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 # create a new grading scale and save to data store
 class GradeScale:
 	scaleName = ndb.StringProperty()
-	onSyllabus = ndb.BooleanProperty()
+	onSyllabus = ndb.BooleanProperty(default = False)
 	def __init__(self):
 		self.scaleName = ""
 		self.minAVal = 0

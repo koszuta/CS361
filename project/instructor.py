@@ -12,7 +12,7 @@ class Instructor(ndb.Model):
     room = ndb.StringProperty()
     hours = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
-    onSyllabus = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
@@ -75,7 +75,7 @@ class EditHandler(BaseHandler):
         if option == 'Update Info':
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
         elif option == 'Create New':
-            i = Instructor(parent = user.key, onSyllabus = False)
+            i = Instructor(parent = user.key)
         
         if i:    
             i.first = myfirst
@@ -85,7 +85,6 @@ class EditHandler(BaseHandler):
             i.building = mybuilding
             i.room = myroom
             i.isSelected = True
-            i.onSyllabus = False
             i.put()
             
         self.redirect('/editinstructor')

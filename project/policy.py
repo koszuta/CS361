@@ -8,7 +8,7 @@ class Policy(ndb.Model):
     title = ndb.StringProperty()
     description = ndb.TextProperty()
     isSelected = ndb.BooleanProperty()
-    onSyllabus = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
     def copy(self):
         return Policy(title=self.title, description=self.description, isSelected=self.isSelected)
