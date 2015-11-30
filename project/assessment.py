@@ -8,7 +8,7 @@ class Assessment(ndb.Model):
     description = ndb.TextProperty()
     percentage = ndb.IntegerProperty()
     isSelected = ndb.BooleanProperty()
-    onSyllabus = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty(default = False)
     
     def copy(self):
         return Assessment(title=self.title, description=self.description, percentage=self.percentage, isSelected=self.isSelected)
