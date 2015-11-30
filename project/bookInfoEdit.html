@@ -19,7 +19,7 @@
     {% else %}
     <br><br>
     {% endif %}
-    <form id="editBook" action="/editbook?isbn={{ editISBN|urlencode }}" method="post">
+    <form id="editBook" action="/editbook?isbn={{ editISBN|urlencode }}&onSyllabus={{ onSyllabus }}" method="post">
       <div>
         <label for="bookTitle">Title: </label>
         <input id="bookTitle" name="bookTitle" required type="text" value="{{ title }}">

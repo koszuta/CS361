@@ -11,7 +11,7 @@
     <h1>Textbooks</h1>
     <a href="/#administratorViewTextbooksMain">&lt; Back</a>
     {% if books %}
-    <form id="currentBooks" action="/removebooks" method="post">
+    <form id="currentBooks" action="/removebooks?onSyllabus=1" method="post">
 	  <p>Currently selected textbook(s):</p>
 	  {% for book in books %}
       <input id="{{book.isbn}}" name="bookSelect" checked value="{{book.isbn}}" type="checkbox">
@@ -23,7 +23,7 @@
         <span class="bookAuthor">{{ book.author }}</span>,
         <span class="bookPublisher">{{ book.publisher }}</span>,
         ISBN: <span class="bookISBN">{{ book.isbn }}</span>
-        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}">Edit</a>
+        &ndash; <a href="/editbook?isbn={{ book.isbn|urlencode }}&amp;onSyllabus=1">Edit</a>
       </label>
       <br>
       {% endfor %}
@@ -35,15 +35,17 @@
     {% else %}
     <br><br>
     {% endif %}
-    <form id="searchBooks" action="/editbooks" method="get">
+    <form id="searchBooks" action="/findbook" method="post">
       <label for="bookQuery">Search for available textbooks to add: </label><br />
       <select id="bookQueryType" name="bookQueryType">
-        <option value="title" selected>Title</option>
-        <option value="author">Author</option>
-        <option value="publisher">Publisher</option>
-        <option value="isbn">ISBN</option>
+        <option value="title"{% if lastQueryType == 'title' %} selected{% endif %}>Title</option>
+        <option value="author"{% if lastQueryType == 'author' %} selected{% endif %}>Author</option>
+        <option value="edition"{% if lastQueryType == 'edition' %} selected{% endif %}>Edition</option>
+        <option value="publisher"{% if lastQueryType == 'publisher' %} selected{% endif %}>Publisher</option>
+        <option value="isbn"{% if lastQueryType == 'isbn' %} selected{% endif %}>ISBN</option>
+        <option value="all"{% if lastQueryType == 'all' %} selected{% endif %}>All Fields</option>
       </select>
-      <input type="text" id="bookQuery" required>
+      <input type="text" id="bookQuery" name="bookQuery" value="{% if lastQuery %}{{ lastQuery }}{% endif %}">
       <input type="submit" name="queryBooks" value="Search">
     </form>
     <hr>

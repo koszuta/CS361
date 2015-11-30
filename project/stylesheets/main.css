@@ -11,6 +11,11 @@ pre {
 	color: red;
 }
 
+.warning {
+	color: red;
+	font-weight: bold;
+}
+
 .noData {
 	font-weight: bold;
 }

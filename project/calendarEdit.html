@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> Calendar &gt; Edit </title>
-        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
-        <link href="stylesheets/calendarEdit.css" rel="stylesheet" type="text/css" />    
+        <title>Calendar Edit</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/calendarEdit.css">    
     </head>   
     <body>
-        <a href="/#administratorViewCalendarMain"> &lt; Back </a>
-        
         <!--<h1>{{ msg }}</h1>-->
+        <a href="/#administratorViewCalendarMain"> &lt; Back </a>
         <div id="calendarEditMain">
             <h1>Course Calendar Edit View:</h1>
             <hr/>
-            <form method="POST" action="/editcalendar">
+            <form method="POST">
                 <table>
                     <tr>
                         <td>Work from existing calendar:</td>
                         <td>
                             <select name="fileName">
                                 <option value="new">new</option>
-                                <option value="savedCalendar1">savedCalendar1</option>
-                                <option value="savedCalendar2">savedCalendar2</option>
-                                <option value="savedCalendar3">savedCalendar3</option>
+                                {% for i in savedCalendars %}
+                                    <option value="{{ loop.index0 }}">{{ i }}</option>
+                                {% endfor %}
                             </select>
                         </td>
                         <td><input type="submit" name="loadFile" value="Go"></td>
@@ -30,76 +27,87 @@
                 </table>
             </form>
             <hr/>
-            <form method="POST" action="/editcalendar">
-                <table>
-                    <tr>
-                        <td>Start Month: </td>
-                        <td><input type="number" name="startMonth" value="{{ startMonth }}"></td>
-                    </tr>
-                    <tr>
-                        <td>Start Date: </td>
-                        <td><input type="number" name="startDate" value="{{ startDate }}"></td>
-                    </tr>
-                    <tr>
-                        <td>Start Year: </td>
-                        <td><input type="number" name="startYear" value="{{ startYear }}"></td>
-                    </tr>
-                    <tr>
-                        <td>Number of Weeks this semester: </td>
-                        <td><input type="number" name="weeksThisSemester" value="{{ numWeeks }}"></td>
-                    </tr>
-                    <tr>
-                        <td>Meeting Days:</td>
-                        <td>
-                            <input type="checkbox" name="Monday" value="True" {{ mondayChecked }}> Monday
-                            <input type="checkbox" name="Tuesday" value="True" {{ tuesdayChecked }}> Tuesday
-                            <input type="checkbox" name="Wednesday" value="True" {{ wednesdayChecked }}> Wednesday
-                            <input type="checkbox" name="Thursday" value="True" {{ thursdayChecked }}> Thursday
-                            <input type="checkbox" name="Friday" value="True" {{ fridayChecked }}> Friday
-                            <input type="checkbox" name="Saturday" value="True" {{ saturdayChecked }}> Saturday
-                            <input type="checkbox" name="Sunday" value="True" {{ sundayChecked }}> Sunday
-                        </td>
-                    </tr>
-                </table>
-                <input type="submit" name="generateCalendar" value="Generate">
-            </form>
-            <hr/>
-            <table>
-                <form method="POST" action="/editcalendar">
-                    <tr>
-                        <td>Row: </td>
-                        <td><input type="text" name="targetRowInsert"></td>
-                        <td><input type="submit" value="Insert" name="insertRow"></td>
-                    </tr>
+            {% if mySchedule %}
+                <form method="POST">
+                    {% set onSyl = "" %}
+                    {% if mySchedule.onSyllabus %}
+                        {% set onSyl = "checked" %}
+                    {% endif %}
+                    <input type="checkbox" name="onSyllabus" value="True" {{ onSyl }}> Assigned to syllabus
+                    <input type="submit" name="assignToSyllabus" value="Set">
                 </form>
-                <form method="POST" action="/editcalendar">
-                    <tr>
-                        <td>Row: </td>
-                        <td><input type="text" name="targetRowRemove"></td>
-                        <td><input type="submit" value="Remove" name="removeRow"></td>
-                    </tr>
-                </form>                
-            </table>
-            <hr/>
-            <form method="POST" action="/editcalendar">
-                <table id="calendarEditCalendarTable">
-                    {% for i in myCalendarSchedule %}
-                        <tr class="calendarEditCalendarRow">
-                            <td>{{ loop.index0 }}</td>
-                            <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c0" value="{{ i.date }}"></td>
-                            <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c1" value="{{ i.chapter }}"></td>
-                            <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c2" value="{{ i.topic }}"></td>
-                        </tr>                    
-                    {% endfor %}
+                <hr/>
+                <form method="POST">
+                    <table>
+                        <tr>
+                            <td>Start Month: </td>
+                            <td><input type="number" name="startMonth" value="{{ mySchedule.startMonth }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Start Date: </td>
+                            <td><input type="number" name="startDate" value="{{ mySchedule.startDate }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Start Year: </td>
+                            <td><input type="number" name="startYear" value="{{ mySchedule.startYear }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Number of Weeks this semester: </td>
+                            <td><input type="number" name="weeksThisSemester" value="{{ mySchedule.numWeeks }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Meeting Days:</td>
+                            <td>
+                                <input type="checkbox" name="Monday" value="True" {{ mondayChecked }}> Monday
+                                <input type="checkbox" name="Tuesday" value="True" {{ tuesdayChecked }}> Tuesday
+                                <input type="checkbox" name="Wednesday" value="True" {{ wednesdayChecked }}> Wednesday
+                                <input type="checkbox" name="Thursday" value="True" {{ thursdayChecked }}> Thursday
+                                <input type="checkbox" name="Friday" value="True" {{ fridayChecked }}> Friday
+                                <input type="checkbox" name="Saturday" value="True" {{ saturdayChecked }}> Saturday
+                                <input type="checkbox" name="Sunday" value="True" {{ sundayChecked }}> Sunday
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="generateCalendar" value="Generate">
+                </form>
+                <hr/>
+                <table>
+                    <form method="POST">
+                        <tr>
+                            <td>Row: </td>
+                            <td><input type="text" name="targetRowInsert"></td>
+                            <td><input type="submit" value="Insert" name="insertRow"></td>
+                        </tr>
+                    </form>
+                    <form method="POST">
+                        <tr>
+                            <td>Row: </td>
+                            <td><input type="text" name="targetRowRemove"></td>
+                            <td><input type="submit" value="Remove" name="removeRow"></td>
+                        </tr>
+                    </form>                
                 </table>
                 <hr/>
-                <input type="text" name="fileName" value="{{ myFileName }}">
-                <input type="submit" value="Save" name="save">
-            </form>            
-            <hr/>
-            <form method="POST" action="/editcalendar">
-                <input type="submit" value="Exit" name="exit">
-            </form>           
+                <form method="POST">
+                    <table id="calendarEditCalendarTable">
+                        {% set myCalendarSchedule = mySchedule.schedule %}
+                        {% set l = (myCalendarSchedule|length)//3 %}
+                        {% for i in range(0,l) %}
+                            <tr class="calendarEditCalendarRow">
+                                <td>{{ i }}</td>
+                                <td class="calendarEditWeekColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c0" value="{{ myCalendarSchedule[3*i] }}"></td>
+                                <td class="calendarEditReadingColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c1" value="{{ myCalendarSchedule[3*i+1] }}"></td>
+                                <td class="calendarEditTopicsColumn"><input class="calendarEditInput" type="text" name="r{{ loop.index0 }}c2" value="{{ myCalendarSchedule[3*i+2] }}"></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <hr/>
+                    <input type="text" name="fileName" value="{{ mySchedule.myFilename }}">
+                    <input type="submit" value="Save" name="save">
+                </form>            
+            {% else %}
+                <h1> Create new or work from an existing calendar </h1>
+            {% endif %}
         </div>   
     </body>
 </html>

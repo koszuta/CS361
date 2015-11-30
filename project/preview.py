@@ -4,6 +4,13 @@ import webapp2
 from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, Undefined
 from google.appengine.ext import ndb
+from webapp2_extras.appengine.auth.models import User
+
+from syllabus import Syllabus
+from instructor import Instructor
+from textbook import Textbook
+
+from basehandler import BaseHandler
 
 class SilentUndefined(Undefined):
     def _fail_with_undefined_error(self, *args, **kwargs):
@@ -15,7 +22,7 @@ jinja_env = Environment(
   autoescape=True,
   undefined=SilentUndefined)
   
-class PreviewHandler(webapp2.RequestHandler):
+class PreviewHandler(BaseHandler):
     @staticmethod
     def createDummyContext():
         course = {
@@ -25,20 +32,24 @@ class PreviewHandler(webapp2.RequestHandler):
 
         instructors = [
             {
-                'name': 'Jayson Rock',
+                'first': 'Jayson',
+                'last': 'Rock',
                 'email': 'rock@uwm.edu',
                 'class': 'COMPSCI 361-401 EMS E145 MW 10-10:50am',
-                'officeRoom': 'EMS E307',
-                'officePhone': '(262) 825-4129',
-                'officeHours': 'MTR 11am'
+                'building': 'EMS',
+                'room': 'E307',
+                'phone': '(262) 825-4129',
+                'hours': 'MTR 11am'
             },
             {
-                'name': 'Tanawat Khunlertkit',
+                'first': 'Tanawat',
+                'last': 'Khunlertkit',
                 'email': 'tanawat@uwm.edu',
                 'class': '',
-                'officeRoom': 'EMS 962',
-                'officePhone': '(262) 825-4129',
-                'officeHours': ''
+                'building': 'EMS',
+                'room': '962',
+                'phone': '(262) 825-4129',
+                'hours': ''
             }
         ]
 
@@ -152,5 +163,27 @@ class PreviewHandler(webapp2.RequestHandler):
         if dummy:
             context = self.createDummyContext()
         else:
-            context = {}
+            syllabusKey = self.session.get('syllabus')
+            syllabus = ndb.Key(urlsafe = syllabusKey).get()
+            context = {
+                'instructors': Instructor.query(ancestor = syllabus.key).fetch(),
+                'textbooks': Textbook.query(ancestor = syllabus.key).fetch(),
+            }
         self.response.write(template.render(context))
+
+class ViewHandler(PreviewHandler):
+    def get(self, username, term, syllabus):
+        # TODO: Determine valid syllabus names
+        
+        # Deal with possible trailing slash
+        if syllabus[-1] == '/':
+            syllabus = syllabus[:-1]
+
+        user = User.get_by_auth_id(username)
+
+        if user and term.upper() == 'F15' and syllabus == 'cs361':
+            self.session['syllabus'] = Syllabus.query(ancestor=user.key).get().key.urlsafe()
+            PreviewHandler.get(self)
+            del self.session['syllabus']
+        else:
+            self.abort(404)
