@@ -12,6 +12,7 @@ class Instructor(ndb.Model):
     room = ndb.StringProperty()
     hours = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
+    onSyllabus = ndb.BooleanProperty()
     
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
@@ -41,16 +42,10 @@ class EditHandler(BaseHandler):
         selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
         if not selected:
             selected = Instructor(parent = user.key)
-                
-        instr = []
-        for i in user.savedInstructors:
-            instr.append(i)
-        for i in syllabus.instructors:
-            instr.remove(i)
                         
         template = template_env.get_template('instructorEdit.html')
         context = {
-            'savedInstructors': instr,
+            'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syllabus.instructors,
             'selected': selected.name(),
             'sel_first': selected.first,
@@ -80,7 +75,7 @@ class EditHandler(BaseHandler):
         if option == 'Update Info':
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
         elif option == 'Create New':
-            i = Instructor(parent = user.key)
+            i = Instructor(parent = user.key, onSyllabus = False)
         
         if i:    
             i.first = myfirst
@@ -90,6 +85,7 @@ class EditHandler(BaseHandler):
             i.building = mybuilding
             i.room = myroom
             i.isSelected = True
+            i.onSyllabus = False
             i.put()
             
         self.redirect('/editinstructor')
@@ -116,7 +112,7 @@ class AddHandler(BaseHandler):
             before.put()
             
         if option == 'Add':
-            new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected)
+            new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             
         self.redirect('/editinstructor')

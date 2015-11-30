@@ -7,32 +7,32 @@ class User(webapp2_extras.appengine.auth.models.User):
     @property
     def savedPolicies(self):
         from policy import Policy
-        return Policy.query(ancestor = self.key).fetch()
+        return Policy.query(ancestor = self.key).filter(Policy.onSyllabus == False).fetch()
         
     @property
     def savedScales(self):
         from scale import Scale
-        return Scale.query(ancestor = self.key).fetch()
+        return Scale.query(ancestor = self.key).filter(Scale.onSyllabus == False).fetch()
         
     @property
     def savedInstructors(self):
         from instructor import Instructor
-        return Instructor.query(ancestor = self.key).fetch()
+        return Instructor.query(ancestor = self.key).filter(Instructor.onSyllabus == False).fetch()
         
     @property
     def savedAssessments(self):
         from assessment import Assessment
-        return Assessment.query(ancestor = self.key).fetch()
+        return Assessment.query(ancestor = self.key).filter(Assessment.onSyllabus == False).fetch()
         
     @property
     def savedCalendars(self):
         from calendarClass import CalendarClass
-        return CalendarClass.query(ancestor = self.key).fetch()
+        return CalendarClass.query(ancestor = self.key).filter(CalendarClass.onSyllabus == False).fetch()
         
     @property
     def savedTextbooks(self):
         from textbook import Textbook
-        return Textbook.query(ancestor = self.key).fetch()
+        return Textbook.query(ancestor = self.key).filter(Textbook.onSyllabus == False).fetch()
         
     @property
     def terms(self):
