@@ -43,7 +43,7 @@ class EditHandler(BaseHandler):
         if not selected:
             selected = Instructor(parent = user.key)
                         
-        template = template_env.get_template('instructorEdit.html')
+        template = template_env.get_template('instructor.html')
         context = {
             'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syllabus.instructors,

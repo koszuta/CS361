@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/courseinfo.css" />
+	</head>
+	<body>
+        <a href="/#administratorViewCourseTitleMain"> &lt; Back </a>
+        
+		<div id="courseInfoEditSection">
+			<form id="updateCourseInfo" action="/editinfo"" method="post">
+				<div id="numberSection" class="infoInput">
+                    <select name="subjectSelect" id="subjectSelect">
+                        <option value="" disabled {% if not info.subject %} selected {% endif %}> Select Subject </option>
+                        <option value="CIV ENG"
+                        {% if info.subject == "CIV ENG" %} selected {% endif %}> Civil & Environmental Engineering </option>
+                        <option value="COMPSCI"
+                        {% if info.subject == "COMPSCI" %} selected {% endif %}> Computer Science </option>
+                        <option value="ELECENG"
+                        {% if info.subject == "ELECENG" %} selected {% endif %}> Electrical Engineering </option>
+                        <option value="IND ENG"
+                        {% if info.subject == "IND ENG" %} selected {% endif %}> Industrial & Manufacturing Engineering </option>
+                        <option value="MATLENG"
+                        {% if info.subject == "MATLENG" %} selected {% endif %}> Materials Science & Engineering </option>
+                        <option value="MECHENG"
+                        {% if info.subject == "MECHENG" %} selected {% endif %}> Mechanical Engineering </option>
+                    </select>
+                    
+                    <input type="number" value="{{ info.number }}" placeholder="Course Number" name="courseNumber" id="courseNumber" min="0" max="9999" />
+                    
+                    <input type="number" value="{{ info.section }}" placeholder="Section Number" name="sectionNumber" id="sectionNumber" min="0" max="9999" />
+				</div>
+                <br />
+                <div id="titleSection" class="infoInput">
+                    <input type="text" value="{% if info.title %}{{ info.title }}{% endif %}" placeholder="Course Title" name="courseTitle" id="courseTitle" />
+                </div>
+                <br />
+                <div id="roomSection" class="infoInput">
+                    Meets in
+                    <select name = "meetingBuilding" id = "meetingBuilding">
+                        <option value = "EMS" 
+                        {% if info.building == "EMS" %} selected {% endif %}>  EMS         </option>
+                        <option value = "PHY"
+                        {% if info.building == "PHY" %} selected {% endif %}>  Physics     </option>
+                        <option value = "CHEM"
+                        {% if info.building == "CHEM" %} selected {% endif %}> Chemistry   </option>
+                        <option value = "LAPH"
+                        {% if info.building == "LAPH" %} selected {% endif %}> Lapham      </option>
+                    </select> 		
+                    <input type="text" placeholder="Room" name="meetingRoom" id="meetingRoom" value="{% if info.room != None %}{{ info.room }}{% endif %}" min="0" max="9999"/>
+                </div>
+                <br />
+                <div id="timeSection" class="infoInput">
+                    From
+                    <input type="time" value="{{ info.start }}" name="startTime" id="startTime" step="60" />
+                    to
+                    <input type="time" value="{{ info.end }}" name="endTime" id="endTime" step="60" />
+                    
+                    on
+                    <input type="checkbox" {% if info.days %}{% if "M" in info.days %} checked="checked" {% endif %}{% endif %} value="M" name="mondayCheck" id="mondayCheck" class="checkbox" />
+                    M
+                    
+                    <input type="checkbox" {% if info.days %}{% if "T" in info.days %} checked="checked" {% endif %}{% endif %} value="T" name="tuesdayCheck" id="tuesdayCheck" class="checkbox" />
+                    T
+                    
+                    <input type="checkbox" {% if info.days %}{% if "W" in info.days %} checked="checked" {% endif %}{% endif %} value="W" name="wednesdayCheck" id="wednesdayCheck" class="checkbox" />
+                    W
+                    
+                    <input type="checkbox" {% if info.days %}{% if "R" in info.days %} checked="checked" {% endif %}{% endif %} value="R" name="thursdayCheck" id="thursdayCheck" class="checkbox" />
+                    R
+                    
+                    <input type="checkbox" {% if info.days %}{% if "F" in info.days %} checked="checked" {% endif %}{% endif %} value="F" name="fridayCheck" id="fridayCheck" class="checkbox" />
+                    F
+                </div>
+                <br />
+                <div id="buttonSection" class="infoInput">
+                    <input type="submit" value="Update" name="updateButton" id="updateButton" />
+                </div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+body, input, select {
+    font-size: 1em;
+}
+
+body {
+    font-size: 1.5em;
+}
+
+div#courseInfoEditSection {
+    width: 50%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1500px) {
+    div#courseInfoEditSection {
+        width: 70%;
+    }
+}
+
+div.infoInput {
+    margin: 0 auto;
+}
+
+select#subjectSelect {
+    width: 60%;
+}
+
+div#titleSection input {
+    width: 70%;
+}
+
+div#buttonSection {
+    width: 0%;
+    margin: 0 auto;
+}
+
+input {
+    margin: 0 5px 0 5px;
+}
+
+input.checkbox {
+    margin-left: 20px;
+    margin-right: 0px;
+}
