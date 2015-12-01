@@ -59,6 +59,7 @@ class EditHandler(BaseHandler):
         option = self.request.get("policyEditorButton")
         mytitle = self.request.get("policyTitle")
         mydescription = self.request.get("policyDescription")
+        p = None      
           
         if option == "Update":
             p = Policy.query(ancestor = user.key).filter(Policy.isSelected == True).get()

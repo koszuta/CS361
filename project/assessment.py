@@ -61,7 +61,8 @@ class EditHandler(BaseHandler):
         mytitle = self.request.get("assessmentTitle")
         mypercentage = int(self.request.get("assessmentPercentage"))
         mydescription = self.request.get("assessmentDescription")
-               
+        a = None
+        
         if option == "Update":
             a = Assessment.query(ancestor = user.key).filter(Assessment.isSelected == True).get()
         elif option == "Create New":
