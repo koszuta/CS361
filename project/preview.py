@@ -7,8 +7,7 @@ from google.appengine.ext import ndb
 from webapp2_extras.appengine.auth.models import User
 
 from syllabus import Syllabus
-from instructor import Instructor
-from textbook import Textbook
+from calendarClass import CalendarClass
 
 from basehandler import BaseHandler
 
@@ -120,24 +119,7 @@ class PreviewHandler(BaseHandler):
             {'title': 'Makeup/Late Policy', 'desc': 'Assignments are submitted electronically via D2L.uwm.edu. An assignment is penalized 20% for each day (or part of a day) that it is late. The lowest quiz score is dropped to accommodate students who have life circumstances that prevent them from taking a quiz. There are no makeup quizzes.<br><br>Exams can be made up only if each of the following criteria are met:<br><br>1.      The circumstance that caused the student to miss the exam is unexpected, verifiable, and beyond the student\'s control.<br><br>2.      The student contacts the instructor as soon as possible by leaving a message at the phone number listed on the syllabus or by sending an email to <a href="mailto:rock@uwm.edu">rock@uwm.edu</a>. The message/email must contain a phone number the instructor can use to contact the student.<br><br>With sufficient advance notice, the instructor may allow students to take the exam at an alternate time to accommodate travel for extramural activities, work schedule, etc. Arranging to take the exam at an alternate time in advance is not considered a makeup exam.'},
         ]
         
-        calendar = [
-            {'date': '9/2', 'reading': '', 'topic': 'What is software engineering?'},
-            {'date': '9/9', 'reading': '<a href="http://www.w3.org/wiki/Web_Standards_Curriculum">HTML5/CSS</a>', 'topic': 'HTML5/CSS'},
-            {'date': '9/16', 'reading': '<a href="https://www.scrum.org/Portals/0/Documents/Scrum%20Guides/2013/Scrum-Guide.pdf#zoom=100">Scrum</a>', 'topic': 'Scrum: Intro, PB grooming'},
-            {'date': '9/23', 'reading': '', 'topic': ''},
-            {'date': '9/30', 'reading': '', 'topic': ''},
-            {'date': '10/7', 'reading': 'GAE: 1-2', 'topic': ''},
-            {'date': '10/14', 'reading': 'Midterm', 'topic': ''},
-            {'date': '10/21', 'reading': 'S: 1-2, GAE: 3', 'topic': 'Jinja2, TDD'},
-            {'date': '10/28', 'reading': 'S: 3, GAE: 4', 'topic': '<a href="http://www.scrum.org/About/All-Articles/articleType/ArticleView/articleId/642/Adopting-Test-First-Development">Test-Driven Dev</a>, datastore'},
-            {'date': '11/4', 'reading': 'GAE: 5, S: 4', 'topic': 'datastore, redundancy'},
-            {'date': '11/11', 'reading': 'S: 5-6', 'topic': 'Encapsulation, interface oriented design'},
-            {'date': '11/18', 'reading': '', 'topic': ''},
-            {'date': '11/25', 'reading': '', 'topic': ''},
-            {'date': '12/2', 'reading': '', 'topic': 'Continuous Integration'},
-            {'date': '12/9', 'reading': '', 'topic': ''},
-            {'date': '12/16', 'reading': 'Final Exam', 'topic': ''},
-        ]
+        calendar = [ CalendarClass.generateDummyCalendar() ]
 
         contextDict = {
             'course': course,
@@ -166,8 +148,13 @@ class PreviewHandler(BaseHandler):
             syllabusKey = self.session.get('syllabus')
             syllabus = ndb.Key(urlsafe = syllabusKey).get()
             context = {
-                'instructors': Instructor.query(ancestor = syllabus.key).fetch(),
-                'textbooks': Textbook.query(ancestor = syllabus.key).fetch(),
+                'textbooks': syllabus.textbooks,
+                'instructors': syllabus.instructors,
+                'policies': syllabus.policies,
+                'scale': syllabus.scale,
+                'calendar': syllabus.calendars,
+                'assessments': syllabus.assessments,
+                'info': syllabus.info
             }
         self.response.write(template.render(context))
 
