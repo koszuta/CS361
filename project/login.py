@@ -19,6 +19,11 @@ class LoginHandler(BaseHandler):
         self.response.write(template.render(context))
         
     def post(self):
+        self.session['term'] = None
+        self.session['syllabus'] = None
+        self.session['user'] = None
+        self.auth.unset_session
+        
         username = self.request.get('usernameLogin')
         password = self.request.get('passwordLogin')
         

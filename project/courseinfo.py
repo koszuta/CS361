@@ -27,7 +27,7 @@ class InfoEditHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
-        template = template_env.get_template('courseInfoEdit.html')
+        template = template_env.get_template('courseinfo.html')
         context = {
             'info': syllabus.info
         }
@@ -78,5 +78,5 @@ class InfoEditHandler(BaseHandler):
         
         syllabus.put()
         
-        self.redirect('/editinfo')
+        self.redirect('/#administratorViewCourseTitleMain')
       

@@ -14,28 +14,6 @@
                 <link rel="stylesheet" type="text/css" href="/stylesheets/instructorEdit.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/gradingScaleView.css" />
               
-              
-                <script type="text/javascript">
-                function swapDiv(div1, div2, buttonId) {
-                d1 = document.getElementById(div1);
-                d2 = document.getElementById(div2);
-                b = document.getElementById(buttonId);
-                if( d2.style.display == "none" )
-                {
-                        d1.style.display = "none";
-                        d2.style.display = "block";
-                        b.value = "View"
-                }
-                else
-                {
-                        d1.style.display = "block";
-                        d2.style.display = "none";
-                        b.value = "Edit"
-                }
-                }
-                </script>
-                
-       
     </head>
     
     <body>
@@ -44,40 +22,12 @@
                 <h1>Syllablaster</h1>
                 <h2>Administrator View</h2>
             </div>
-            <hr>
-            <div id="administratorViewHeader">
-                <form>
-                    <table>
-                        <tr>
-                            <td><p>Document Name:<p></td>
-                            <td><input type="text" name="documentName"></td>
-                        </tr>
-                        <tr>
-                            <td><p>Administrator Name:<p></td>
-                            <td><input type="text" name="documentName"></td>
-                        </tr>
-                        <tr>
-                            <td><p>Course Name:<p></td>
-                            <td><input type="text" name="documentName"></td>
-                        </tr>
-                        <tr>
-                            <td><p>Course Section:<p></td>
-                            <td><input type="text" name="documentName"></td>
-                        </tr>
-                        <tr>
-                            <td><p>Course Term:<p></td>
-                            <td><input type="text" name="documentName"></td>
-                        </tr>
-                    </table>
-                    <input type="submit">
-                </form>
-            </div>            
-            <hr>
+            <a href="/list"> &lt; Syllabus Select </a>
             
             <div class="administratorViewModule" id="administratorViewCourseTitleMain">
                 <div class="administratorViewEditBanner" id="administratorViewCourseTitleBanner">
                     <div class="administratorViewEditBannerName">
-                        <p>Course Title:</p>
+                        <p>Course Info:</p>
                     </div>
                     <form method="get" action="/editinfo">
                         <input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="submit" value="Edit">
@@ -90,10 +40,6 @@
                         <h2>
                             {% if info.title %}
                             {{ info.subject }} {{ info.number }}-{{ info.section }}: {{ info.title }}
-                            <br />
-                            from {{ info.start }} to {{ info.end }} on {{ info.days }}
-                            <br />
-                            in {{ info.building }} {{ info.room }}
                             {% else %}
                             -- NO COURSE TITLE ENTERED --
                             {% endif %}
@@ -102,7 +48,6 @@
                     <!--END COURSE TITLE DISPLAY MODULE-->                
                 </div>
             </div>
-            <hr>
             
             <div class="administratorViewModule" id="administratorViewInstructorInfoMain">
                 <div class="administratorViewEditBanner" id="administratorViewInstructorInfoBanner">
@@ -127,7 +72,7 @@
                                     {% for i in instructors %}
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
-                                            <td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
+                                            <td> {{ info.subject}} {{ info.number }}-{{ info.section }} {{ info.building }} {{ info.room }} {{ info.days }} {{ info.start }}-{{ info.end }} </td>
                                             <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br> Office Hours: {{ i.hours }} </td>
                                     </tr>
                                     {% endfor %}
@@ -145,7 +90,6 @@
                 
                 </div>
             </div>
-            <hr>
             
             <div class="administratorViewModule" id="administratorViewTextbooksMain">
                 <div class="administratorViewEditBanner" id="administratorViewTextbooksBanner">
@@ -186,7 +130,6 @@
                 
                 </div>
             </div>
-            <hr>
                                     
             <div class="administratorViewModule" id="administratorViewAssessmentMain">
                 <div class="administratorViewEditBanner" id="administratorViewAssessmentBanner">
@@ -226,7 +169,6 @@
 
                 </div>
             </div>
-            <hr>
                                                 
             <div class="administratorViewModule" id="administratorViewGradingScaleMain">
                 <div class="administratorViewEditBanner" id="administratorViewGradingScaleBanner">
@@ -261,7 +203,6 @@
                 
                 </div>
             </div>
-            <hr>
             
             <div class="administratorViewModule" id="administratorViewPolicyMain">
                 <div class="administratorViewEditBanner" id="administratorViewPolicyBanner">
@@ -294,7 +235,6 @@
 
                 </div>
             </div>
-            <hr>
                         
             <div class="administratorViewModule" id="administratorViewCalendarMain">
                 <div class="administratorViewEditBanner" id="administratorViewCalendarBanner">
@@ -332,7 +272,6 @@
                     <!--end calendarView-->                   
                 </div>
             </div>
-            <hr>
 
             <div id="administratorViewNavBarSpacer">
             </div>
@@ -349,7 +288,7 @@
                                     <input class="administratorViewNavBarButton" type="submit" value="Save" name="Save">
                                 </td>
                                 <td>
-                                    <input class="administratorViewNavBarButton" type="submit" value="Logout" name="Logout">
+                                    <input class="administratorViewNavBarButton" type="submit" value="Logout" formaction="/logout">
                                 </td>
                             </tr>
                         </table>
