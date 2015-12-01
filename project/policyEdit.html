@@ -15,7 +15,7 @@
                     <h2> To Add: </h2>
                     <select size="8" name="savedpolicies" id="savedpolicies" class="policiesList">
                         {% for policy in savedPolicies %}
-                        <option> {{ policy.key() }} </option>
+                        <option> {{ policy.name() }} </option>
                         {% endfor %}
                     </select>
                     <br />
@@ -29,7 +29,7 @@
                     <h2> On Syllabus: </h2>
                     <select size="8" name="policiesOnSyllabus" id="policiesOnSyllabus" class="policiesList">
                         {% for policy in policies %}
-                        <option> {{ policy.key() }} </option>
+                        <option> {{ policy.name() }} </option>
                         {% endfor %}
                     </select>
                     <br />
