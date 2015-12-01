@@ -162,7 +162,7 @@
         <hr />
 		<div id="listLinksSection">
 			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
-				<select name="subjectSelect" id="subjectSelect">
+				<select name="subjectSelect" id="subjectSelect" required >
 					<option value="" disabled selected> Select Subject </option>
 					<option value="CIV ENG"> Civil & Environmental Eng. </option>
 					<option value="COMPSCI"> Computer Science </option>
@@ -171,15 +171,15 @@
 					<option value="MATLENG"> Materials Science & Eng. </option>
 					<option value="MECHENG"> Mechanical Eng. </option>
 				</select>
-				<input type="number" placeholder="Course Number" name="courseNumber" id="courseNumber" />
-				<input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" />
-				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" />
+				<input type="number" placeholder="Course Number" name="courseNumber" id="courseNumber" required />
+				<input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" required />
+				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" required />
 			</form>
 			
 			<form id="selectSyllabus" action="/selectsyllabus" method="post">
 				{% if term %}
 					{% for s in term.syllabi %}
-					<input type="radio" value="{{ s.info.title }}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
+					<input type="radio" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
 					{{ s.info.subject }}
 					{{ s.info.number }}-{{ s.info.section}}:
 					{{ s.info.title }}

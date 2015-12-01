@@ -57,6 +57,9 @@ class CreateSyllabusHandler(BaseHandler):
     @login_required	 
     def post(self):
         termKey = self.session.get('term')
+        if not termKey:
+            return self.redirect('/list')
+            
         term = ndb.Key(urlsafe = termKey).get()
         
         subject = str(self.request.get('subjectSelect'))
@@ -76,12 +79,16 @@ class SelectSyllabusHandler(BaseHandler):
     @login_required	 
     def post(self):
         termKey = self.session.get('term')
+        if not termKey:
+            return self.redirect('/list')
+            
         term = ndb.Key(urlsafe = termKey).get()
         
         select = str(self.request.get('syllabusSelectRadio'))
         
         for s in term.syllabi:
-            if s.info.title == select:
+            combined = s.info.subject + str(s.info.number) + str(s.info.section)
+            if combined == select:
                 self.session['syllabus'] = s.key.urlsafe()
                 
         self.redirect('/')
