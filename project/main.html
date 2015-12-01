@@ -38,10 +38,9 @@
                     <!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
                     <div id = "courseInfoViewMain">
                         <h2>
+                            {{ info.subject }} {{ info.number }}-{{ info.section }}: 
                             {% if info.title %}
-                            {{ info.subject }} {{ info.number }}-{{ info.section }}: {{ info.title }}
-                            {% else %}
-                            -- NO COURSE TITLE ENTERED --
+                            {{ info.title }}
                             {% endif %}
                         </h2>    
                     </div>
