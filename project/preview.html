@@ -127,16 +127,18 @@
                     <h1 id="calendarViewHeader" class="sectionHeader">Course Calendar:</h1>
                     <table id="calendarViewCalendarTable">
                         {% if calendar %}
+                        {% set myCalendarSchedule = calendar[0].schedule %}
                         <tr class="calendarViewCalendarRow">
-                            <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">Week</span></td>
-                            <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">Reading</span></td>
-                            <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">Topics</span></td>
+                            <td class="calendarViewWeekColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[0] }}</span></td>
+                            <td class="calendarViewReadingColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[1] }}</span></td>
+                            <td class="calendarViewTopicsColumn"><span style="font-size:14px; font-weight:bold;">{{ myCalendarSchedule[2] }}</span></td>
                         </tr>
-                        {% for entry in calendar %}
+                        {% set l = (myCalendarSchedule|length)//3 %}
+                        {% for i in range(1,l) %}
                         <tr class="calendarViewCalendarRow">
-                            <td class="calendarViewWeekColumn">{{ entry.date }}</td>
-                            <td class="calendarViewReadingColumn">{{ entry.reading|safe }}</td>
-                            <td class="calendarViewTopicsColumn">{{ entry.topic|safe }}</td>
+                            <td class="calendarViewWeekColumn">{{ myCalendarSchedule[3*i] }}</td>
+                            <td class="calendarViewReadingColumn">{{ myCalendarSchedule[3*i+1]|safe }}</td>
+                            <td class="calendarViewTopicsColumn">{{ myCalendarSchedule[3*i+2]|safe }}</td>
                         </tr>
                         {% endfor %}
                         {% else %}
