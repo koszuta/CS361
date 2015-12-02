@@ -18,6 +18,9 @@ class Term(ndb.Model):
         from syllabus import Syllabus
         return Syllabus.query(ancestor = self.key).fetch()
         
+    def url(self):
+        return self.semester + str(self.year % 100)
+        
 class WeeklyCalendarHandler(BaseHandler):
     def get(self, username, term):
         # TODO: Render weekly calendar template
