@@ -14,6 +14,18 @@ class Info(ndb.Model):
     start = ndb.StringProperty()
     end = ndb.StringProperty()
     
+    def url(self):
+        abbr = ""
+        if self.subject == "COMPSCI":
+            abbr = "CS"
+        elif self.subject == "ELECENG":
+            abbr = "EE"
+        else:
+            for c in self.subject:
+                abbr = abbr + ("_" if c == " " else c)
+        
+        return abbr + str(self.number) + "-" + str(self.section)
+    
     
 from basehandler import BaseHandler, login_required
 

@@ -69,10 +69,12 @@
                                                 {% if sel_building == "EMS" %} selected {% endif %}>  EMS         </option>
                                                 <option value = "PHY"
                                                 {% if sel_building == "PHY" %} selected {% endif %}>  Physics     </option>
-                                                <option value = "CHEM"
-                                                {% if sel_building == "CHEM" %} selected {% endif %}> Chemistry   </option>
-                                                <option value = "LAPH"
-                                                {% if sel_building == "LAPH" %} selected {% endif %}> Lapham      </option>
+                                                <option value = "CHM"
+                                                {% if sel_building == "CHM" %} selected {% endif %}> Chemistry   </option>
+                                                <option value = "LAP"
+                                                {% if sel_building == "LAP" %} selected {% endif %}> Lapham      </option>
+                                                <option value = "KEN"
+                                                {% if sel_building == "KEN" %} selected {% endif %}> Kenwood      </option>
                                         </select> 		
                                         <input type="text" name="instructorOfficeRoom" placeholder="Room #" size="5" id="instructorOfficeRoom" value="{% if sel_room != None %}{{ sel_room }}{% endif %}" />
                                 </td>

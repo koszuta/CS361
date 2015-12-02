@@ -1,5 +1,6 @@
-td, th {
-    width: 100px;
+#listTable td, #listTable th {
+    width: 120px;
+    height: 25px;
     text-align: center;
     margin: 10px;
 }
