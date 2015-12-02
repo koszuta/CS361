@@ -43,10 +43,12 @@
                         {% if info.building == "EMS" %} selected {% endif %}>  EMS         </option>
                         <option value = "PHY"
                         {% if info.building == "PHY" %} selected {% endif %}>  Physics     </option>
-                        <option value = "CHEM"
-                        {% if info.building == "CHEM" %} selected {% endif %}> Chemistry   </option>
-                        <option value = "LAPH"
-                        {% if info.building == "LAPH" %} selected {% endif %}> Lapham      </option>
+                        <option value = "CHM"
+                        {% if info.building == "CHM" %} selected {% endif %}> Chemistry   </option>
+                        <option value = "LAP"
+                        {% if info.building == "LAP" %} selected {% endif %}> Lapham      </option>
+                        <option value = "KEN"
+                        {% if info.building == "KEN" %} selected {% endif %}> Kenwood      </option>
                     </select> 		
                     <input type="text" placeholder="Room" name="meetingRoom" id="meetingRoom" value="{% if info.room != None %}{{ info.room }}{% endif %}" min="0" max="9999"/>
                 </div>
