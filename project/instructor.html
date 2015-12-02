@@ -74,7 +74,7 @@
                                                 <option value = "LAP"
                                                 {% if sel_building == "LAP" %} selected {% endif %}> Lapham      </option>
                                                 <option value = "KEN"
-                                                {% if info.building == "KEN" %} selected {% endif %}> Kenwood      </option>
+                                                {% if sel_building == "KEN" %} selected {% endif %}> Kenwood      </option>
                                         </select> 		
                                         <input type="text" name="instructorOfficeRoom" placeholder="Room #" size="5" id="instructorOfficeRoom" value="{% if sel_room != None %}{{ sel_room }}{% endif %}" />
                                 </td>
