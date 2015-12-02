@@ -16,6 +16,8 @@ template_env = jinja2.Environment(
 class ListerHandler(BaseHandler):
     @login_required
     def get(self):
+        user_id = self.auth.get_user_by_session().get('user_id')
+        user = self.auth.store.user_model.get_by_id(user_id)
         term = None
         termKey = self.session.get('term')
         if termKey:
@@ -28,6 +30,8 @@ class ListerHandler(BaseHandler):
                 'semester': term.semester,
                 'year': term.year,
                 'term': term,
+                'username': user.auth_ids[0],
+                'term_abbr': term.url()
             }
         
         self.response.write(template.render(context))
@@ -77,14 +81,14 @@ class CreateSyllabusHandler(BaseHandler):
        
 class SelectSyllabusHandler(BaseHandler):
     @login_required	 
-    def post(self):
+    def get(self):
         termKey = self.session.get('term')
         if not termKey:
             return self.redirect('/list')
             
         term = ndb.Key(urlsafe = termKey).get()
         
-        select = str(self.request.get('syllabusSelectRadio'))
+        select = str(self.request.get('select'))
         
         for s in term.syllabi:
             combined = s.info.subject + str(s.info.number) + str(s.info.section)
