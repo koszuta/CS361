@@ -85,7 +85,6 @@ class SelectSyllabusHandler(BaseHandler):
         termKey = self.session.get('term')
         if not termKey:
             return self.redirect('/list')
-            
         term = ndb.Key(urlsafe = termKey).get()
         
         select = str(self.request.get('select'))
@@ -96,3 +95,22 @@ class SelectSyllabusHandler(BaseHandler):
                 self.session['syllabus'] = s.key.urlsafe()
                 
         self.redirect('/')
+        
+        
+class ActivateSyllabusHandler(BaseHandler):
+    @login_required
+    def get(self):
+        termKey = self.session.get('term')
+        if not termKey:
+            return self.redirect('/list')
+        term = ndb.Key(urlsafe = termKey).get()
+        
+        activate = str(self.request.get('activate'))
+        
+        for s in term.syllabi:
+            combined = s.info.subject + str(s.info.number) + str(s.info.section)
+            if combined == activate:
+                s.isActive = not s.isActive
+                s.put()
+                
+        self.redirect('/list')

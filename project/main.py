@@ -77,6 +77,7 @@ app = webapp2.WSGIApplication([
     ('/createsyllabus', lister.CreateSyllabusHandler),
     ('/select', lister.SelectSyllabusHandler),
     ('/termselect', lister.TermSelectHandler),
+    ('/activate', lister.ActivateSyllabusHandler),
     ('/addinstructor', instructor.AddHandler),
     ('/removeinstructor', instructor.RemoveHandler),
     ('/editinstructor', instructor.EditHandler),

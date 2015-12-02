@@ -19,9 +19,9 @@
 				<input type="submit" value="Switch" name="listSelectButton" id="listSelectButton">
 			</form>
 		</div>
-        
+        {% if term %}
         <h2> 
-            {% if term and term.semester %}
+            {% if term.semester %}
             Viewing
             {% if term.semester == "S" %} Spring
             {% elif term.semester == "M" %} Summer
@@ -49,7 +49,7 @@
 					<td> 8:00AM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "08" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -65,7 +65,7 @@
 					<td> 9:00AM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "09" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -81,7 +81,7 @@
 					<td> 10:00AM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "10" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -97,7 +97,7 @@
 					<td> 11:00AM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "11" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -113,7 +113,7 @@
 					<td> 12:00PM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "12" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -129,7 +129,7 @@
 					<td> 1:00PM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "13" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -145,7 +145,7 @@
 					<td> 2:00PM </td>
                     {% if term and term.syllabi %}
                     {% for s in term.syllabi %}
-                    {% if s.info.start and s.info.days %}
+                    {% if s.isActive and s.info.start and s.info.days %}
                     {% if s.info.start[:2] == "14" %}
                         <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
                         <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
@@ -175,19 +175,33 @@
 				<input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" required />
 				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" required />
 			</form>
-			
-			<form id="selectSyllabus" action="/selectsyllabus" method="post">
-				{% if term %}
-					{% for s in term.syllabi %}
-					<input type="radio" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" name="syllabusSelectRadio" id="syllabusSelectRadio" required>
-					{{ s.info.subject }}
-					{{ s.info.number }}-{{ s.info.section}}:
-					{{ s.info.title }}
-					<a href="">Preview</a>
-					<br />
-					{% endfor %}
-				{% endif %}
-				<input type="submit" value="Edit" name="selectSyllabusButton" id="selectSyllabusButton" />
-			</form>
+            <table id="syllabusListTable">
+            {% if term %}
+            {% for s in term.syllabi %}
+            <tr>
+                <td>
+                    <form>
+                    <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/select" name="select" id="select">
+                        {% if not s.isActive %}
+                        [INACTIVE] 
+                        {% endif %}
+                        {{ s.info.subject }} {{ s.info.number }}-{{ s.info.section }}: {{ s.info.title }}
+                    </button>
+                    </form>
+                </td>
+                <td>
+                    <a href="/{{ username }}/{{ term_abbr }}/{{ s.info.url() }}">Preview</a>
+                </td>
+                <td>
+                    <form>
+                    <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/activate" name="activate" id="activate">
+                        {% if s.isActive %}Deactivate{% else %}Activate{% endif %}
+                    </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        {% endif %}
 	</body>
 </html>

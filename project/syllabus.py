@@ -2,7 +2,7 @@ from google.appengine.ext import ndb
 from courseinfo import Info
 
 class Syllabus(ndb.Model):
-    isActive = ndb.BooleanProperty()
+    isActive = ndb.BooleanProperty(default = True)
     info = ndb.StructuredProperty(Info)
 	
     @property
