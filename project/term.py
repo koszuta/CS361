@@ -32,7 +32,7 @@ class WeeklyCalendarHandler(BaseHandler):
             terms = Term.query(ancestor = user.key).fetch()
         
             for t in terms:
-                if term[0] == t.semester and int('20' + term[1:3]) == t.year:
+                if t.url() == term:
                     self.response.write('Valid term in datastore')
                     return
 

@@ -8,6 +8,7 @@ from webapp2_extras.appengine.auth.models import User
 
 from syllabus import Syllabus
 from calendarClass import CalendarClass
+from term import Term
 
 from basehandler import BaseHandler
 
@@ -160,17 +161,22 @@ class PreviewHandler(BaseHandler):
 
 class ViewHandler(PreviewHandler):
     def get(self, username, term, syllabus):
-        # TODO: Determine valid syllabus names
-        
         # Deal with possible trailing slash
         if syllabus[-1] == '/':
             syllabus = syllabus[:-1]
 
         user = User.get_by_auth_id(username)
+        terms = Term.query(ancestor = user.key).fetch()
 
-        if user and term.upper() == 'F15' and syllabus == 'cs361':
-            self.session['syllabus'] = Syllabus.query(ancestor=user.key).get().key.urlsafe()
-            PreviewHandler.get(self)
-            del self.session['syllabus']
-        else:
-            self.abort(404)
+        for t in terms:
+            if t.url() == term.upper():
+                syllabi = t.syllabi
+                for syl in syllabi:
+                    if syl.info.url().lower() == syllabus.lower():
+                        self.session['syllabus'] = syl.key.urlsafe()
+                        PreviewHandler.get(self)
+                        del self.session['syllabus']
+                        return
+
+        # Raise HTTP 404 error for syllabi that don't exist
+        self.abort(404)
