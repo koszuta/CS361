@@ -26,8 +26,13 @@ class PreviewHandler(BaseHandler):
     @staticmethod
     def createDummyContext():
         course = {
-                'title': 'CompSci 361: Intro to Software Engineering',
-                'term': 'Fall 2015'
+                'subject': 'COMPSCI',
+                'number': '361',
+                'title': 'Intro to Software Engineering',
+        }
+
+        term = {
+                'fullName': 'Fall 2015'
         }
 
         instructors = [
@@ -73,27 +78,27 @@ class PreviewHandler(BaseHandler):
         assessments = [
             {
                 'title': 'Project',
-                'weight': '40',
+                'percentage': '40',
                 'description': 'The course project is implemented in phases by small groups of students. There are several phases of creating and refining deliverables such as requirements specifications, design documents, etc.'
             },
             {
                 'title': 'Quizzes',
-                'weight': '10',
+                'percentage': '10',
                 'description': 'Online quizzes will be posted in D2L. You may take each quiz up to 2 times. The score of the best attempt is recorded in the grade book. Unannounced quizzes in lecture are given to assess comprehension of concepts from the previous assignment, encourage attendance, and give you feedback about your progress. The low score will be dropped.'
             },
             {
                 'title': 'Midterm',
-                'weight': '20',
+                'percentage': '20',
                 'description': 'The midterm will be given during regular lecture time.'
             },
             {
                 'title': 'Final',
-                'weight': '20',
+                'percentage': '20',
                 'description': 'The final exam is cumulative; it is scheduled according to university policy.'
             },
             {
                 'title': 'Labs',
-                'weight': '10',
+                'percentage': '10',
                 'description': 'Weekly activities in lab for check-off.<br>Half credit for incomplete or inadequate work is possible.'
             }
         ]
@@ -114,16 +119,17 @@ class PreviewHandler(BaseHandler):
         }
         
         policies = [
-            {'title': 'Participation by Students with Disabilities', 'desc': 'If you need special accommodations in order to meet any of the requirements of this course, please contact me as soon as possible.'},
-            {'title': 'Accommodation for Religious Observances', 'desc': 'Students will be allowed to complete examinations or other requirements that are missed because of a religious observance. See <a href="http://www.uwm.edu/Dept/SecU/acad+admin_policies/S1.5.htm">http://www.uwm.edu/Dept/SecU/acad+admin_policies/S1.5.htm</a>.'},
-            {'title': 'Academic Misconduct', 'desc': 'The university has a responsibility to promote academic honesty and integrity and to develop procedures to deal effectively with instances of academic dishonesty. Students are responsible for the honest completion and representation of their work, for the appropriate citation of sources, and for respect of others\' academic endeavors. A more detailed description of Student Academic Disciplinary Procedures may be found at <a href="http://www4.uwm.edu/acad_aff/policy/academicmisconduct.cfm">http://www4.uwm.edu/acad_aff/policy/academicmisconduct.cfm</a>'},
-            {'title': 'Makeup/Late Policy', 'desc': 'Assignments are submitted electronically via D2L.uwm.edu. An assignment is penalized 20% for each day (or part of a day) that it is late. The lowest quiz score is dropped to accommodate students who have life circumstances that prevent them from taking a quiz. There are no makeup quizzes.<br><br>Exams can be made up only if each of the following criteria are met:<br><br>1.      The circumstance that caused the student to miss the exam is unexpected, verifiable, and beyond the student\'s control.<br><br>2.      The student contacts the instructor as soon as possible by leaving a message at the phone number listed on the syllabus or by sending an email to <a href="mailto:rock@uwm.edu">rock@uwm.edu</a>. The message/email must contain a phone number the instructor can use to contact the student.<br><br>With sufficient advance notice, the instructor may allow students to take the exam at an alternate time to accommodate travel for extramural activities, work schedule, etc. Arranging to take the exam at an alternate time in advance is not considered a makeup exam.'},
+            {'title': 'Participation by Students with Disabilities', 'description': 'If you need special accommodations in order to meet any of the requirements of this course, please contact me as soon as possible.'},
+            {'title': 'Accommodation for Religious Observances', 'description': 'Students will be allowed to complete examinations or other requirements that are missed because of a religious observance. See <a href="http://www.uwm.edu/Dept/SecU/acad+admin_policies/S1.5.htm">http://www.uwm.edu/Dept/SecU/acad+admin_policies/S1.5.htm</a>.'},
+            {'title': 'Academic Misconduct', 'description': 'The university has a responsibility to promote academic honesty and integrity and to develop procedures to deal effectively with instances of academic dishonesty. Students are responsible for the honest completion and representation of their work, for the appropriate citation of sources, and for respect of others\' academic endeavors. A more detailed description of Student Academic Disciplinary Procedures may be found at <a href="http://www4.uwm.edu/acad_aff/policy/academicmisconduct.cfm">http://www4.uwm.edu/acad_aff/policy/academicmisconduct.cfm</a>'},
+            {'title': 'Makeup/Late Policy', 'description': 'Assignments are submitted electronically via D2L.uwm.edu. An assignment is penalized 20% for each day (or part of a day) that it is late. The lowest quiz score is dropped to accommodate students who have life circumstances that prevent them from taking a quiz. There are no makeup quizzes.<br><br>Exams can be made up only if each of the following criteria are met:<br><br>1.      The circumstance that caused the student to miss the exam is unexpected, verifiable, and beyond the student\'s control.<br><br>2.      The student contacts the instructor as soon as possible by leaving a message at the phone number listed on the syllabus or by sending an email to <a href="mailto:rock@uwm.edu">rock@uwm.edu</a>. The message/email must contain a phone number the instructor can use to contact the student.<br><br>With sufficient advance notice, the instructor may allow students to take the exam at an alternate time to accommodate travel for extramural activities, work schedule, etc. Arranging to take the exam at an alternate time in advance is not considered a makeup exam.'},
         ]
         
         calendar = [ CalendarClass.generateDummyCalendar() ]
 
         contextDict = {
             'course': course,
+            'term': term,
             'instructors': instructors,
             'textbooks': textbooks,
             'assessments': assessments,
@@ -138,9 +144,9 @@ class PreviewHandler(BaseHandler):
         dummy = self.request.get('dummy')
         
         try:
-            dummy = int(dummy) != 0
+            dummy = int(dummy) == 1
         except Exception:
-            dummy = True
+            dummy = False
 
         template = jinja_env.get_template('preview.html')
         if dummy:
@@ -148,6 +154,8 @@ class PreviewHandler(BaseHandler):
         else:
             syllabusKey = self.session.get('syllabus')
             syllabus = ndb.Key(urlsafe = syllabusKey).get()
+            termKey = self.session.get('term')
+            term = ndb.Key(urlsafe = termKey).get()
             context = {
                 'textbooks': syllabus.textbooks,
                 'instructors': syllabus.instructors,
@@ -155,7 +163,8 @@ class PreviewHandler(BaseHandler):
                 'scale': syllabus.scale,
                 'calendar': syllabus.calendars,
                 'assessments': syllabus.assessments,
-                'info': syllabus.info
+                'course': syllabus.info,
+                'term': term
             }
         self.response.write(template.render(context))
 
@@ -173,9 +182,11 @@ class ViewHandler(PreviewHandler):
                 syllabi = t.syllabi
                 for syl in syllabi:
                     if syl.info.url().lower() == syllabus.lower():
+                        self.session['term'] = t.key.urlsafe()
                         self.session['syllabus'] = syl.key.urlsafe()
                         PreviewHandler.get(self)
                         del self.session['syllabus']
+                        del self.session['term']
                         return
 
         # Raise HTTP 404 error for syllabi that don't exist

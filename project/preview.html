@@ -17,8 +17,8 @@
         
 			<div id="courseInfoView">
 				<h1>
-					<span id="courseTitle">{{ course.title }}</span> - 
-					<span id="courseTerm">{{ course.term }}</span>
+					<span id="courseTitle">{{ course.subject }} {{ course.number }}: {{ course.title }}</span> - 
+					<span id="courseTerm">{{ term.fullName }}</span>
 				</h1>	
 			</div>
 					
@@ -38,9 +38,9 @@
 							{% endif %}
 						</td>
 						<td class="instructorClassCell">
-							{% if instructor.class %}
-							<span class="instructorClass">{{ instructor.class }}</span>
-							{% endif %}
+							<span class="instructorClass">
+							{{ course.subject }} {{ course.number }}-{{ course.section }} {{ course.building }} {{ course.room }} {{ course.days }} {{ course.start }}-{{ course.end }}
+							</span>
 						</td>
 						<td class="instructorOfficeCell">
 							<span class="instructorOfficeRoom">{{ instructor.building }} {{ instructor.room }}</span>
@@ -80,7 +80,7 @@
                 	{% if assessments %}
                 	{% for assessment in assessments %}
                 	<tr>
-                		<td class="assessmentCategory">{{ assessment.title }}<br>{{ assessment.weight }}%</td>
+                        <td class="assessmentCategory">{{ assessment.title }}<br>{{ assessment.percentage }}%</td>
                 		<td class="assessmentDescription">
                 			{{ assessment.description|safe }}
                 		</td>
@@ -116,7 +116,7 @@
 				{% if policies: %}
 				{% for policy in policies %}
 				<span class="policyTitle" style="font-weight: bold;">{{ policy.title }}</span><br>
-				<p class="policyDesc">{{ policy.desc|safe }}</p>
+				<p class="policyDesc">{{ policy.description|safe }}</p>
 				{% endfor %}
 				{% else %}
 				<span class="noData">--- NO POLICIES ADDED TO SYLLABUS ---</span>
