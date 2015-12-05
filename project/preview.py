@@ -10,7 +10,7 @@ from syllabus import Syllabus
 from calendarClass import CalendarClass
 from term import Term
 
-from basehandler import BaseHandler
+from basehandler import BaseHandler, login_required
 
 class SilentUndefined(Undefined):
     def _fail_with_undefined_error(self, *args, **kwargs):
@@ -139,8 +139,8 @@ class PreviewHandler(BaseHandler):
         }
             
         return contextDict
-            
-    def get(self, term = None, syllabus = None):
+
+    def render(self, term = None, syllabus = None):
         dummy = self.request.get('dummy')
         
         try:
@@ -170,6 +170,10 @@ class PreviewHandler(BaseHandler):
             }
         self.response.write(template.render(context))
 
+    @login_required
+    def get(self):
+        self.render()
+
 class ViewHandler(PreviewHandler):
     def get(self, username, term, syllabus):
         # Deal with possible trailing slash
@@ -184,7 +188,7 @@ class ViewHandler(PreviewHandler):
                 syllabi = t.syllabi
                 for syl in syllabi:
                     if syl.info.url().lower() == syllabus.lower():
-                        PreviewHandler.get(self, t, syl)
+                        PreviewHandler.render(self, t, syl)
                         return
 
         # Raise HTTP 404 error for syllabi that don't exist
