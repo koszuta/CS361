@@ -140,7 +140,7 @@ class PreviewHandler(BaseHandler):
             
         return contextDict
             
-    def get(self):
+    def get(self, term = None, syllabus = None):
         dummy = self.request.get('dummy')
         
         try:
@@ -152,10 +152,12 @@ class PreviewHandler(BaseHandler):
         if dummy:
             context = self.createDummyContext()
         else:
-            syllabusKey = self.session.get('syllabus')
-            syllabus = ndb.Key(urlsafe = syllabusKey).get()
-            termKey = self.session.get('term')
-            term = ndb.Key(urlsafe = termKey).get()
+            if not term:
+                termKey = self.session.get('term')
+                term = ndb.Key(urlsafe = termKey).get()
+            if not syllabus:
+                syllabusKey = self.session.get('syllabus')
+                syllabus = ndb.Key(urlsafe = syllabusKey).get()
             context = {
                 'textbooks': syllabus.textbooks,
                 'instructors': syllabus.instructors,
@@ -182,11 +184,7 @@ class ViewHandler(PreviewHandler):
                 syllabi = t.syllabi
                 for syl in syllabi:
                     if syl.info.url().lower() == syllabus.lower():
-                        self.session['term'] = t.key.urlsafe()
-                        self.session['syllabus'] = syl.key.urlsafe()
-                        PreviewHandler.get(self)
-                        del self.session['syllabus']
-                        del self.session['term']
+                        PreviewHandler.get(self, t, syl)
                         return
 
         # Raise HTTP 404 error for syllabi that don't exist
