@@ -188,7 +188,7 @@ class ViewHandler(PreviewHandler):
                 syllabi = t.syllabi
                 for syl in syllabi:
                     if syl.info.url().lower() == syllabus.lower():
-                        PreviewHandler.render(self, t, syl)
+                        self.render(t, syl)
                         return
 
         # Raise HTTP 404 error for syllabi that don't exist
