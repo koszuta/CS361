@@ -188,6 +188,13 @@ class ViewHandler(PreviewHandler):
                 syllabi = t.syllabi
                 for syl in syllabi:
                     if syl.info.url().lower() == syllabus.lower():
+                        if not syl.isActive:
+                            userKey = self.session.get('user')
+                            currentUser = None
+                            if userKey:
+                                currentUser = ndb.Key(urlsafe = userKey).get()
+                            if not currentUser or username not in currentUser.auth_ids:
+                                self.abort(403)
                         self.render(t, syl)
                         return
 
