@@ -20,7 +20,6 @@ class Policy(ndb.Model):
     
     
 from basehandler import BaseHandler, login_required
-from calendars import Calendar
 from syllabus import Syllabus
 from textbook import Textbook
 
