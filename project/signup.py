@@ -41,6 +41,7 @@ class SignupHandler(BaseHandler):
         
         if password != confirm:
             self.redirect('/signup')
+            return
         
         success, info = self.auth.store.user_model.create_user(username, password_raw = password)
         
