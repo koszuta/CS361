@@ -11,22 +11,23 @@ template_env = jinja2.Environment(
     )
     
 class LoginHandler(BaseHandler):
-    def get(self):
+    def render(self, errors = None):
         template = template_env.get_template('login.html')
         context = {
-            
+            'errors': errors
         }
         self.response.write(template.render(context))
-        
+
+    def get(self):
+        self.render()
+
     def post(self):
-        self.session['term'] = None
-        self.session['syllabus'] = None
-        self.session['user'] = None
-        self.auth.unset_session
-        
+        self.auth.unset_session()
+        self.session.clear()
+
         username = self.request.get('usernameLogin')
         password = self.request.get('passwordLogin')
-        
+
         try:
             user_info = self.auth.get_user_by_password(username, password)
             user_id = user_info.get('user_id')
@@ -37,4 +38,4 @@ class LoginHandler(BaseHandler):
             
             return self.redirect('/list')
         except (auth.InvalidAuthIdError, auth.InvalidPasswordError) as e:
-            self.redirect('/login')
+            self.render(['Invalid username and/or password'])
