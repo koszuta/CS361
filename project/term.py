@@ -20,6 +20,24 @@ class Term(ndb.Model):
         
     def url(self):
         return self.semester + str(self.year % 100)
+
+    @property
+    def fullName(self):
+        # Convert semester letter to name
+        if self.semester == 'F':
+            string = 'Fall '
+        elif self.semester == 'S':
+            string = 'Spring '
+        elif self.semester == 'M':
+            string = 'Summer '
+        elif self.semester == 'W':
+            string = 'Winterim '
+        else:
+            string = ""
+
+        string += str(self.year)
+
+        return string
         
 class WeeklyCalendarHandler(BaseHandler):
     def get(self, username, term):
