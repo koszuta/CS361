@@ -7,7 +7,8 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 	</head>
 	<body>
-		<h2> Log in to SyllaBlaster </h2>
+        <div id="loginBox">
+		<h2> Log into SyllaBlaster </h2>
 		{% if errors %}
 		<ul id="error">
 		{% for error in errors %}
@@ -15,7 +16,7 @@
 		{% endfor %}
 		</ul>
 		{% endif %}
-		<div id="loginBox">
+		
 			<form method="post" action="/login">
 			
 				<input type="text" placeholder="Username" name="usernameLogin" id="usernameLogin" required />
