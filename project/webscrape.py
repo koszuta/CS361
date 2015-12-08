@@ -471,14 +471,18 @@ class WebScraper():
         termCode = ''
         yearStr = str(year)
         if type(term) is str:
-            if (term == 'Summer'):
+            if (term == 'M'):
                 termCode = '6'
-            elif (term == 'Fall'):
+                term = "Summer"
+            elif (term == 'F'):
                 termCode = '9'
-            elif (term == 'UWinteriM'):
+                term = "Fall"
+            elif (term == 'W'):
                 termCode = '1'
-            elif (term == 'Spring'):
+                term = "UWinteriM"
+            elif (term == 'S'):
                 termCode = '2'
+                term = "Spring"
             else:
                 valid = False
                 
@@ -509,14 +513,18 @@ class WebScraper():
         termCode = ''
         yearStr = str(year)
         if type(term) is str:
-            if (term == 'Summer'):
+            if (term == 'M'):
                 termCode = '6'
-            elif (term == 'Fall'):
+                term = "Summer"
+            elif (term == 'F'):
                 termCode = '9'
-            elif (term == 'UWinteriM'):
+                term = "Fall"
+            elif (term == 'W'):
                 termCode = '1'
-            elif (term == 'Spring'):
+                term = "UWinteriM"
+            elif (term == 'S'):
                 termCode = '2'
+                term = "Spring"
             else:
                 valid = False
                 
@@ -539,24 +547,24 @@ class WebScraper():
             url = ''
             
         return url
-        
+     
+     
 #demo
 print "WebScraper Demo:"
 print "please wait..."
-subjectNamesFall2015 = WebScraper.scrapeSubjectNames('Fall', 2015)
+subjectNamesFall2015 = WebScraper.scrapeSubjectNames('F', 2015)
 for i in subjectNamesFall2015:
     print "     " + i
-print "retrieved with WebScraper.scrapeSubjectNames('Fall', 2015)"
+print "retrieved with WebScraper.scrapeSubjectNames('F', 2015)"
 print 
 print "please wait..."
-artClassesUWinteriM2016 = WebScraper.scrapeCourseNames('UWinteriM', 2016, 'ART')
+artClassesUWinteriM2016 = WebScraper.scrapeCourseNames('F', 2015, 'COMPSCI')
 for i in artClassesUWinteriM2016:
     print "     " + i
-print "retrieved with WebScraper.scrapeCourseNames('UWinteriM', 2016, 'ART'))"
+print "retrieved with WebScraper.scrapeCourseNames('F', 2015, 'COMPSCI')"
 print
 print "please wait..."    
-sections = WebScraper.scrapeCourseSections('Spring', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')
+sections = WebScraper.scrapeCourseSections('S', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')
 for i in sections:
     print i
-print "retrieved with WebScraper.scrapeCourseSections('Spring', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')"
-
+print "retrieved with WebScraper.scrapeCourseSections('S', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')"
