@@ -3,6 +3,8 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
+import webscrape
+
 class Info(ndb.Model):
     title = ndb.StringProperty()
     subject = ndb.StringProperty()
@@ -14,6 +16,7 @@ class Info(ndb.Model):
     start = ndb.StringProperty()
     end = ndb.StringProperty()
     
+    @webapp2.cached_property
     def url(self):
         abbr = ""
         if self.subject == "COMPSCI":
@@ -26,6 +29,9 @@ class Info(ndb.Model):
         
         return abbr + str(self.number) + "-" + str(self.section)
     
+    @webapp2.cached_property
+    def scrape(self):
+        return self.subject + "-" + self.number
     
 from basehandler import BaseHandler, login_required
 
