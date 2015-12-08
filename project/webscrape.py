@@ -292,7 +292,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 0:
             ret = splitSection[0]
             
@@ -304,7 +304,7 @@ class WebScraper():
         #>>WebScraper.getUnitsFromCourseSection('NS,QLB; None; 4; LEC 002; 48670; 9:30 AM-10:45 AM; MWF; 01/25-05/10; Hruska, Geoffrey; EMS E237; None;')
         #'NS,QLB'        
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 2:
             ret = splitSection[2]
             
@@ -314,7 +314,7 @@ class WebScraper():
     def getSectionFromCourseSection(courseSection):        
         #example:
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 3:
             ret = splitSection[3]
             
@@ -325,7 +325,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 4:
             ret = splitSection[4]
             
@@ -336,7 +336,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 5:
             ret = splitSection[5]
             
@@ -347,7 +347,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 6:
             ret = splitSection[6]
             
@@ -358,7 +358,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 7:
             ret = splitSection[7]
             
@@ -369,7 +369,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 8:
             ret = splitSection[8]
             
@@ -380,7 +380,7 @@ class WebScraper():
         #example:
         
         ret = ''
-        splitSection = splitCourseSection(courseSection)
+        splitSection = WebScraper.splitCourseSection(courseSection)
         if len(splitSection) > 9:
             ret = splitSection[9]
             
@@ -539,7 +539,7 @@ class WebScraper():
             url = ''
             
         return url
-'''        
+        
 #demo
 print "WebScraper Demo:"
 print "please wait..."
@@ -559,4 +559,4 @@ sections = WebScraper.scrapeCourseSections('Spring', 2016, 'MATH-231: Calculus a
 for i in sections:
     print i
 print "retrieved with WebScraper.scrapeCourseSections('Spring', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')"
-'''
+
