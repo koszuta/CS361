@@ -9,6 +9,8 @@ from term import Term
 from syllabus import Syllabus
 from courseinfo import Info    
 
+from webscrape import WebScraper
+
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
@@ -69,10 +71,20 @@ class CreateSyllabusHandler(BaseHandler):
         subject = str(self.request.get('subjectSelect'))
         number = int(self.request.get('courseNumber'))
         section = int(self.request.get('sectionNumber'))
-            
+        
         info = Info(subject = subject, number = number, section = section)
-            
         syllabus = Syllabus(parent = term.key, info = info)
+        
+        course_list = WebScraper.scrapeCourseNames(term.semester, term.year, subject)
+        
+        course_name = None
+        for c in course_list:
+            if syllabus.info.scrape == c.split(":")[0]:
+                course_name = c
+                
+        syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)
+        
+            
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
         
