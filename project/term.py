@@ -17,7 +17,8 @@ class Term(ndb.Model):
     def syllabi(self):
         from syllabus import Syllabus
         return Syllabus.query(ancestor = self.key).fetch()
-        
+    
+    @webapp2.cached_property
     def url(self):
         return self.semester + str(self.year % 100)
 

@@ -31,7 +31,7 @@ class ListerHandler(BaseHandler):
                 'year': term.year,
                 'term': term,
                 'username': user.auth_ids[0],
-                'term_abbr': term.url()
+                'term_abbr': term.url
             }
         
         self.response.write(template.render(context))
