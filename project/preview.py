@@ -184,10 +184,10 @@ class ViewHandler(PreviewHandler):
         terms = Term.query(ancestor = user.key).fetch()
 
         for t in terms:
-            if t.url() == term.upper():
+            if t.url == term.upper():
                 syllabi = t.syllabi
                 for syl in syllabi:
-                    if syl.info.url().lower() == syllabus.lower():
+                    if syl.info.url.lower() == syllabus.lower():
                         if not syl.isActive:
                             currentUser = None
                             if self.user:
