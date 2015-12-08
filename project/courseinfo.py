@@ -14,6 +14,18 @@ class Info(ndb.Model):
     start = ndb.StringProperty()
     end = ndb.StringProperty()
     
+    def url(self):
+        abbr = ""
+        if self.subject == "COMPSCI":
+            abbr = "CS"
+        elif self.subject == "ELECENG":
+            abbr = "EE"
+        else:
+            for c in self.subject:
+                abbr = abbr + ("_" if c == " " else c)
+        
+        return abbr + str(self.number) + "-" + str(self.section)
+    
     
 from basehandler import BaseHandler, login_required
 
@@ -27,7 +39,7 @@ class InfoEditHandler(BaseHandler):
         syllabusKey = self.session.get('syllabus')
         syllabus = ndb.Key(urlsafe = syllabusKey).get()
         
-        template = template_env.get_template('courseInfoEdit.html')
+        template = template_env.get_template('courseinfo.html')
         context = {
             'info': syllabus.info
         }
@@ -78,5 +90,5 @@ class InfoEditHandler(BaseHandler):
         
         syllabus.put()
         
-        self.redirect('/editinfo')
+        self.redirect('/#administratorViewCourseTitleMain')
       

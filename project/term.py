@@ -18,6 +18,27 @@ class Term(ndb.Model):
         from syllabus import Syllabus
         return Syllabus.query(ancestor = self.key).fetch()
         
+    def url(self):
+        return self.semester + str(self.year % 100)
+
+    @property
+    def fullName(self):
+        # Convert semester letter to name
+        if self.semester == 'F':
+            string = 'Fall '
+        elif self.semester == 'S':
+            string = 'Spring '
+        elif self.semester == 'M':
+            string = 'Summer '
+        elif self.semester == 'W':
+            string = 'Winterim '
+        else:
+            string = ""
+
+        string += str(self.year)
+
+        return string
+        
 class WeeklyCalendarHandler(BaseHandler):
     def get(self, username, term):
         # TODO: Render weekly calendar template
@@ -29,7 +50,7 @@ class WeeklyCalendarHandler(BaseHandler):
             terms = Term.query(ancestor = user.key).fetch()
         
             for t in terms:
-                if term[0] == t.semester and int('20' + term[1:3]) == t.year:
+                if t.url() == term:
                     self.response.write('Valid term in datastore')
                     return
 

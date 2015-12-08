@@ -14,108 +14,52 @@
                 <link rel="stylesheet" type="text/css" href="/stylesheets/instructorEdit.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/gradingScaleView.css" />
               
-              
-                <script type="text/javascript">
-                function swapDiv(div1, div2, buttonId) {
-                d1 = document.getElementById(div1);
-                d2 = document.getElementById(div2);
-                b = document.getElementById(buttonId);
-                if( d2.style.display == "none" )
-                {
-                        d1.style.display = "none";
-                        d2.style.display = "block";
-                        b.value = "View"
-                }
-                else
-                {
-                        d1.style.display = "block";
-                        d2.style.display = "none";
-                        b.value = "Edit"
-                }
-                }
-                </script>
+    </head>
+    
+    <body>
+        <div id="administratorViewMain">
+            <div id="administratorViewBanner">
+                <h1>Syllablaster</h1>
+                <h2>Administrator View</h2>
+            </div>
+            <a href="/list"> &lt; Syllabus Select </a>
+            
+            <div class="administratorViewModule" id="administratorViewCourseTitleMain">
+                <div class="administratorViewEditBanner" id="administratorViewCourseTitleBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Course Info:</p>
+                    </div>
+                    <form method="get" action="/editinfo">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="submit" value="Edit">
+                    </form>                    
+                </div>
+                <div class="administratorViewModuleDisplay">
                 
-       
-	</head>
-	
-	<body>
-		<div id="administratorViewMain">
-			<div id="administratorViewBanner">
-				<h1>Syllablaster</h1>
-				<h2>Administrator View</h2>
-			</div>
-			<hr>
-			<div id="administratorViewHeader">
-				<form>
-					<table>
-						<tr>
-							<td><p>Document Name:<p></td>
-							<td><input type="text" name="documentName"></td>
-						</tr>
-						<tr>
-							<td><p>Administrator Name:<p></td>
-							<td><input type="text" name="documentName"></td>
-						</tr>
-						<tr>
-							<td><p>Course Name:<p></td>
-							<td><input type="text" name="documentName"></td>
-						</tr>
-						<tr>
-							<td><p>Course Section:<p></td>
-							<td><input type="text" name="documentName"></td>
-						</tr>
-						<tr>
-							<td><p>Course Term:<p></td>
-							<td><input type="text" name="documentName"></td>
-						</tr>
-					</table>
-                    <input type="submit">
-				</form>
-			</div>			
-			<hr>
-			
-			<div class="administratorViewModule" id="administratorViewCourseTitleMain">
-				<div class="administratorViewEditBanner" id="administratorViewCourseTitleBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Course Title:</p>
-					</div>
-					<form method="get" action="/editinfo">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditCourseTitleButton" type="submit" value="Edit">
-					</form>					
-				</div>
-				<div class="administratorViewModuleDisplay">
-                
-					<!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
-					<div id = "courseInfoViewMain">
-						<h2>
+                    <!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
+                    <div id = "courseInfoViewMain">
+                        <h2>
+                            {{ info.subject }} {{ info.number }}-{{ info.section }}: 
                             {% if info.title %}
-                            {{ info.subject }} {{ info.number }}-{{ info.section }}: {{ info.title }}
-                            <br />
-                            from {{ info.start }} to {{ info.end }} on {{ info.days }}
-                            <br />
-                            in {{ info.building }} {{ info.room }}
-                            {% else %}
-                            -- NO COURSE TITLE ENTERED --
+                            {{ info.title }}
                             {% endif %}
-                        </h2>	
-					</div>
-                    <!--END COURSE TITLE DISPLAY MODULE-->				
-				</div>
-			</div>
-			<hr>
-			
-			<div class="administratorViewModule" id="administratorViewInstructorInfoMain">
-				<div class="administratorViewEditBanner" id="administratorViewInstructorInfoBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Instructor Info:</p>
-					</div>
-					<form method="get" action="/editinstructor">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton" type="submit" value="Edit">
-					</form>		
-				</div>
-				<div class="administratorViewModuleDisplay">
-				
-	       <!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
+                        </h2>    
+                    </div>
+                    <!--END COURSE TITLE DISPLAY MODULE-->                
+                </div>
+            </div>
+            
+            <div class="administratorViewModule" id="administratorViewInstructorInfoMain">
+                <div class="administratorViewEditBanner" id="administratorViewInstructorInfoBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Instructor Info:</p>
+                    </div>
+                    <form method="get" action="/editinstructor">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton" type="submit" value="Edit">
+                    </form>        
+                </div>
+                <div class="administratorViewModuleDisplay">
+                
+           <!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
                     <div id = "instructorsViewModule">
                             <table id = "instructorsTable">
                                     {% if instructors: %}
@@ -127,7 +71,7 @@
                                     {% for i in instructors %}
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
-                                            <td> COMPSCI 361-401 EMS E145 MW 10-10:50am </td>
+                                            <td> {{ info.subject}} {{ info.number }}-{{ info.section }} {{ info.building }} {{ info.room }} {{ info.days }} {{ info.start }}-{{ info.end }} </td>
                                             <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br> Office Hours: {{ i.hours }} </td>
                                     </tr>
                                     {% endfor %}
@@ -141,24 +85,23 @@
                 <!--COPY/PASTE YOUR INSTRUCTOR INFO EDIT MODULE HERE-->
                     
                 <!--END INSTRUCTOR INFO EDIT MODULE-->
-				
-				
-				</div>
-			</div>
-			<hr>
-			
-			<div class="administratorViewModule" id="administratorViewTextbooksMain">
-				<div class="administratorViewEditBanner" id="administratorViewTextbooksBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Textbooks:</p>
-					</div>
-					<form method="get" action="/editbooks">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton" type="submit" value="Edit">
-					</form>			
-				</div>
-				<div class="administratorViewModuleDisplay">
-				
-					<!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
+                
+                
+                </div>
+            </div>
+            
+            <div class="administratorViewModule" id="administratorViewTextbooksMain">
+                <div class="administratorViewEditBanner" id="administratorViewTextbooksBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Textbooks:</p>
+                    </div>
+                    <form method="get" action="/editbooks">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton" type="submit" value="Edit">
+                    </form>            
+                </div>
+                <div class="administratorViewModuleDisplay">
+                
+                    <!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
                     <div id="textbookViewMain">
                         {% if books: %}
                         {% for book in books %}
@@ -183,25 +126,24 @@
                     <!--COPY/PASTE YOUR TEXTBOOK EDIT MODULE HERE-->
                     
                     <!--END TEXTBOOK EDIT MODULE-->
-				
-				</div>
-			</div>
-			<hr>
-									
-			<div class="administratorViewModule" id="administratorViewAssessmentMain">
-				<div class="administratorViewEditBanner" id="administratorViewAssessmentBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Assessment:</p>
-					</div>
-					<form method="get" action="/editassessment">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
-					</form>			
-				</div>
-				<div class="administratorViewModuleDisplay">
-				
+                
+                </div>
+            </div>
+                                    
+            <div class="administratorViewModule" id="administratorViewAssessmentMain">
+                <div class="administratorViewEditBanner" id="administratorViewAssessmentBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Assessment:</p>
+                    </div>
+                    <form method="get" action="/editassessment">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
+                    </form>            
+                </div>
+                <div class="administratorViewModuleDisplay">
+                
 
-				
-					<!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
+                
+                    <!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
                     <div id="assessmentViewMain">
                         <table id = "instructorsTable">
                                 {% if assessments: %}
@@ -221,55 +163,35 @@
                     <!--COPY/PASTE YOUR ASSESSMENT EDIT MODULE HERE-->
                     
                     <!--END ASSESSMENT EDIT MODULE-->
-				
-				
+                
+                
 
-				</div>
-			</div>
-			<hr>
-												
-			<div class="administratorViewModule" id="administratorViewGradingScaleMain">
-				<div class="administratorViewEditBanner" id="administratorViewGradingScaleBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Grading Scale:</p>
-					</div>
-					<form method="get" action="/editscales">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditGradingScaleButton"type="submit" value="Edit">
-					</form>		
-				</div>
-				<div class="administratorViewModuleDisplay">
-								
-					<!--COPY/PASTE YOUR GRADING SCALE DISPLAY MODULE HTML HERE-->
-                    	<div id = "gradeScaleView">
+                </div>
+            </div>
+                                                
+            <div class="administratorViewModule" id="administratorViewGradingScaleMain">
+                <div class="administratorViewEditBanner" id="administratorViewGradingScaleBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Grading Scale:</p>
+                    </div>
+                    <form method="get" action="/editscales">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditGradingScaleButton"type="submit" value="Edit">
+                    </form>        
+                </div>
+                <div class="administratorViewModuleDisplay">
+                                
+                    <!--COPY/PASTE YOUR GRADING SCALE DISPLAY MODULE HTML HERE-->
+                        <div id = "gradeScaleView">
                             <table id = "gradeScaleView">
-                                <tr>
-                                    <td> A </td>
-                                    <td> A- </td>
-                                    <td> B+ </td>
-                                    <td> B </td>
-                                    <td> B- </td>
-                                    <td> C+ </td>
-                                    <td> C </td>
-                                    <td> C- </td>
-                                    <td> D+ </td>
-                                    <td> D </td>
-                                    <td> D- </td>
-                                    <td> F </td>
-                                </tr>
-                                <tr>
-                                    <td> 92 </td>
-                                    <td> 88 </td>
-                                    <td> 84 </td>
-                                    <td> 80 </td>
-                                    <td> 76 </td>
-                                    <td> 72 </td>
-                                    <td> 68 </td>
-                                    <td> 64 </td>
-                                    <td> 60 </td>
-                                    <td> 56 </td>
-                                    <td> 52 </td>
-                                    <td> 0 </td>
-                                </tr>
+                            <tr>
+                                {% if scale %}
+                                    {% for i in scale.gradeScale %}
+                                        <td>{{i.letter}}<br>{{i.grade}}</td>
+                                    {% endfor %}
+                                {% else %}
+                                    <h1>No Scale assigned</h1>
+                                {% endif %}
+                            </tr>
                             </table>
                         </div>
                     <!--END GRADING SCALE POLICY-->
@@ -277,23 +199,22 @@
                     <!--COPY/PASTE YOUR GRADING SCALE EDIT MODULE HERE-->
                     
                     <!--END GRADING SCALE EDIT MODULE-->
-				
-				</div>
-			</div>
-			<hr>
-			
-			<div class="administratorViewModule" id="administratorViewPolicyMain">
-				<div class="administratorViewEditBanner" id="administratorViewPolicyBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Policy:</p>
-					</div>
-					<form method="post" action="/editpolicy">
-						<input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton" type="submit" value="Edit">
-					</form>		
-				</div>
-				<div class="administratorViewModuleDisplay">
-				
-					<!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
+                
+                </div>
+            </div>
+            
+            <div class="administratorViewModule" id="administratorViewPolicyMain">
+                <div class="administratorViewEditBanner" id="administratorViewPolicyBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Policy:</p>
+                    </div>
+                    <form method="post" action="/editpolicy">
+                        <input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton" type="submit" value="Edit">
+                    </form>        
+                </div>
+                <div class="administratorViewModuleDisplay">
+                
+                    <!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
                     <div id="policyViewModule">
                         {% if policies: %}
                             {% for i in policies %}
@@ -311,21 +232,20 @@
                     
                     <!--END POLICY EDIT MODULE-->
 
-				</div>
-			</div>
-			<hr>
-						
-			<div class="administratorViewModule" id="administratorViewCalendarMain">
-				<div class="administratorViewEditBanner" id="administratorViewCalendarBanner">
-					<div class="administratorViewEditBannerName">
-						<p>Calendar:</p>
-					</div>
-					<form method="get" action="/editcalendar">
-							<input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton" type="submit" value="Edit">
-					</form>		
-				</div>
-				<div class="administratorViewModuleDisplay">								
-					<!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->				
+                </div>
+            </div>
+                        
+            <div class="administratorViewModule" id="administratorViewCalendarMain">
+                <div class="administratorViewEditBanner" id="administratorViewCalendarBanner">
+                    <div class="administratorViewEditBannerName">
+                        <p>Calendar:</p>
+                    </div>
+                    <form method="get" action="/editcalendar">
+                            <input class="administratorViewEditBannerButton" id="administratorViewEditCalendarButton" type="submit" value="Edit">
+                    </form>        
+                </div>
+                <div class="administratorViewModuleDisplay">                                
+                    <!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->                
                     <div id="calendarViewMain">
                         {% if calendar %} 
                             {% set myCalendarSchedule = calendar[0].schedule %}
@@ -349,33 +269,32 @@
                         {% endif %}                           
                     </div>
                     <!--end calendarView-->                   
-				</div>
-			</div>
-			<hr>
+                </div>
+            </div>
 
-			<div id="administratorViewNavBarSpacer">
-			</div>
-			
-			<div id="administratorViewNavBar">
-				<div id="administratorViewNavbarButtons">
-					<form>
-						<table>
-							<tr>
-								<td>
-									<input class="administratorViewNavBarButton" type="submit" value="Preview" formaction="/preview">
-								</td>
-								<td>
-									<input class="administratorViewNavBarButton" type="submit" value="Save" name="Save">
-								</td>
-								<td>
-									<input class="administratorViewNavBarButton" type="submit" value="Logout" name="Logout">
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</div>
-			
-		</div>
-	</body>
+            <div id="administratorViewNavBarSpacer">
+            </div>
+            
+            <div id="administratorViewNavBar">
+                <div id="administratorViewNavbarButtons">
+                    <form method="get">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Back" formaction="/list">
+                                </td>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Preview" formaction="/preview">
+                                </td>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Logout" formaction="/logout">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </body>
 </html>

@@ -3,13 +3,21 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
 	</head>
 	<body>
 		<h2> Sign up for SyllaBlaster </h2>
+		{% if errors %}
+		<ul id="error">
+		{% for error in errors %}
+			<li>{{ error }}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
 		<div id="signupBox">
 			<form method="post" action="/signup">
-				<input type="text" placeholder="Username" name="usernameSignup" id="usernameSignup" required /> <br />
+				<input type="text" placeholder="Username" name="usernameSignup" id="usernameSignup" value="{{ username }}" required /> <br />
 				<!--
 				Email
 				<input type="text" name="emailSignup" id="emailSignup" requirted /> <br />

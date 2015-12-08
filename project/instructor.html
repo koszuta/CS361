@@ -6,13 +6,14 @@
         <link href="stylesheets/instructorEdit.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
+        <a href="/#administratorViewInstructorInfoMain"> &lt; Back </a>
         
         <div class = "instructorSelectionList" id="instructorsToAdd">
             <h2> To Add: </h2>
             <form id="instructorsToAddForm" action="/addinstructor" method="post">
                 <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
                     {% for instructor in savedInstructors %}
-                    <option> {{ instructor.key() }} </option>
+                    <option> {{ instructor.name() }} </option>
                     {% endfor %}
                 </select>
                 <br />
@@ -26,7 +27,7 @@
             <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
                 <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
                 {% for instructor in syllabusInstructors %}
-                <option> {{ instructor.key() }} </option>
+                <option> {{ instructor.name() }} </option>
                 {% endfor %}
                 </select>
                 <br />
@@ -68,10 +69,12 @@
                                                 {% if sel_building == "EMS" %} selected {% endif %}>  EMS         </option>
                                                 <option value = "PHY"
                                                 {% if sel_building == "PHY" %} selected {% endif %}>  Physics     </option>
-                                                <option value = "CHEM"
-                                                {% if sel_building == "CHEM" %} selected {% endif %}> Chemistry   </option>
-                                                <option value = "LAPH"
-                                                {% if sel_building == "LAPH" %} selected {% endif %}> Lapham      </option>
+                                                <option value = "CHM"
+                                                {% if sel_building == "CHM" %} selected {% endif %}> Chemistry   </option>
+                                                <option value = "LAP"
+                                                {% if sel_building == "LAP" %} selected {% endif %}> Lapham      </option>
+                                                <option value = "KEN"
+                                                {% if sel_building == "KEN" %} selected {% endif %}> Kenwood      </option>
                                         </select> 		
                                         <input type="text" name="instructorOfficeRoom" placeholder="Room #" size="5" id="instructorOfficeRoom" value="{% if sel_room != None %}{{ sel_room }}{% endif %}" />
                                 </td>

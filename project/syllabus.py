@@ -1,12 +1,14 @@
 from google.appengine.ext import ndb
-from scale import Scale
 from courseinfo import Info
-from calendarClass import CalendarClass
 
 class Syllabus(ndb.Model):
-    isActive = ndb.BooleanProperty()
+    isActive = ndb.BooleanProperty(default = True)
     info = ndb.StructuredProperty(Info)
-    scale = ndb.StructuredProperty(Scale)
+	
+    @property
+    def scale(self):
+        from scalesEdit import GradeScale
+        return GradeScale.query(ancestor = self.key).get()
     
     @property
     def textbooks(self):
