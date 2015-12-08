@@ -20,145 +20,16 @@
 			</form>
 		</div>
         {% if term %}
-        <h2> 
-            {% if term.semester %}
-            Viewing
-            {% if term.semester == "S" %} Spring
-            {% elif term.semester == "M" %} Summer
-            {% elif term.semester == "F" %} Fall
-            {% elif term.semester == "W" %} Winter
-            {% endif %}
-            {{ term.year }}
-            {% else %}
-            Select a term
-            {% endif %}
-        </h2>
-        <hr />
-        
-		<div id="listTableSection">
-			<table id="listTable">
-				<tr>
-					<th> Time </th>
-					<th> M </th>
-					<th> T </th>
-					<th> W </th>
-					<th> R </th>
-					<th> F </th>
-				</tr>
-				<tr>
-					<td> 8:00AM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "08" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 9:00AM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "09" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 10:00AM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "10" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 11:00AM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "11" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 12:00PM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "12" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 1:00PM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "13" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-				<tr>
-					<td> 2:00PM </td>
-                    {% if term and term.syllabi %}
-                    {% for s in term.syllabi %}
-                    {% if s.isActive and s.info.start and s.info.days %}
-                    {% if s.info.start[:2] == "14" %}
-                        <td> {% if "M" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "T" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "W" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "R" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                        <td> {% if "F" in s.info.days %}{{ s.info.subject}} {{ s.info.number }}{% endif %} </td>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-				</tr>
-			</table>
-		</div>
+        {% if term.semester == "S" %}
+        {% set semesterName = "Spring" %}
+        {% elif term.semester == "M" %}
+        {% set semesterName = "Summer" %}
+        {% elif term.semester == "F" %}
+        {% set semesterName = "Fall" %}
+        {% elif term.semester == "W" %}
+        {% set semesterName = "Winter" %}
+        {% endif %}
+		{% include "weeklycal.html" %}
         <hr />
 		<div id="listLinksSection">
 			<form id="createNewSyllabus" action="/createsyllabus"" method="post">

@@ -1,0 +1,25 @@
+{% if term.semester == "S" %}
+{% set semesterName = "Spring" %}
+{% elif term.semester == "M" %}
+{% set semesterName = "Summer" %}
+{% elif term.semester == "F" %}
+{% set semesterName = "Fall" %}
+{% elif term.semester == "W" %}
+{% set semesterName = "Winter" %}
+{% endif %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SyllaBlaster - {{ semesterName }} {{ term.year }}</title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/list.css" />
+	</head>
+	<body>
+        {% if term %}
+        {% with doLink=True %}
+		{% include "weeklycal.html" %}
+		{% endwith %}
+        {% endif %}
+	</body>
+</html>
