@@ -473,12 +473,16 @@ class WebScraper():
         if type(term) is str:
             if (term == 'M'):
                 termCode = '6'
+                term = "Summer"
             elif (term == 'F'):
                 termCode = '9'
+                term = "Fall"
             elif (term == 'W'):
                 termCode = '1'
+                term = "UWinteriM"
             elif (term == 'S'):
                 termCode = '2'
+                term = "Spring"
             else:
                 valid = False
                 
@@ -511,12 +515,16 @@ class WebScraper():
         if type(term) is str:
             if (term == 'M'):
                 termCode = '6'
+                term = "Summer"
             elif (term == 'F'):
                 termCode = '9'
+                term = "Fall"
             elif (term == 'W'):
                 termCode = '1'
+                term = "UWinteriM"
             elif (term == 'S'):
                 termCode = '2'
+                term = "Spring"
             else:
                 valid = False
                 
@@ -550,10 +558,10 @@ for i in subjectNamesFall2015:
 print "retrieved with WebScraper.scrapeSubjectNames('F', 2015)"
 print 
 print "please wait..."
-artClassesUWinteriM2016 = WebScraper.scrapeCourseNames('W', 2016, 'ART')
+artClassesUWinteriM2016 = WebScraper.scrapeCourseNames('F', 2015, 'COMPSCI')
 for i in artClassesUWinteriM2016:
     print "     " + i
-print "retrieved with WebScraper.scrapeCourseNames('W', 2016, 'ART'))"
+print "retrieved with WebScraper.scrapeCourseNames('F', 2015, 'COMPSCI')"
 print
 print "please wait..."    
 sections = WebScraper.scrapeCourseSections('S', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')
