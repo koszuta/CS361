@@ -75,16 +75,50 @@ class CreateSyllabusHandler(BaseHandler):
         info = Info(subject = subject, number = number, section = section)
         syllabus = Syllabus(parent = term.key, info = info)
         
-        course_list = WebScraper.scrapeCourseNames(str(term.semester), int(term.year), subject)
-        
-        course = None
-        for c in course_list:
-            if WebScraper.getCourseSubjectFromCourseName(c) == str(subject) and WebScraper.getCourseNumberFromCourseName(c) == str(number):
-                course = c
-                
-        syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course)
-        
+        if number < 10:
+            number = '00' + str(number)
+        elif number < 100:
+            number = '0' + str(number)
+        else:
+            number = str(number)
             
+        if section < 10:
+            section = '00' + str(section)
+        elif section < 100:
+            section = '0' + str(section)
+        else:
+            section = str(section)
+        
+        course_list = WebScraper.scrapeCourseNames(str(term.semester), int(term.year), subject)
+        course_name = None
+        for c in course_list:
+            if WebScraper.getCourseSubjectFromCourseName(c) == subject and WebScraper.getCourseNumberFromCourseName(c) == number:
+                course_name = c
+                break
+            
+        if course_name:
+            syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)               
+                
+        sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
+        course_section = None
+        for s in sections_list:
+            if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + section:
+                course_section = s
+                break
+        
+        if course_section:
+            room = WebScraper.getRoomFromCourseSection(course_section)
+            if room:
+                syllabus.info.building = room.split()[0]
+                syllabus.info.room = room.split()[1]
+                
+            syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
+            
+            time = WebScraper.getMeetTimeFromCourseSection(course_section)
+            if time:
+                syllabus.info.start = time.split()[0]
+                syllabus.info.end = time.split('-')[1].split()[0]
+        
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
         
