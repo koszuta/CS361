@@ -1,4 +1,5 @@
 import os
+import webapp2
 from google.appengine.ext import ndb
 from jinja2 import Environment, FileSystemLoader
 from basehandler import BaseHandler
@@ -6,7 +7,7 @@ from webapp2_extras.appengine.auth.models import User
 
 jinja_env = Environment(
   loader=FileSystemLoader(os.path.dirname(__file__)),
-  extensions=['jinja2.ext.autoescape'],
+  extensions=['jinja2.ext.autoescape', 'jinja2.ext.with_'],
   autoescape=True)
 
 class Term(ndb.Model):
@@ -41,6 +42,20 @@ class Term(ndb.Model):
         return string
         
 class WeeklyCalendarHandler(BaseHandler):
+    def render(self, user, term):            
+        template = jinja_env.get_template('term.html')
+        context = {}
+        if term:
+            context = {
+                'semester': term.semester,
+                'year': term.year,
+                'term': term,
+                'username': user.auth_ids[0],
+                'term_abbr': term.url
+            }
+        
+        self.response.write(template.render(context))
+
     def get(self, username, term):
         # TODO: Render weekly calendar template
         
@@ -51,9 +66,8 @@ class WeeklyCalendarHandler(BaseHandler):
             terms = Term.query(ancestor = user.key).fetch()
         
             for t in terms:
-                if t.url() == term:
-                    self.response.write('Valid term in datastore')
-                    return
+                if t.url == term:
+                    return self.render(user, t)
 
         # Raise HTTP 404 error for terms not yet available
         self.abort(404)

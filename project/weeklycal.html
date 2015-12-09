@@ -1,0 +1,113 @@
+        <h2> 
+            {% if term.semester %}
+            Viewing {{ semesterName }}
+            {{ term.year }}
+            {% else %}
+            Select a term
+            {% endif %}
+        </h2>
+        <hr />
+        
+        {% macro doDays (info) -%}
+        	{% set sylUrl='/'+username+'/'+term_abbr+'/'+info.url %}
+        	{% for day in "MTWRF" %}
+        	<td>{% if day in info.days %}{% if doLink %}<a href="{{ sylUrl }}">{% endif %}{{ info.subject}} {{ info.number }}{% if doLink %}</a><br><a href="{{ sylUrl }}"> {{ info.title }}</a>{% endif %}{% endif %}</td>
+        	{% endfor %}
+        {%- endmacro %}
+        
+		<div id="listTableSection">
+			<table id="listTable">
+				<tr>
+					<th> Time </th>
+					<th> M </th>
+					<th> T </th>
+					<th> W </th>
+					<th> R </th>
+					<th> F </th>
+				</tr>
+				<tr>
+					<td> 8:00AM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "08" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 9:00AM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "09" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 10:00AM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "10" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 11:00AM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "11" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 12:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "12" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 1:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "13" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 2:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "14" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+			</table>
+		</div>
