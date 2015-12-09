@@ -75,14 +75,14 @@ class CreateSyllabusHandler(BaseHandler):
         info = Info(subject = subject, number = number, section = section)
         syllabus = Syllabus(parent = term.key, info = info)
         
-        course_list = WebScraper.scrapeCourseNames(term.semester, term.year, subject)
+        course_list = WebScraper.scrapeCourseNames(str(term.semester), int(term.year), subject)
         
-        course_name = None
+        course = None
         for c in course_list:
-            if syllabus.info.scrape == c.split(":")[0]:
-                course_name = c
+            if WebScraper.getCourseSubjectFromCourseName(c) == str(subject) and WebScraper.getCourseNumberFromCourseName(c) == str(number):
+                course = c
                 
-        syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)
+        syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course)
         
             
         syllabus.put()

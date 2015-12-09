@@ -548,7 +548,7 @@ class WebScraper():
             
         return url
      
-     
+'''     
 #demo
 print "WebScraper Demo:"
 print "please wait..."
@@ -568,3 +568,4 @@ sections = WebScraper.scrapeCourseSections('S', 2016, 'MATH-231: Calculus and An
 for i in sections:
     print i
 print "retrieved with WebScraper.scrapeCourseSections('S', 2016, 'MATH-231: Calculus and Analytic Geometry I (4 units; U ; NS,QLB)')"
+'''
