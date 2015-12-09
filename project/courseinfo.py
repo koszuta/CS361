@@ -29,9 +29,6 @@ class Info(ndb.Model):
         
         return abbr + str(self.number) + "-" + str(self.section)
     
-    @webapp2.cached_property
-    def scrape(self):
-        return self.subject + "-" + self.number
     
 from basehandler import BaseHandler, login_required
 

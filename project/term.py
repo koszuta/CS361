@@ -1,6 +1,9 @@
-import os
 import webapp2
+import jinja2
+import os
+
 from google.appengine.ext import ndb
+
 from jinja2 import Environment, FileSystemLoader
 from basehandler import BaseHandler
 from webapp2_extras.appengine.auth.models import User
