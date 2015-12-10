@@ -1,7 +1,9 @@
 import webapp2
 import jinja2
 import os
-from google.appengine.ext import ndb   
+from google.appengine.ext import ndb
+
+from hours import Hours
             
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
@@ -10,9 +12,23 @@ class Instructor(ndb.Model):
     phone = ndb.StringProperty()
     building = ndb.StringProperty()
     room = ndb.StringProperty()
-    hours = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
     onSyllabus = ndb.BooleanProperty(default = False)
+    @property
+    def hours(self):
+        return Hours.query(ancestor = self.key).fetch()
+    
+    def hours_start(self, day):
+        hour = Hours.query(ancestor = self.key).filter(Hours.day == day).get()
+        if hour:
+            return hour.start
+        return None
+    
+    def hours_end(self, day):
+        hour = Hours.query(ancestor = self.key).filter(Hours.day == day).get()
+        if hour:
+            return hour.end
+        return None
     
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
@@ -40,22 +56,27 @@ class EditHandler(BaseHandler):
         syllabus = ndb.Key(urlsafe = syllabusKey).get()        
         
         selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
-        if not selected:
-            selected = Instructor(parent = user.key)
                         
         template = template_env.get_template('instructor.html')
         context = {
             'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syllabus.instructors,
-            'selected': selected.name(),
-            'sel_first': selected.first,
-            'sel_last': selected.last,
-            'sel_email': selected.email,
-            'sel_phone': selected.phone,
-            'sel_building': selected.building,
-            'sel_room': selected.room,
-            'sel_hours': selected.hours,
         }
+        
+        if selected:
+            context['selected'] = selected.name()
+            context['sel_first'] = selected.first
+            context['sel_last'] = selected.last
+            context['sel_email'] = selected.email
+            context['sel_phone'] = selected.phone
+            context['sel_building'] = selected.building
+            context['sel_room'] = selected.room
+            context['monday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Monday').get()
+            context['tuesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Tuesday').get()
+            context['wednesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Wednesday').get()
+            context['thursday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Thursday').get()
+            context['friday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Friday').get()
+            
 
         self.response.write(template.render(context))
         
@@ -76,7 +97,70 @@ class EditHandler(BaseHandler):
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
         elif option == 'Create New':
             i = Instructor(parent = user.key)
-        
+            
+        i.put()
+            
+        if self.request.get('mondayCheck'):
+            start = self.request.get('mondayStartTime')
+            end = self.request.get('mondayEndTime')
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Monday").get()
+            if old:
+                old.key.delete()
+            new = Hours(parent = i.key, day = "Monday", start = start, end = end)
+            new.put()
+        else:
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Monday").get()
+            if old:
+                old.key.delete()            
+        if self.request.get('tuesdayCheck'):
+            start = self.request.get('tuesdayStartTime')
+            end = self.request.get('tuesdayEndTime')
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Tuesday").get()
+            if old:
+                old.key.delete()
+            new = Hours(parent = i.key, day = "Tuesday", start = start, end = end)
+            new.put()
+        else:
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Tuesday").get()
+            if old:
+                old.key.delete()
+        if self.request.get('wednesdayCheck'):
+            start = self.request.get('wednesdayStartTime')
+            end = self.request.get('wednesdayEndTime')
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Wednesday").get()
+            if old:
+                old.key.delete()
+            new = Hours(parent = i.key, day = "Wednesday", start = start, end = end)
+            new.put()   
+        else:
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Wednesday").get()
+            if old:
+                old.key.delete()
+        if self.request.get('thursdayCheck'):
+            start = self.request.get('thursdayStartTime')
+            end = self.request.get('thursdayEndTime')
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Thursday").get()
+            if old:
+                old.key.delete()
+            new = Hours(parent = i.key, day = "Thursday", start = start, end = end)
+            new.put()
+        else:
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Thursday").get()
+            if old:
+                old.key.delete()
+        if self.request.get('fridayCheck'):
+            start = self.request.get('fridayStartTime')
+            end = self.request.get('fridayEndTime')
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Friday").get()
+            if old:
+                old.key.delete()
+            new = Hours(parent = i.key, day = "Friday", start = start, end = end)
+            new.put()
+        else:
+            old = Hours.query(ancestor = i.key).filter(Hours.day == "Friday").get()
+            if old:
+                old.key.delete()
+            
         if i:    
             i.first = myfirst
             i.last = mylast
@@ -113,6 +197,9 @@ class AddHandler(BaseHandler):
         if option == 'Add':
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
+            for h in temp.hours:
+                hour = Hours(parent = new.key, day = h.day, start = h.start, end = h.end)
+                hour.put()
             
         self.redirect('/editinstructor')
         

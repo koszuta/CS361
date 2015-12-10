@@ -109,43 +109,43 @@
                         </tr>
                         
                         <tr>
-                                <td> <input type="checkbox" class="hoursCheck" name="mondayCheck" id="mondayCheck"> </td>
+                                <td> <input type="checkbox" class="hoursCheck" name="mondayCheck" id="mondayCheck" {% if monday %} checked {% endif %} /> </td>
                                 <td> Monday </td>
-                                <td> <input type="time" name="mondayStartTime" id="mondayStartTime"> </td>
+                                <td> <input type="time" name="mondayStartTime" id="mondayStartTime" {% if monday.start %} value="{{ monday.start }}" {% endif %} /> </td>
                                 <td> &nbsp;-&nbsp; </td>
-                                <td> <input type="time" name="mondayEndTime" id="mondayEndTime"> </td>
+                                <td> <input type="time" name="mondayEndTime" id="mondayEndTime" {% if monday.end %} value="{{ monday.end }}" {% endif %} /> </td>
                         </tr>
                         
                         <tr>
-                                <td> <input type="checkbox" class="hoursCheck" name="tuesdayCheck" id="tuesdayCheck"> </td>
+                                <td> <input type="checkbox" class="hoursCheck" name="tuesdayCheck" id="tuesdayCheck" {% if tuesday %} checked {% endif %} /> </td>
                                 <td> Tuesday </td>
-                                <td> <input type="time" name="tuesdayStartTime" id="tuesdayStartTime"> </td>
+                                <td> <input type="time" name="tuesdayStartTime" id="tuesdayStartTime" {% if tuesday.start %} value="{{ tuesday.start }}" {% endif %} /> </td>
                                 <td> &nbsp;-&nbsp; </td>
-                                <td> <input type="time" name="tuesdayEndTime" id="tuesdayEndTime"> </td>
+                                <td> <input type="time" name="tuesdayEndTime" id="tuesdayEndTime" {% if tuesday.end %} value="{{ tuesday.end }}" {% endif %} /> </td>
                         </tr>
                         
                         <tr>
-                                <td> <input type="checkbox" class="hoursCheck" name="wednesdayCheck" id="wednesdayCheck"> </td>
+                                <td> <input type="checkbox" class="hoursCheck" name="wednesdayCheck" id="wednesdayCheck" {% if wednesday %} checked {% endif %} /> </td>
                                 <td> Wednesday </td>
-                                <td> <input type="time" name="wednesdayStartTime" id="wednesdayStartTime"> </td>
+                                <td> <input type="time" name="wednesdayStartTime" id="wednesdayStartTime" {% if wednesday.start %} value="{{ wednesday.start }}" {% endif %} /> </td>
                                 <td> &nbsp;-&nbsp; </td>
-                                <td> <input type="time" name="wednesdayEndTime" id="wednesdayEndTime"> </td>
+                                <td> <input type="time" name="wednesdayEndTime" id="wednesdayEndTime" {% if wednesday.end %} value="{{ wednesday.end }}" {% endif %} /> </td>
                         </tr>
                         
                         <tr>
-                                <td> <input type="checkbox" class="hoursCheck" name="thursdayCheck" id="thursdayCheck"> </td>
+                                <td> <input type="checkbox" class="hoursCheck" name="thursdayCheck" id="thursdayCheck" {% if thursday %} checked {% endif %} /> </td>
                                 <td> Thursday </td>
-                                <td> <input type="time" name="thursdayStartTime" id="thursdayStartTime"> </td>
+                                <td> <input type="time" name="thursdayStartTime" id="thursdayStartTime" {% if thursday.start %} value="{{ thursday.start }}" {% endif %} /> </td>
                                 <td> &nbsp;-&nbsp; </td>
-                                <td> <input type="time" name="thursdayEndTime" id="thursdayEndTime"> </td>
+                                <td> <input type="time" name="thursdayEndTime" id="thursdayEndTime" {% if thursday.end %} value="{{ thursday.end }}" {% endif %} /> </td>
                         </tr>
                         
                         <tr>
-                                <td> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck"> </td>
+                                <td> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
                                 <td> Friday </td>
-                                <td> <input type="time" name="fridayStartTime" id="fridayStartTime"> </td>
+                                <td> <input type="time" name="fridayStartTime" id="fridayStartTime" {% if friday.start %} value="{{ friday.start }}" {% endif %} /> </td>
                                 <td> &nbsp;-&nbsp; </td>
-                                <td> <input type="time" name="fridayEndTime" id="fridayEndTime"> </td>
+                                <td> <input type="time" name="fridayEndTime" id="fridayEndTime" {% if friday.end %} value="{{ friday.end }}" {% endif %} /> </td>
                         </tr>
                         
                         <tr>

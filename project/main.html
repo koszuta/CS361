@@ -72,7 +72,18 @@
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
                                             <td> {{ info.subject}} {{ info.number }}-{{ info.section }} {{ info.building }} {{ info.room }} {{ info.days }} {{ info.start }}-{{ info.end }} </td>
-                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }} <br> Office Hours: {{ i.hours }} </td>
+                                            <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }}
+                                                <br>
+                                                Office Hours:
+                                                {% for h in i.hours %}
+                                                {% if h.day == "Thursday" %}
+                                                    R
+                                                {% else %}
+                                                    {{ h.day[0] }}
+                                                {% endif %}
+                                                    {{ h.start }}-{{ h.end }}
+                                                {% endfor %}
+                                            </td>
                                     </tr>
                                     {% endfor %}
                                     {% else %}
