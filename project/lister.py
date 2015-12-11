@@ -99,25 +99,25 @@ class CreateSyllabusHandler(BaseHandler):
         if course_name:
             syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)               
                 
-        sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
-        course_section = None
-        for s in sections_list:
-            if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + section:
-                course_section = s
-                break
-        
-        if course_section:
-            room = WebScraper.getRoomFromCourseSection(course_section)
-            if room:
-                syllabus.info.building = room.split()[0]
-                syllabus.info.room = room.split()[1]
-                
-            syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
+            sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
+            course_section = None
+            for s in sections_list:
+                if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + section:
+                    course_section = s
+                    break
             
-            time = WebScraper.getMeetTimeFromCourseSection(course_section)
-            if time:
-                syllabus.info.start = time.split()[0]
-                syllabus.info.end = time.split('-')[1].split()[0]
+            if course_section:
+                room = WebScraper.getRoomFromCourseSection(course_section)
+                if room:
+                    syllabus.info.building = room.split()[0]
+                    syllabus.info.room = room.split()[1]
+                    
+                syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
+                
+                time = WebScraper.getMeetTimeFromCourseSection(course_section)
+                if time:
+                    syllabus.info.start = time.split()[0]
+                    syllabus.info.end = time.split('-')[1].split()[0]
         
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()

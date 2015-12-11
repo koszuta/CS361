@@ -93,25 +93,25 @@ class InfoEditHandler(BaseHandler):
             if course_name:
                 syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)
             
-            sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
-            course_section = None
-            for s in sections_list:
-                if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + syllabus.info.section_string:
-                    course_section = s
-                    break
+                sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
+                course_section = None
+                for s in sections_list:
+                    if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + syllabus.info.section_string:
+                        course_section = s
+                        break
+                        
+                if course_section:
+                    room = WebScraper.getRoomFromCourseSection(course_section)
+                    if room:
+                        syllabus.info.building = room.split()[0]
+                        syllabus.info.room = room.split()[1]
+                        
+                    syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
                     
-            if course_section:
-                room = WebScraper.getRoomFromCourseSection(course_section)
-                if room:
-                    syllabus.info.building = room.split()[0]
-                    syllabus.info.room = room.split()[1]
-                    
-                syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
-                
-                time = WebScraper.getMeetTimeFromCourseSection(course_section)
-                if time:
-                    syllabus.info.start = time.split()[0]
-                    syllabus.info.end = time.split('-')[1].split()[0]
+                    time = WebScraper.getMeetTimeFromCourseSection(course_section)
+                    if time:
+                        syllabus.info.start = time.split()[0]
+                        syllabus.info.end = time.split('-')[1].split()[0]
             
         else:            
             title = str(self.request.get('courseTitle'))
