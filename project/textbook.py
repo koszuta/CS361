@@ -50,10 +50,8 @@ def clone_entity(e, **extra_args):
 class AddTextbookHandler(BaseHandler):
     @login_required
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
 
         onSyllabus = self.request.get('onSyllabus')
         try:
@@ -97,8 +95,7 @@ class AddTextbookHandler(BaseHandler):
 class RemoveTextbookHandler(BaseHandler):
     @login_required
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
+        user = self.current_user
 
         onSyllabus = self.request.get('onSyllabus')
         try:
@@ -151,10 +148,8 @@ class FindTextbookHandler(BaseHandler):
             else:
                 self.session['lastBookQueryType'] = 'all'
         
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
 
         allBooks = Textbook.query(ancestor=user.key).filter(Textbook.onSyllabus == False).fetch()
         syllabusBooks = Textbook.query(ancestor=syllabus.key).fetch()
@@ -239,8 +234,7 @@ class EditTextbookHandler(BaseHandler):
 
         errors = []
         
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
+        user = self.current_user
 
         if (title == ''):
             errors.append('Title field must not be empty')
@@ -291,9 +285,8 @@ class EditTextbookHandler(BaseHandler):
 
 class TextbookHandler(BaseHandler):
     def getBooks(self):
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
-        return syllabus.textbooks
+        syllabus = self.current_syllabus
+        return syllabus.textbooks if syllabus else None
 
     @login_required
     def get(self):
@@ -309,10 +302,8 @@ class TextbookHandler(BaseHandler):
 		
     @login_required
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
 
         template = jinja_env.get_template('textbookEdit.html')
         title = self.request.get('newBookTitle')

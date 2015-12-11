@@ -153,11 +153,9 @@ class PreviewHandler(BaseHandler):
             context = self.createDummyContext()
         else:
             if not term:
-                termKey = self.session.get('term')
-                term = ndb.Key(urlsafe = termKey).get()
+                term = self.current_term
             if not syllabus:
-                syllabusKey = self.session.get('syllabus')
-                syllabus = ndb.Key(urlsafe = syllabusKey).get()
+                syllabus = self.current_syllabus
             context = {
                 'textbooks': syllabus.textbooks,
                 'instructors': syllabus.instructors,

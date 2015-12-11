@@ -33,8 +33,8 @@ scale = []
 class ScalesHandler(BaseHandler):
     @login_required
     def get(self):
-        userKey = self.session.get("user")
-        user = ndb.Key(urlsafe = userKey).get()
+        user = self.current_user
+        
         global grade
         global letter
         global scale
@@ -87,8 +87,7 @@ class AddScalesHandler(BaseHandler):
     @login_required
     def post(self):
         usedscale = self.request.get("selectedScale")
-        userKey = self.session.get("user")
-        user = ndb.Key(urlsafe = userKey).get()
+        user = self.current_user
         
         for s in user.savedScales:
             if s.scaleName == usedscale:

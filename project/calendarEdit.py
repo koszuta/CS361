@@ -25,10 +25,8 @@ class CalendarHandler(BaseHandler):
     def get(self):
     
         message = ""
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
 
         savedCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == False).fetch()
         savedCalendarNames = []
@@ -96,10 +94,8 @@ class CalendarHandler(BaseHandler):
         rowRemove = self.request.get('removeRow')
         save = self.request.get('save')
         
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
 
         syllabusCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == True).fetch()
         if syllabusCalendars:

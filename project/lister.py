@@ -18,12 +18,8 @@ template_env = jinja2.Environment(
 class ListerHandler(BaseHandler):
     @login_required
     def get(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
-        user = self.auth.store.user_model.get_by_id(user_id)
-        term = None
-        termKey = self.session.get('term')
-        if termKey:
-            term = ndb.Key(urlsafe = termKey).get()
+        user = self.current_user
+        term = self.current_term
             
         template = template_env.get_template('list.html')
         context = {}
@@ -42,8 +38,7 @@ class ListerHandler(BaseHandler):
 class TermSelectHandler(BaseHandler):
     @login_required	
     def post(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
-        user = self.auth.store.user_model.get_by_id(user_id)
+        user = self.current_user
         
         semester = str(self.request.get('listSelectSemester'))
         year = int(self.request.get('listSelectYear'))
@@ -62,11 +57,7 @@ class TermSelectHandler(BaseHandler):
 class CreateSyllabusHandler(BaseHandler):
     @login_required	 
     def post(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-            
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         subject = str(self.request.get('subjectSelect'))
         number = int(self.request.get('courseNumber'))
@@ -99,25 +90,26 @@ class CreateSyllabusHandler(BaseHandler):
         if course_name:
             syllabus.info.title = WebScraper.getCourseTitleFromCourseName(course_name)               
                 
-        sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
-        course_section = None
-        for s in sections_list:
-            if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + section:
-                course_section = s
-                break
-        
-        if course_section:
-            room = WebScraper.getRoomFromCourseSection(course_section)
-            if room:
-                syllabus.info.building = room.split()[0]
-                syllabus.info.room = room.split()[1]
-                
-            syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
+            sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
+            course_section = None
+            for s in sections_list:
+                section = WebScraper.getSectionFromCourseSection(s)
+                if section == 'LEC ' + syllabus.info.section_string or section == 'LAB ' + syllabus.info.section_string:
+                    course_section = s
+                    break
             
-            time = WebScraper.getMeetTimeFromCourseSection(course_section)
-            if time:
-                syllabus.info.start = time.split()[0]
-                syllabus.info.end = time.split('-')[1].split()[0]
+            if course_section:
+                room = WebScraper.getRoomFromCourseSection(course_section)
+                if room:
+                    syllabus.info.building = room.split()[0]
+                    syllabus.info.room = room.split()[1]
+                    
+                syllabus.info.days = WebScraper.getMeetDaysFromCourseSection(course_section)
+                
+                time = WebScraper.getMeetTimeFromCourseSection(course_section)
+                if time:
+                    syllabus.info.start = self.military(time.split('-')[0])
+                    syllabus.info.end = self.military(time.split('-')[1])
         
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
@@ -128,10 +120,7 @@ class CreateSyllabusHandler(BaseHandler):
 class SelectSyllabusHandler(BaseHandler):
     @login_required	 
     def get(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         select = str(self.request.get('select'))
         
@@ -146,10 +135,7 @@ class SelectSyllabusHandler(BaseHandler):
 class ActivateSyllabusHandler(BaseHandler):
     @login_required
     def get(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         activate = str(self.request.get('activate'))
         

@@ -59,7 +59,6 @@ class SignupHandler(BaseHandler):
             errors.append('Password must be at least 8 characters long')
         if password != confirm:
             errors.append('Password and Confirm Password fields must match')
-
         if errors:
             return self.render(errors, username)
 
