@@ -93,7 +93,8 @@ class CreateSyllabusHandler(BaseHandler):
             sections_list = WebScraper.scrapeCourseSections(str(term.semester), int(term.year), course_name)
             course_section = None
             for s in sections_list:
-                if WebScraper.getSectionFromCourseSection(s) == 'LEC ' + section:
+                section = WebScraper.getSectionFromCourseSection(s)
+                if section == 'LEC ' + syllabus.info.section_string or section == 'LAB ' + syllabus.info.section_string:
                     course_section = s
                     break
             
