@@ -2,18 +2,34 @@ body
 {
     background-color: #4E98A0;
 }
+
 input
 {
     width: 100%;
     margin-bottom: 10px;   
 }
+
 div
 {
     text-align: center;
-    margin: 0 auto;
-    width: 250px;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0)
 }
+
+div input
+{
+	width: 200px;
+}
+
+div input[type="submit"]
+{
+	width: auto;
+}
+
 #error
 {
 	color: #D3EF08;
+	font-weight: bold;
+	padding-left: 0;
 }
