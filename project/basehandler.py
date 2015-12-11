@@ -28,13 +28,22 @@ class BaseHandler(webapp2.RequestHandler):
         return auth.get_auth()
     
     @webapp2.cached_property
-    def user(self):
+    def current_user(self):
         return self.auth.get_user_by_session()
+        
+    @webapp2.cached_property
+    def current_term(self):
+        key = self.session.get('term')
+        return ndb.Key(urlsafe = key).get() if key else None
+        
+    @webapp2.cached_property
+    def current_syllabus(self):
+        key = self.session.get('syllabus')
+        return ndb.Key(urlsafe = key).get() if key else None
 
 def login_required(handler):
     def check_login(self, *args, **kwargs):
-        auth = self.auth
-        if not self.session.get('user'):
+        if not self.current_user:
             return self.redirect('/login')
         else:
             return handler(self, *args, **kwargs)
