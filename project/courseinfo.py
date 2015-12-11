@@ -68,10 +68,8 @@ class InfoEditHandler(BaseHandler):
         
     @login_required
     def post(self):
-        termKey = self.session.get('term')
-        term = ndb.Key(urlsafe = termKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        term = self.current_term
+        syllabus = self.current_syllabus
         
         select = self.request.get('button')
         subject = str(self.request.get('subjectSelect'))

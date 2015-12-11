@@ -29,7 +29,8 @@ class BaseHandler(webapp2.RequestHandler):
     
     @webapp2.cached_property
     def current_user(self):
-        return self.auth.get_user_by_session()
+        user_id = self.auth.get_user_by_session().get('user_id')
+        return self.auth.store.user_model.get_by_id(user_id)
         
     @webapp2.cached_property
     def current_term(self):

@@ -30,10 +30,8 @@ template_env = jinja2.Environment(
 class EditHandler(BaseHandler):
     @login_required     
     def get(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
         
         selected = Policy.query(ancestor = user.key).filter(Policy.isSelected == True).get()
         if not selected:
@@ -52,8 +50,7 @@ class EditHandler(BaseHandler):
         
     @login_required     
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
+        user = self.current_user
         
         option = self.request.get("policyEditorButton")
         mytitle = self.request.get("policyTitle")
@@ -77,10 +74,8 @@ class EditHandler(BaseHandler):
 class AddHandler(BaseHandler):
     @login_required     
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
         
         option = self.request.get("savedPolicyButton")
         selected = self.request.get("savedpolicies")
@@ -104,8 +99,7 @@ class AddHandler(BaseHandler):
 class RemoveHandler(BaseHandler):
     @login_required     
     def post(self):
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        syllabus = self.current_syllabus
         
         selected = self.request.get("policiesOnSyllabus")
         

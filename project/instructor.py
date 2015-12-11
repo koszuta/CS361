@@ -50,10 +50,8 @@ template_env = jinja2.Environment(
 class EditHandler(BaseHandler):
     @login_required	 
     def get(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()        
+        user = self.current_user
+        syllabus = self.current_syllabus        
         
         selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
                         
@@ -82,8 +80,7 @@ class EditHandler(BaseHandler):
         
     @login_required	 
     def post(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
-        user = self.auth.store.user_model.get_by_id(user_id)
+        user = self.current_user
         
         option = self.request.get('editInstructorSubmit')
         myfirst = self.request.get('instructorFirstName')
@@ -177,10 +174,8 @@ class EditHandler(BaseHandler):
 class AddHandler(BaseHandler):
     @login_required	 
     def post(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
         
         option = self.request.get('instructorToAddButton')
         selected = self.request.get('availableInstructors')
@@ -207,8 +202,7 @@ class AddHandler(BaseHandler):
 class RemoveHandler(BaseHandler):    
     @login_required	     
     def post(self):
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        syllabus = self.current_syllabus
         
         selected = self.request.get('selectedInstructors')
         

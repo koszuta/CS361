@@ -18,12 +18,8 @@ template_env = jinja2.Environment(
 class ListerHandler(BaseHandler):
     @login_required
     def get(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
-        user = self.auth.store.user_model.get_by_id(user_id)
-        term = None
-        termKey = self.session.get('term')
-        if termKey:
-            term = ndb.Key(urlsafe = termKey).get()
+        user = self.current_user
+        term = self.current_term
             
         template = template_env.get_template('list.html')
         context = {}
@@ -42,8 +38,7 @@ class ListerHandler(BaseHandler):
 class TermSelectHandler(BaseHandler):
     @login_required	
     def post(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
-        user = self.auth.store.user_model.get_by_id(user_id)
+        user = self.current_user
         
         semester = str(self.request.get('listSelectSemester'))
         year = int(self.request.get('listSelectYear'))
@@ -62,11 +57,7 @@ class TermSelectHandler(BaseHandler):
 class CreateSyllabusHandler(BaseHandler):
     @login_required	 
     def post(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-            
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         subject = str(self.request.get('subjectSelect'))
         number = int(self.request.get('courseNumber'))
@@ -128,10 +119,7 @@ class CreateSyllabusHandler(BaseHandler):
 class SelectSyllabusHandler(BaseHandler):
     @login_required	 
     def get(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         select = str(self.request.get('select'))
         
@@ -146,10 +134,7 @@ class SelectSyllabusHandler(BaseHandler):
 class ActivateSyllabusHandler(BaseHandler):
     @login_required
     def get(self):
-        termKey = self.session.get('term')
-        if not termKey:
-            return self.redirect('/list')
-        term = ndb.Key(urlsafe = termKey).get()
+        term = self.current_term
         
         activate = str(self.request.get('activate'))
         

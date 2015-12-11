@@ -16,10 +16,7 @@ template_env = jinja2.Environment(
 class MainHandler(BaseHandler):
     @login_required
     def get(self):
-        syllabus = None
-        syllabusKey = self.session.get('syllabus')
-        if syllabusKey:
-            syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        syllabus = self.current_syllabus
         
         if not syllabus:   
             return self.redirect('/list')
