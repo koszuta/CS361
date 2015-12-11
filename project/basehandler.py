@@ -29,7 +29,10 @@ class BaseHandler(webapp2.RequestHandler):
     
     @webapp2.cached_property
     def current_user(self):
-        user_id = self.auth.get_user_by_session().get('user_id')
+        user = self.auth.get_user_by_session()
+        if not user:
+            return None
+        user_id = user.get('user_id')
         return self.auth.store.user_model.get_by_id(user_id)
         
     @webapp2.cached_property
