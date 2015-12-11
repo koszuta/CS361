@@ -40,8 +40,34 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def current_syllabus(self):
         key = self.session.get('syllabus')
-        return ndb.Key(urlsafe = key).get() if key else None
-
+        return ndb.Key(urlsafe = key).get() if key else None 
+     
+    def military(self, time):
+        if type(time) is not str:
+            return None
+            
+        period = time[-2:].upper()
+        time = time[:-3]
+        
+        if period == 'AM':
+            if len(time.split(':')[0]) < 2:
+                time = '0' + time
+            if time == '12:00':
+                time = '00:00'
+            return time
+            
+        elif period == 'PM':
+            hour = int(time.split(':')[0])
+            rest = time.split(':')[1]
+            if hour != 12:
+                hour += 12
+            time = str(hour) + ':' + rest    
+            return time
+            
+        else:
+            return None
+     
+     
 def login_required(handler):
     def check_login(self, *args, **kwargs):
         if not self.current_user:

@@ -107,8 +107,8 @@ class CreateSyllabusHandler(BaseHandler):
                 
                 time = WebScraper.getMeetTimeFromCourseSection(course_section)
                 if time:
-                    syllabus.info.start = time.split()[0]
-                    syllabus.info.end = time.split('-')[1].split()[0]
+                    syllabus.info.start = self.military(time.split('-')[0])
+                    syllabus.info.end = self.military(time.split('-')[1])
         
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()
