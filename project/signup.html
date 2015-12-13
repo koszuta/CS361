@@ -7,15 +7,15 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/login.css" />
 	</head>
 	<body>
-		<h2> Sign up for SyllaBlaster </h2>
-		{% if errors %}
-		<ul id="error">
-		{% for error in errors %}
-			<li>{{ error }}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
 		<div id="signupBox">
+			<h2> Sign up for SyllaBlaster </h2>
+			{% if errors %}
+			<ul id="error">
+			{% for error in errors %}
+				<li>{{ error }}</li>
+			{% endfor %}
+			</ul>
+			{% endif %}
 			<form method="post" action="/signup">
 				<input type="text" placeholder="Username" name="usernameSignup" id="usernameSignup" value="{{ username }}" required /> <br />
 				<!--
