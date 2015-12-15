@@ -2,8 +2,6 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-
-from hours import Hours
             
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
@@ -35,7 +33,12 @@ class Instructor(ndb.Model):
         
     def copy(self):
         return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)
-    
+   
+class Hours(ndb.Model):
+    day = ndb.StringProperty()
+    start = ndb.StringProperty()
+    end = ndb.StringProperty()
+     
     
 from basehandler import BaseHandler, login_required
 from syllabus import Syllabus
