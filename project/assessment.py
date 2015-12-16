@@ -2,12 +2,7 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-
-class AssessmentGroup(ndb.Model):
-    @property
-    def assessments(self):
-        return Assessment.query(ancestor = self.key).fetch()
-        
+   
 class Assessment(ndb.Model):
     title = ndb.StringProperty()
     description = ndb.TextProperty()
@@ -97,7 +92,13 @@ class AddHandler(BaseHandler):
                 temp = before
             before.put()
         
-        if option == "Add":
+        total = 0
+        for a in syllabus.assessments:
+            total += a.percentage
+            
+        total += temp.percentage
+            
+        if option == "Add" and not total > 100:
             new = Assessment(parent = syllabus.key, title = temp.title, percentage = temp.percentage, description = temp.description, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             
