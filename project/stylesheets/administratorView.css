@@ -20,26 +20,40 @@ pre {
 
 #administratorViewMain {
 	width: 100%;
-	background-color: #090909;
+	background-color: #142225;
 }
 
-#administratorViewBanner {
+
+/* Fixes both the headerTitle div and navButtons div at the top */
+.administratorViewBanner {
     position: fixed;
-	height: 140px;
     width: 100%;
-	background-color: #4E987F;
-    padding: 10px 0 10px 0;
+    padding: 15px 0 15px 0;
+    border-bottom: 3px solid #142225;
+}
+
+#headerTitle {
+	height: 100px;   
+	background-color: #4E987F; 
     text-align: center;
 }
 
-#navButtons {
-    width: 100%;
-    right: 0px;    
+#buttonsForm {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.administratorViewNavBarButton {
+    float: right;
+    margin-top: 60px;
+    margin-right: 30px;
 }
 
 #back {
     float: left;
+    margin-left: 30px;
 }
+
 
 #administratorViewCourseTitleMain {
     padding-top: 140px;
@@ -64,9 +78,13 @@ pre {
 	float: right;
 }
 
+.administratorViewModule {
+	width: 70%;
+    margin: 0 auto;
+}
+
 .administratorViewModuleDisplay {
 	background-color: #EEEEFF;
-	width: 100%;
 	/*min-height: 443px;*/
 }
 
@@ -81,11 +99,11 @@ input[class="administratorViewEditBannerButton"]:hover {
 }
 
 input[class="administratorViewNavBarButton"] {
-	background: #4E987F;
+	background: red;
 	padding: 12px 12px;
 	border-radius: 3px;
 }
 
 input[class="administratorViewNavBarButton"]:hover {
-    background: #61BE9E;
+    background: yellow;
 }
