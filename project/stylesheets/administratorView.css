@@ -7,6 +7,11 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     background: transparent;
 }
 
+body {
+    
+    font-size: 1.5em;
+}
+
 pre {
 	font-family: sans-serif;
 	word-break: break-word;
@@ -19,15 +24,26 @@ pre {
 }
 
 #administratorViewBanner {
-	height: 96px;
+    position: fixed;
+	height: 140px;
+    width: 100%;
 	background-color: #4E987F;
-	text-align: center;
+    padding: 10px 0 10px 0;
+    text-align: center;
 }
 
-#administratorViewHeader {
-	background-color: #3B4F4E;
+#navButtons {
+    width: 100%;
+    right: 0px;    
 }
 
+#back {
+    float: left;
+}
+
+#administratorViewCourseTitleMain {
+    padding-top: 140px;
+}
 .administratorViewModule {
 	/*min-height: 512px;*/
 	background-color: #142225;
@@ -62,22 +78,6 @@ input[class="administratorViewEditBannerButton"] {
 
 input[class="administratorViewEditBannerButton"]:hover {
     background: #B1583D;
-}
-
-#administratorViewNavBarSpacer {
-	height: 52px;
-}
-
-#administratorViewNavBar{
-	background-color: #4E987F;
-	height: 52px;
-	width: 100%;
-	position: fixed;
-	bottom: 0px;
-}
-
-#administratorViewNavbarButtons {
-	float: right;
 }
 
 input[class="administratorViewNavBarButton"] {

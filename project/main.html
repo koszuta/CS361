@@ -4,14 +4,10 @@
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                 <title> Administrator View </title>
                 <link rel="stylesheet" type="text/css" href="/stylesheets/administratorView.css" />
-                <link rel="stylesheet" type="text/css" href="/stylesheets/calendarView.css" />
-                <link rel="stylesheet" type="text/css" href="/stylesheets/calendarEdit.css" />    
-                <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentView.css" />   
-                <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentEdit.css" />
+                <link rel="stylesheet" type="text/css" href="/stylesheets/calendarView.css" />  
+                <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentView.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/textbookView.css" />
-                <link rel="stylesheet" type="text/css" href="/stylesheets/textbookEdit.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/instructorView.css" />
-                <link rel="stylesheet" type="text/css" href="/stylesheets/instructorEdit.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/gradingScaleView.css" />
               
     </head>
@@ -21,6 +17,11 @@
             <div id="administratorViewBanner">
                 <h1>Syllablaster</h1>
                 <h2>Administrator View</h2>
+                <form id="navButtons" method="get">
+                    <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/list">
+                    <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+                    <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                </form>
             </div>
             
             
@@ -282,30 +283,6 @@
                     <!--end calendarView-->                   
                 </div>
             </div>
-
-            <div id="administratorViewNavBarSpacer">
-            </div>
-            
-            <div id="administratorViewNavBar">
-                <div id="administratorViewNavbarButtons">
-                    <form method="get">
-                        <table>
-                            <tr>
-                                <td>
-                                    <input class="administratorViewNavBarButton" type="submit" value="Back" formaction="/list">
-                                </td>
-                                <td>
-                                    <input class="administratorViewNavBarButton" type="submit" value="Preview" formaction="/preview">
-                                </td>
-                                <td>
-                                    <input class="administratorViewNavBarButton" type="submit" value="Logout" formaction="/logout">
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-            </div>
-            
         </div>
     </body>
 </html>
