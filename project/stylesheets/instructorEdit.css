@@ -76,3 +76,9 @@ table#officeHoursSection {
 table.editInstructorList td {
 	padding: 5px;
 }
+
+ul#submitList {
+    list-style: none;
+    text-align: center;
+    padding-top: 200px;
+}

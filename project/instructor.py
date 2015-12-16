@@ -86,7 +86,8 @@ class EditHandler(BaseHandler):
     def post(self):
         user = self.current_user
         
-        option = self.request.get('editInstructorSubmit')
+        update = self.request.get('updateButton')
+        new = self.request.get('newButton')
         myfirst = self.request.get('instructorFirstName')
         mylast = self.request.get('instructorLastName')
         myemail = self.request.get('instructorEmail')
@@ -94,9 +95,9 @@ class EditHandler(BaseHandler):
         mybuilding = self.request.get('instructorBuildingSelect')
         myroom = self.request.get('instructorOfficeRoom')
                         
-        if option == 'Update Info':
+        if update:
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
-        elif option == 'Create New':
+        elif new:
             i = Instructor(parent = user.key)
             
         i.put()
