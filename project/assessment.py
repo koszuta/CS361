@@ -3,6 +3,11 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
+class AssessmentGroup(ndb.Model):
+    @property
+    def assessments(self):
+        return Assessment.query(ancestor = self.key).fetch()
+        
 class Assessment(ndb.Model):
     title = ndb.StringProperty()
     description = ndb.TextProperty()
@@ -31,10 +36,8 @@ template_env = jinja2.Environment(
 class EditHandler(BaseHandler):
     @login_required     
     def get(self):
-        userKey = self.session.get('user')
-        user = ndb.Key(urlsafe = userKey).get()
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        user = self.current_user
+        syllabus = self.current_syllabus
         
         selected = Assessment.query(ancestor = user.key).filter(Assessment.isSelected == True).get()
         if not selected:

@@ -33,6 +33,7 @@ class Instructor(ndb.Model):
             return hour.end
         return None
     
+    @webapp2.cached_property
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
         
@@ -56,7 +57,7 @@ class EditHandler(BaseHandler):
         user = self.current_user
         syllabus = self.current_syllabus        
         
-        selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
+        selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).order(Instructor.key).get()
                         
         template = template_env.get_template('instructor.html')
         context = {
@@ -65,7 +66,7 @@ class EditHandler(BaseHandler):
         }
         
         if selected:
-            context['selected'] = selected.name()
+            context['selected'] = selected.name
             context['sel_first'] = selected.first
             context['sel_last'] = selected.last
             context['sel_email'] = selected.email
@@ -180,19 +181,19 @@ class AddHandler(BaseHandler):
         user = self.current_user
         syllabus = self.current_syllabus
         
-        option = self.request.get('instructorToAddButton')
-        selected = self.request.get('availableInstructors')
+        option = str(self.request.get('instructorToAddButton'))
+        selected = str(self.request.get('availableInstructors'))
         
         temp = Instructor()
         
         for before in user.savedInstructors:
             before.isSelected = False
-            if before.name() == selected:
+            if before.name== selected:
                 before.isSelected = True
                 temp = before
             before.put()
             
-        if option == 'Add':
+        if option == 'Add' and selected and not Instructor.query(ancestor = syllabus.key).filter(ndb.AND(Instructor.last == selected.split(',')[0], Instructor.first == selected.split()[1])).get():
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             for h in temp.hours:
@@ -210,7 +211,7 @@ class RemoveHandler(BaseHandler):
         selected = self.request.get('selectedInstructors')
         
         for i in syllabus.instructors:
-            if i.name() == selected:
+            if i.name== selected:
                 chosen = i
                 chosen.key.delete()
             i.isSelected = False

@@ -11,12 +11,6 @@ div#courseInfoEditSection {
     margin: 0 auto;
 }
 
-@media screen and (max-width: 1500px) {
-    div#courseInfoEditSection {
-        width: 70%;
-    }
-}
-
 div.infoInput {
     margin: 0 auto;
 }
