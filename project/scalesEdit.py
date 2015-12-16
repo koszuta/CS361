@@ -58,8 +58,8 @@ class ScalesHandler(BaseHandler):
             for i in range(0,size):
                 newGrade = Grade(letter = letter[i], grade = grade[i])
                 scale.append(newGrade)
-                newScale = GradeScale(parent = user.key, scaleName = scaleName, gradeScale = scale)
-                newScale.put()
+            newScale = GradeScale(parent = user.key, scaleName = scaleName, gradeScale = scale)
+            newScale.put()
             letter = []
             grade = []
             scale = []
@@ -87,12 +87,21 @@ class AddScalesHandler(BaseHandler):
     @login_required
     def post(self):
         usedscale = self.request.get("selectedScale")
+
         user = self.current_user
+        syllabus = self.current_syllabus
+
         
         for s in user.savedScales:
             if s.scaleName == usedscale:
                 syScale = GradeScale(parent = syllabus.key)
+                syScale.onSyllabus = True
+                syScale.gradeScale = s.gradeScale
+                syScale.scaleName = s.scaleName
+                syScale.isSelected = True
+                syScale.put()
+                break
         
         
-        self.response.out.write("scalesEdit.html")
+        self.redirect("/")
         

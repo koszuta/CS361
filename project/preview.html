@@ -94,17 +94,15 @@
 			
 			<div id="gradeScaleView">
 				<table id="gradeScaleView">
-					{% if gradingScale %}
+					{% if scale %}
 					<tr class="gradeLetter">
-						{% for letter in gradingScale.keys() %}
-						<td>{{ letter }}</td>
-						{% endfor %}
+						 {% if scale %}
+                            {% for i in scale.gradeScale %}
+                                <td>{{i.letter}}<br>{{i.grade}}</td>
+                            {% endfor %}
+                        {% endif %}
 					</tr>
-					<tr class="gradeValue">
-						{% for value in gradingScale.values() %}
-						<td>{{ value }}</td>
-						{% endfor %}
-					</tr>
+					
 					{% else %}
 					<span class="noData">--- NO GRADING SCALE ADDED TO SYLLABUS ---</span>
 					{% endif %}
