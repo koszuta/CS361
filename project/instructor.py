@@ -65,19 +65,18 @@ class EditHandler(BaseHandler):
             'syllabusInstructors': syllabus.instructors,
         }
         
-        if selected:
-            context['selected'] = selected.name
-            context['sel_first'] = selected.first
-            context['sel_last'] = selected.last
-            context['sel_email'] = selected.email
-            context['sel_phone'] = selected.phone
-            context['sel_building'] = selected.building
-            context['sel_room'] = selected.room
-            context['monday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Monday').get()
-            context['tuesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Tuesday').get()
-            context['wednesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Wednesday').get()
-            context['thursday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Thursday').get()
-            context['friday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Friday').get()
+        context['selected'] = selected.name if selected else None
+        context['sel_first'] = selected.first if selected else None
+        context['sel_last'] = selected.last if selected else None
+        context['sel_email'] = selected.email if selected else None
+        context['sel_phone'] = selected.phone if selected else None
+        context['sel_building'] = selected.building if selected else None
+        context['sel_room'] = selected.room if selected else None
+        context['monday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Monday').get() if selected else None
+        context['tuesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Tuesday').get() if selected else None
+        context['wednesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Wednesday').get() if selected else None
+        context['thursday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Thursday').get() if selected else None
+        context['friday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Friday').get() if selected else None
             
 
         self.response.write(template.render(context))

@@ -2,6 +2,8 @@
 <head>
 <title>Grade Editor</title>
 <h1>Grade Editor</h1>
+<link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+<link href="stylesheets/gradeEdit.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div id="scaleListSection">
@@ -10,7 +12,7 @@
                     <h2> To Add: </h2>
                     {% for s in savedScales %}
                        {% if s.scaleName %}
-                        <input type ="radio" name = "selectedScale" value = "{{s.scaleName}}" >{{ s.scaleName}}
+                        <input type ="checkbox" name = "selectedScale" value = "{{s.scaleName}}" >{{ s.scaleName}}
 						<br>
                         {% endif %}
                     {% endfor %}
@@ -28,7 +30,7 @@
 				Name of Scale
 			</tr>
 			<tr>
-				<td><input type = "text"id= "scaleName"name = "scaleName" value = "scaleName"></td>
+				<td><input type = "text"id= "scaleName"name = "scaleName" value = "Enter Name Here"></td>
 			</tr>
 		</table>
 		
@@ -49,6 +51,28 @@
 	  <input type = "submit" id = "save" name = "save" value = "save">
 	  </form>
   </div>
+  <div id="administratorViewNavBarSpacer">
+  </div>
+  
+   <div id="administratorViewNavBar">
+                <div id="administratorViewNavbarButtons">
+                    <form method="get">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Back" formaction="/#administratorViewInstructorInfoMain">
+                                </td>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Preview" formaction="/preview">
+                                </td>
+                                <td>
+                                    <input class="administratorViewNavBarButton" type="submit" value="Logout" formaction="/logout">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
   
   
 </body>
