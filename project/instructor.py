@@ -2,9 +2,12 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import ndb
-
-from hours import Hours
-            
+      
+class Hours(ndb.Model):
+    day = ndb.StringProperty()
+    start = ndb.StringProperty()
+    end = ndb.StringProperty()
+           
 class Instructor(ndb.Model):
     first = ndb.StringProperty()
     last = ndb.StringProperty()
@@ -30,12 +33,13 @@ class Instructor(ndb.Model):
             return hour.end
         return None
     
+    @webapp2.cached_property
     def name(self):
         return self.last + ', ' + self.first if (self.first and self.last) else None
         
     def copy(self):
         return Instructor(first = self.first, last = self.last, email = self.email, phone = self.phone, building = self.building, room = self.room, hours = self.hours, isSelected = self.isSelected)
-    
+   
     
 from basehandler import BaseHandler, login_required
 from syllabus import Syllabus
@@ -53,7 +57,7 @@ class EditHandler(BaseHandler):
         user = self.current_user
         syllabus = self.current_syllabus        
         
-        selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
+        selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).order(Instructor.key).get()
                         
         template = template_env.get_template('instructor.html')
         context = {
@@ -62,7 +66,7 @@ class EditHandler(BaseHandler):
         }
         
         if selected:
-            context['selected'] = selected.name()
+            context['selected'] = selected.name
             context['sel_first'] = selected.first
             context['sel_last'] = selected.last
             context['sel_email'] = selected.email
@@ -82,7 +86,8 @@ class EditHandler(BaseHandler):
     def post(self):
         user = self.current_user
         
-        option = self.request.get('editInstructorSubmit')
+        update = self.request.get('updateButton')
+        new = self.request.get('newButton')
         myfirst = self.request.get('instructorFirstName')
         mylast = self.request.get('instructorLastName')
         myemail = self.request.get('instructorEmail')
@@ -90,9 +95,9 @@ class EditHandler(BaseHandler):
         mybuilding = self.request.get('instructorBuildingSelect')
         myroom = self.request.get('instructorOfficeRoom')
                         
-        if option == 'Update Info':
+        if update:
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
-        elif option == 'Create New':
+        elif new:
             i = Instructor(parent = user.key)
             
         i.put()
@@ -177,19 +182,19 @@ class AddHandler(BaseHandler):
         user = self.current_user
         syllabus = self.current_syllabus
         
-        option = self.request.get('instructorToAddButton')
-        selected = self.request.get('availableInstructors')
+        option = str(self.request.get('instructorToAddButton'))
+        selected = str(self.request.get('availableInstructors'))
         
         temp = Instructor()
         
         for before in user.savedInstructors:
             before.isSelected = False
-            if before.name() == selected:
+            if before.name== selected:
                 before.isSelected = True
                 temp = before
             before.put()
             
-        if option == 'Add':
+        if option == 'Add' and selected and not Instructor.query(ancestor = syllabus.key).filter(ndb.AND(Instructor.last == selected.split(',')[0], Instructor.first == selected.split()[1])).get():
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             for h in temp.hours:
@@ -207,7 +212,7 @@ class RemoveHandler(BaseHandler):
         selected = self.request.get('selectedInstructors')
         
         for i in syllabus.instructors:
-            if i.name() == selected:
+            if i.name== selected:
                 chosen = i
                 chosen.key.delete()
             i.isSelected = False

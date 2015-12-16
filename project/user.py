@@ -11,7 +11,7 @@ class User(webapp2_extras.appengine.auth.models.User):
         
     @property
     def savedScales(self):
-        from scaleEdit import GradeScale
+        from scalesEdit import GradeScale
         return GradeScale.query(ancestor = self.key).filter(GradeScale.onSyllabus == False).fetch()
         
     @property

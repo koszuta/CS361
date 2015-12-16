@@ -27,8 +27,8 @@ class Syllabus(ndb.Model):
         
     @property
     def assessments(self):
-        from assessment import Assessment
-        return Assessment.query(ancestor = self.key).fetch()
+        from assessment import AssessmentGroup
+        return AssessmentGroup.query(ancestor = self.key).fetch()
         
     @property
     def calendars(self):
