@@ -50,10 +50,9 @@ template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )  
   
-      
-class EditHandler(BaseHandler):
-    @login_required	 
-    def get(self):
+class MainHandler(BaseHandler):
+    @login_required
+    def get(self, errors = None):
         user = self.current_user
         syllabus = self.current_syllabus        
         
@@ -61,32 +60,52 @@ class EditHandler(BaseHandler):
                         
         template = template_env.get_template('instructor.html')
         context = {
+            'errors': errors,
             'savedInstructors': user.savedInstructors,
             'syllabusInstructors': syllabus.instructors,
         }
+      
+        self.response.write(template.render(context))
         
-        context['selected'] = selected.name if selected else None
-        context['sel_first'] = selected.first if selected else None
-        context['sel_last'] = selected.last if selected else None
-        context['sel_email'] = selected.email if selected else None
-        context['sel_phone'] = selected.phone if selected else None
-        context['sel_building'] = selected.building if selected else None
-        context['sel_room'] = selected.room if selected else None
-        context['monday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Monday').get() if selected else None
-        context['tuesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Tuesday').get() if selected else None
-        context['wednesday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Wednesday').get() if selected else None
-        context['thursday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Thursday').get() if selected else None
-        context['friday'] = Hours.query(ancestor = selected.key).filter(Hours.day == 'Friday').get() if selected else None
-            
-
+        
+class EditHandler(BaseHandler):
+    @login_required	 
+    def get(self, option = None):
+        user = self.current_user
+        syllabus = self.current_syllabus        
+        
+        selected = Instructor.query(ancestor = user.key).filter(ndb.AND(Instructor.isSelected == True, Instructor.onSyllabus == False)).get()
+        
+        template = template_env.get_template('instructoredit.html')
+        context = {
+            'selected':  selected.name if selected else None,
+            'sel_first':  selected.first if selected else None,
+            'sel_last': selected.last if selected else None,
+            'sel_email': selected.email if selected else None,
+            'sel_phone': selected.phone if selected else None,
+            'sel_building': selected.building if selected else None,
+            'sel_room': selected.room if selected else None,
+            'monday': Hours.query(ancestor = selected.key).filter(Hours.day == 'Monday').get() if selected else None,
+            'tuesday': Hours.query(ancestor = selected.key).filter(Hours.day == 'Tuesday').get() if selected else None,
+            'wednesday': Hours.query(ancestor = selected.key).filter(Hours.day == 'Wednesday').get() if selected else None,
+            'thursday': Hours.query(ancestor = selected.key).filter(Hours.day == 'Thursday').get() if selected else None,
+            'friday': Hours.query(ancestor = selected.key).filter(Hours.day == 'Friday').get() if selected else None,
+        }
+           
         self.response.write(template.render(context))
         
     @login_required	 
     def post(self):
         user = self.current_user
         
-        update = self.request.get('updateButton')
-        new = self.request.get('newButton')
+        button = str(self.request.get('updateButton'))
+        
+        if button.split()[0] == 'Delete':
+            selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
+            selected.key.delete()            
+            return self.redirect('/instructor')
+        
+        
         myfirst = self.request.get('instructorFirstName')
         mylast = self.request.get('instructorLastName')
         myemail = self.request.get('instructorEmail')
@@ -94,9 +113,9 @@ class EditHandler(BaseHandler):
         mybuilding = self.request.get('instructorBuildingSelect')
         myroom = self.request.get('instructorOfficeRoom')
                         
-        if update:
+        if button == 'Update':
             i = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).get()
-        elif new:
+        else:
             i = Instructor(parent = user.key)
             
         i.put()
@@ -172,7 +191,7 @@ class EditHandler(BaseHandler):
             i.isSelected = True
             i.put()
             
-        self.redirect('/editinstructor')
+        self.redirect('/instructor')
         
       
 class AddHandler(BaseHandler):
@@ -188,10 +207,14 @@ class AddHandler(BaseHandler):
         
         for before in user.savedInstructors:
             before.isSelected = False
-            if before.name== selected:
+            if option != 'Create New' and before.name == selected:
                 before.isSelected = True
                 temp = before
             before.put()
+            
+        if option == 'Edit' or option == 'Create New':
+            return self.redirect('/editinstructor')
+            
             
         if option == 'Add' and selected and not Instructor.query(ancestor = syllabus.key).filter(ndb.AND(Instructor.last == selected.split(',')[0], Instructor.first == selected.split()[1])).get():
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
@@ -200,7 +223,7 @@ class AddHandler(BaseHandler):
                 hour = Hours(parent = new.key, day = h.day, start = h.start, end = h.end)
                 hour.put()
             
-        self.redirect('/editinstructor')
+        self.redirect('/instructor')
         
 
 class RemoveHandler(BaseHandler):    
@@ -211,9 +234,9 @@ class RemoveHandler(BaseHandler):
         selected = self.request.get('selectedInstructors')
         
         for i in syllabus.instructors:
-            if i.name== selected:
+            if i.name == selected:
                 chosen = i
                 chosen.key.delete()
             i.isSelected = False
          
-        self.redirect('/editinstructor')
+        self.redirect('/instructor')

@@ -77,6 +77,7 @@ app = webapp2.WSGIApplication([
     ('/activate', lister.ActivateSyllabusHandler),
     ('/addinstructor', instructor.AddHandler),
     ('/removeinstructor', instructor.RemoveHandler),
+    ('/instructor', instructor.MainHandler),
     ('/editinstructor', instructor.EditHandler),
     ('/addbooks', textbook.AddTextbookHandler),
     ('/editbooks', textbook.TextbookHandler),
