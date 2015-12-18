@@ -3,76 +3,94 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/list.css" />
 	</head>
 	<body>
-		<div id="listSelectSection">
-			<form action="/termselect" method="post" id="termSelectForm">
-				Select term
-				<select name="listSelectSemester" id="listSelectSemester">
-					<option value="S" {% if semester == "S" %} selected {% endif %}> Spring </option>
-					<option value="M" {% if semester == "M" %} selected {% endif %}> Summer </option>
-					<option value="F" {% if semester == "F" %} selected {% endif %}> Fall </option>
-					<option value="W {% if semester == "W" %} selected {% endif %}"> Winter </option>
-				</select>
-				<input value="{{ year }}" type="number" name="listSelectYear" id="listSelectYear" min="2000">
-				<input type="submit" value="Switch" name="listSelectButton" id="listSelectButton">
-			</form>
-		</div>
-        {% if term %}
-        {% if term.semester == "S" %}
-        {% set semesterName = "Spring" %}
-        {% elif term.semester == "M" %}
-        {% set semesterName = "Summer" %}
-        {% elif term.semester == "F" %}
-        {% set semesterName = "Fall" %}
-        {% elif term.semester == "W" %}
-        {% set semesterName = "Winter" %}
-        {% endif %}
-		{% include "weeklycal.html" %}
-        <hr />
-		<div id="listLinksSection">
-			<form id="createNewSyllabus" action="/createsyllabus"" method="post">
-				<select name="subjectSelect" id="subjectSelect" required >
-					<option value="" disabled selected> Select Subject </option>
-					<option value="CIV ENG"> Civil & Environmental Eng. </option>
-					<option value="COMPSCI"> Computer Science </option>
-					<option value="ELECENG"> Electrical Eng. </option>
-					<option value="IND ENG"> Industrial & Manufacturing Eng. </option>
-					<option value="MATLENG"> Materials Science & Eng. </option>
-					<option value="MECHENG"> Mechanical Eng. </option>
-				</select>
-				<input type="number" placeholder="Course Number" name="courseNumber" id="courseNumber" required />
-				<input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" required />
-				<input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" required />
-			</form>
-            <table id="syllabusListTable">
+        <div class="administratorViewBanner" id="headerTitle">
+            <h1>Syllablaster</h1>
+            <h2>Assessment Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div> 
+        
+        <div id="listMainSection">
+            <div id="listSelectSection">
+                <form action="/termselect" method="post" id="termSelectForm">
+                    Select term
+                    <select name="listSelectSemester" id="listSelectSemester">
+                        <option value="S" {% if semester == "S" %} selected {% endif %}> Spring </option>
+                        <option value="M" {% if semester == "M" %} selected {% endif %}> Summer </option>
+                        <option value="F" {% if semester == "F" %} selected {% endif %}> Fall </option>
+                        <option value="W {% if semester == "W" %} selected {% endif %}"> Winter </option>
+                    </select>
+                    <input value="{{ year }}" type="number" name="listSelectYear" id="listSelectYear" min="2000">
+                    <input type="submit" value="Switch" name="listSelectButton" id="listSelectButton">
+                </form>
+            </div>
             {% if term %}
-            {% for s in term.syllabi %}
-            <tr>
-                <td>
-                    <form>
-                    <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/select" name="select" id="select">
-                        {% if not s.isActive %}
-                        [INACTIVE] 
-                        {% endif %}
-                        {{ s.info.subject }} {{ s.info.number }}-{{ s.info.section }}: {{ s.info.title }}
-                    </button>
-                    </form>
-                </td>
-                <td>
-                    <a href="/{{ username }}/{{ term_abbr }}/{{ s.info.url }}">Preview</a>
-                </td>
-                <td>
-                    <form>
-                    <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/activate" name="activate" id="activate">
-                        {% if s.isActive %}Deactivate{% else %}Activate{% endif %}
-                    </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+            {% if term.semester == "S" %}
+            {% set semesterName = "Spring" %}
+            {% elif term.semester == "M" %}
+            {% set semesterName = "Summer" %}
+            {% elif term.semester == "F" %}
+            {% set semesterName = "Fall" %}
+            {% elif term.semester == "W" %}
+            {% set semesterName = "Winter" %}
             {% endif %}
-        {% endif %}
+            {% include "weeklycal.html" %}
+            <hr />
+            <br />
+            <div id="listLinksSection">
+                <form id="createNewSyllabus" action="/createsyllabus"" method="post">
+                    <select name="subjectSelect" id="subjectSelect" required >
+                        <option value="" disabled selected> Select Subject </option>
+                        <option value="CIV ENG"> Civil & Environmental Eng. </option>
+                        <option value="COMPSCI"> Computer Science </option>
+                        <option value="ELECENG"> Electrical Eng. </option>
+                        <option value="IND ENG"> Industrial & Manufacturing Eng. </option>
+                        <option value="MATLENG"> Materials Science & Eng. </option>
+                        <option value="MECHENG"> Mechanical Eng. </option>
+                    </select>
+                    <input type="number" placeholder="Course Number" name="courseNumber" id="courseNumber" required />
+                    <input type="number" placeholder="Section Number" name="sectionNumber" id="sectionNumber" required />
+                    <input type="submit" value="Create New" name="createSyllabusButton" id="createSyllabusButton" required />
+                </form>
+                <table id="syllabusListTable">
+                {% if term %}
+                {% for s in term.syllabi %}
+                <tr class="syllabusList">
+                    <td>
+                        <form>
+                        <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/select" name="select" id="select">
+                            {% if not s.isActive %}
+                            [INACTIVE] 
+                            {% endif %}
+                            {{ s.info.subject }} {{ s.info.number }}-{{ s.info.section }}: {{ s.info.title }}
+                        </button>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/{{ username }}/{{ term_abbr }}/{{ s.info.url }}">Preview</a>
+                    </td>
+                    <td>
+                        <form>
+                        <button type="submit" value="{{s.info.subject}}{{s.info.number}}{{s.info.section}}" formaction="/activate" name="activate" class="activate">
+                            {% if s.isActive %}Deactivate{% else %}Activate{% endif %}
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+                </table>
+            </div>
+        </div>
 	</body>
 </html>
