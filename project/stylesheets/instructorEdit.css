@@ -7,6 +7,14 @@ hr
     color: black;
     width: 100%;
 }
+input[class="administratorViewNavBarButton"] {
+	background: #EEEEFF;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+.administratorViewBanner{
+    text-align: center;
+}
 
 div#instructorsEditModule {
 	position: relative;
