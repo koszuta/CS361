@@ -1,5 +1,5 @@
 body {   
-    background-color: #4E98A0;
+   background-color: #142225;
 }
 ul {
     list-style: none;
@@ -23,11 +23,17 @@ form.policyForm {
 }
 
 form#selectForm {
+    background-color: #4E98A0;
+    padding-bottom: 255px;
     left: 0px;
 }
 
 form#editForm {
+    background-color: #4E98A0;
     right: 0px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 li.policyItem {
