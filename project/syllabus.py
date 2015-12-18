@@ -3,6 +3,7 @@ from courseinfo import Info
 
 class Syllabus(ndb.Model):
     isActive = ndb.BooleanProperty(default = True)
+    prime = ndb.StringProperty(default = '')
     info = ndb.StructuredProperty(Info)
 	
     @property
@@ -18,7 +19,23 @@ class Syllabus(ndb.Model):
     @property
     def instructors(self):
         from instructor import Instructor
-        return Instructor.query(ancestor = self.key).fetch()
+        last = self.prime.split(',')[0]
+        first = self.prime.split()
+        if len(first) > 1:
+            first = first[1]
+        else:
+            first = None
+            
+        prime = Instructor.query(ancestor = self.key).filter(ndb.AND(Instructor.last == last, Instructor.first == first)).get()
+        ret = []
+        if prime:
+            ret.append(prime)
+        instructors_list = Instructor.query(ancestor = self.key).order(Instructor.last).fetch()
+        for i in instructors_list:
+            if i != prime:
+                ret.append(i)
+                
+        return ret
         
     @property
     def policies(self):

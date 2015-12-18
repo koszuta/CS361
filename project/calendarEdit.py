@@ -1,5 +1,5 @@
 from calendarClass import CalendarClass
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
 from syllabus import Syllabus
 from term import Term
 from user import User 
@@ -22,6 +22,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
   	      
 class CalendarHandler(BaseHandler):
     @login_required	 
+    @syllabus_required
     def get(self):
     
         message = ""
@@ -84,6 +85,7 @@ class CalendarHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     @login_required	 
+    @syllabus_required
     def post(self):
         
         message = ""

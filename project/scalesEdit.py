@@ -5,7 +5,7 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -32,6 +32,7 @@ scale = []
 
 class ScalesHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def get(self):
         user = self.current_user
         
@@ -85,6 +86,7 @@ class ScalesHandler(BaseHandler):
               
 class AddScalesHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def post(self):
         usedscale = self.request.get("selectedScale")
 

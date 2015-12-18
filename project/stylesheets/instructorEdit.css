@@ -1,92 +1,89 @@
-body {
-    font-size: 1.5em;
+body {   
     background-color: #4E98A0;
 }
-hr
-{
-    color: black;
-    width: 100%;
+
+ul {
+    list-style: none;
 }
-input[class="administratorViewNavBarButton"] {
-	background: #EEEEFF;
-	padding: 12px 12px;
-	border-radius: 3px;
-}
-.administratorViewBanner{
+ul li {
     text-align: center;
 }
 
-div#instructorsEditModule {
-	position: relative;
-    height: 600px;
-    
-    /*background-color: teal;*/
-}
 
-div.instructorSelectionList {
-    z-index: 1000;
-    position: absolute;
-    display: inline-block;
-    width: 300px;
-    padding: 20px;
-}
-h2{
+div#listSection {
+    font-size: 1.5em; 
+    position: relative;
+    width: 725px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
     background-color: #4E98A0;
 }
 
+form.instructorList {
+    position: absolute;
+    display: inline-block;
+    top: 0px;
+}
+
+form#instructorsToAddForm {
+    left: 0px;
+}
+
+form#instructorsOnSyllabusForm {
+    right: 0px;
+}
+
+ul.instructorList {
+    padding: 0px;
+}
+
+li#newButton {
+    padding: 10px;
+}
+
 select.instructorsList {
-    width: 60%;
+    width: 100%;
+    padding: 5px;
 }
 
-div#instructorsToAdd {
-    right: 50%;
-    text-align: left;
-
-    /*background-color: seagreen;*/
+option {
+    padding: 5px;
 }
 
-div#instructorsOnSyllabus {
-    left: 50%;
-    text-align: right;
 
-    /*background-color: plum;*/
-}
 
 div#instructorInfoEditor {
+    font-size: 1.5em;
+    width: 80%;
     position: relative;
-    padding-top: 280px;
-    
-    /*background-color: slateblue;*/
-}
-
-div#instructorInfoEditor h1 {
-    position: relative;
-    left: 200px;
+    padding-top: 130px;
+    margin: 0 auto;
+    background-color: #4E98A0;
 }
 
 table.editInstructorList {
-    display: inline-block;
-    position: absolute;
-}
-
-table#nameSection {
-    right: 56%;
-    
-    /*background-color: springgreen;*/
-}
-
-table#officeHoursSection {
-    left: 47%;
-    
-    /*background-color: coral;*/
+    position: relative;
+	margin: 0 auto;
 }
 
 table.editInstructorList td {
 	padding: 5px;
 }
 
-ul#submitList {
-    list-style: none;
-    text-align: center;
-    padding-top: 200px;
+td.hoursCheck {
+    text-align: right;
+}
+
+td#deleteButton {
+    text-align: right;
+}
+
+td#updateButton {
+    padding: 20px 0;
+}
+
+input, select {
+    font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
 }

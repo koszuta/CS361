@@ -10,6 +10,17 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Instructor
+  ancestor: yes
+  properties:
+  - name: last
+
+- kind: Instructor
+  ancestor: yes
+  properties:
+  - name: onSyllabus
+  - name: last
+
 - kind: Textbook
   ancestor: yes
   properties:
