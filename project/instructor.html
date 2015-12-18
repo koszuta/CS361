@@ -21,15 +21,11 @@
                 </form>
             </div>
         
-        <div class = "instructorSelectionList" id="instructorsToAdd">
-            
-            <form id="instructorsToAddForm" action="/addinstructor" method="post">
-                <ul class="instructorList" id="savedInstructorList">
+        <div id="listSection">
+            <form class="instructorList" id="instructorsToAddForm" action="/addinstructor" method="post">
+                <ul class="instructorList" id="availableList">
                     <li>
-                        Saved
-                    </li>
-                    <li>
-                        <input type="submit" value="Create New" name="instructorToAddButton" id="newInstructorButton" />
+                        Available
                     </li>
                     <li>              
                         <select size="10" name="availableInstructors" id="availableInstructors" class="instructorsList">
@@ -42,18 +38,16 @@
                         <input type="submit" value="Edit" name="instructorToAddButton" id="editInstructorButton" />
                         <input type="submit" value="Add" name="instructorToAddButton" id="availableInstructorsSubmit" />
                     </li>  
+                    <li id="newButton">
+                        <input type="submit" value="Create New" name="instructorToAddButton" id="newInstructorButton" />
+                    </li>
                 </ul>
             </form>
-        </div>
             
-        <div class="instructorSelectionList" id="instructorsOnSyllabus">
-            <form id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
-                <ul class="instructorList" id="savedInstructorList">
+            <form class="instructorList" id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
+                <ul class="instructorList" id="onSyllabusList">
                     <li>
                         On Syllabus
-                    </li>
-                    <li>
-                        &nbsp; 
                     </li>
                     <li>   
                         <select size="10" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
@@ -68,6 +62,5 @@
                 </ul>
             </form>
         </div>
-        
     </body>
 </html>

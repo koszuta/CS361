@@ -1,5 +1,4 @@
-body {
-    font-size: 1.5em;
+body {   
     background-color: #4E98A0;
 }
 
@@ -9,19 +8,68 @@ div#instructorInfoEditor {
     padding-top: 130px;
     margin: 0 auto;
     background-color: #4E98A0;
+ul {
+    list-style: none;
+}
+ul li {
+    text-align: center;
 }
 
-table.editInstructorList {
-    position: relative;
-	margin: 0 auto;
-}
-input[class="administratorViewNavBarButton"] {
+input.administratorViewNavBarButton {
 	background: #EEEEFF;
 	padding: 12px 12px;
 	border-radius: 3px;
 }
 .administratorViewBanner{
     text-align: center;
+}
+
+
+div#listSection {
+    font-size: 1.5em; 
+    position: relative;
+    width: 725px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
+    background-color: #4E98A0;
+}
+
+form.instructorList {
+    position: absolute;
+    display: inline-block;
+    top: 0px;
+}
+
+form#instructorsToAddForm {
+    left: 0px;
+}
+
+form#instructorsOnSyllabusForm {
+    right: 0px;
+}
+
+ul.instructorList {
+    padding: 0px;
+}
+
+li#newButton {
+    padding: 10px;
+}
+
+select.instructorsList {
+    width: 100%;
+    padding: 5px;
+}
+
+option {
+    padding: 5px;
+}
+
+
+
+table.editInstructorList {
+    position: relative;
+	margin: 0 auto;
 }
 
 table.editInstructorList td {
@@ -32,40 +80,10 @@ td.hoursCheck {
     text-align: right;
 }
 
-div.instructorSelectionList {
-    z-index: 1000;
-    position: absolute;
-    display: inline-block;
-    width: 300px;
-    padding: 20px;
-}
-
-select.instructorsList {
-    width: 60%;
-}
-
-div#instructorsToAdd {
-    right: 50%;
-    text-align: right;
-
-    /*background-color: seagreen;*/
-}
-
-div#instructorsOnSyllabus {
-    left: 50%;
-    text-align: left;
-
-    /*background-color: plum;*/
-}
-
 td#deleteButton {
     text-align: right;
 }
-
-ul {
-    list-style: none;
-}
-
-ul li {
-    text-align: center;
+input, select {
+    font-size: 1em;
+    margin: 5px;
 }
