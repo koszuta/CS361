@@ -9,15 +9,6 @@ ul li {
     text-align: center;
 }
 
-input.administratorViewNavBarButton {
-	background: #EEEEFF;
-	padding: 12px 12px;
-	border-radius: 3px;
-}
-.administratorViewBanner{
-    text-align: center;
-}
-
 
 div#listSection {
     font-size: 1.5em; 

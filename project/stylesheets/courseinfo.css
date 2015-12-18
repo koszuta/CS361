@@ -1,21 +1,12 @@
-input, select {
-    font-size: 1em;
-    padding: 5px 10px 5px 10px;
-    margin: 5px;
-}
-
 body {
-    font-size: 1.5em;
     background-color: #4E98A0;
 }
 
-input, select {
-    margin: 0 5px 0 5px;
-}
-
 div#courseInfoEditSection {
+    font-size: 1.5em;
     width: 750px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 select#subjectSelect {
@@ -35,4 +26,20 @@ input.checkbox {
 table {
     width: 0%;
     margin: 0 auto;
+}
+
+
+input.administratorViewNavBarButton {
+	background: #EEEEFF;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+.administratorViewBanner{
+    text-align: center;
+}
+
+input, select {
+    font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 0 5px 0 5px;
 }
