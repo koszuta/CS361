@@ -217,7 +217,11 @@ class AddHandler(BaseHandler):
             return self.redirect('/editinstructor')
             
             
-        if option == 'Add' and selected and not Instructor.query(ancestor = syllabus.key).filter(ndb.AND(Instructor.last == selected.split(',')[0], Instructor.first == selected.split()[1])).get():
+        if option == 'Add' and selected:
+            old = Instructor.query(ancestor = syllabus.key).filter(ndb.AND(Instructor.last == selected.split(',')[0], Instructor.first == selected.split()[1])).get()
+            if old:
+                old.key.delete()
+                
             new = Instructor(parent = syllabus.key, first = temp.first, last = temp.last, email = temp.email, phone = temp.phone, building = temp.building, room = temp.room, isSelected = temp.isSelected, onSyllabus = True)
             new.put()
             for h in temp.hours:
