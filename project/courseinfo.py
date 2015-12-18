@@ -112,6 +112,10 @@ class InfoEditHandler(BaseHandler):
                     if time:
                         syllabus.info.start = self.military(time.split('-')[0])
                         syllabus.info.end = self.military(time.split('-')[1])
+                        
+                    instructor = WebScraper.getInstructorFromCourseSection(course_section)
+                    if instructor:
+                        syllabus.prime = instructor
             
         else:            
             title = str(self.request.get('courseTitle'))
