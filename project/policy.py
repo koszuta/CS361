@@ -5,13 +5,14 @@ from google.appengine.ext import ndb
 
 class Policy(ndb.Model):
     title = ndb.StringProperty()
-    description = ndb.TextProperty()
+    description = ndb.StringProperty()
     isSelected = ndb.BooleanProperty()
     onSyllabus = ndb.BooleanProperty(default = False)
     
     def copy(self):
         return Policy(title=self.title, description=self.description, isSelected=self.isSelected)
-        
+      
+    @webapp2.cached_property
     def name(self):
         if self.title == "" or self.title is None:
             return "none"
@@ -20,38 +21,20 @@ class Policy(ndb.Model):
     
     
 from basehandler import BaseHandler, login_required, syllabus_required
-from syllabus import Syllabus
-from textbook import Textbook
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
     )
                 
 class EditHandler(BaseHandler):
-    @login_required 
-    @syllabus_required    
-    def get(self):
-        user = self.current_user
-        syllabus = self.current_syllabus
-        
-        selected = Policy.query(ancestor = user.key).filter(Policy.isSelected == True).get()
-        if not selected:
-            selected = Policy()
-            
-        template = template_env.get_template('policyEdit.html')
-        context = {
-            'savedPolicies': user.savedPolicies,
-            'policies': syllabus.policies,
-            'selected': selected.name(),
-            'title': selected.title,
-            'description': selected.description,
-        }
-
-        self.response.write(template.render(context))
-        
     @login_required     
     def post(self):
         user = self.current_user
+        
+        delete = str(self.request.get('deleteButton'))
+        if delete:
+            p = Policy.query(ancestor = user.key).filter(Policy.isSelected == True).get()
+            p.key.delete()
         
         option = self.request.get("policyEditorButton")
         mytitle = self.request.get("policyTitle")
@@ -61,7 +44,10 @@ class EditHandler(BaseHandler):
         if option == "Update":
             p = Policy.query(ancestor = user.key).filter(Policy.isSelected == True).get()
         elif option == "Create New":
-            p = Policy(parent = user.key, title = mytitle, description = mydescription)
+            for p in user.savedPolicies:
+                p.isSelected = False
+                p.put()
+            p = Policy(parent = user.key)
             
         if p:
             p.title = mytitle
@@ -69,47 +55,66 @@ class EditHandler(BaseHandler):
             p.isSelected = True
             p.put()
         
-        self.redirect('/editpolicy')
+        self.redirect('/policy')
         
 
-class AddHandler(BaseHandler):
+class MainHandler(BaseHandler):
+    @login_required 
+    @syllabus_required    
+    def get(self, errors = None):
+        user = self.current_user
+        syllabus = self.current_syllabus
+        
+        selected = Policy.query(ancestor = user.key).filter(ndb.AND(Policy.isSelected == True, Policy.onSyllabus == False)).get()
+        
+        template = template_env.get_template('policyEdit.html')
+        context = {
+            'policies': user.savedPolicies,
+            'onSyllabus': syllabus.policies,
+            'selected': selected.name if selected else None,
+            'title': selected.title if selected else None,
+            'description': selected.description if selected else None,
+            'errors': errors,
+        }
+
+        self.response.write(template.render(context))
+        
     @login_required  
     @syllabus_required   
     def post(self):
         user = self.current_user
         syllabus = self.current_syllabus
         
-        option = self.request.get("savedPolicyButton")
-        selected = self.request.get("savedpolicies")
+        edit = str(self.request.get('editButton'))
         
-        chosen = Policy()
+        if edit:
+            selected = Policy.query(ancestor = user.key).filter(Policy.description == edit).get()
+            if selected:
+                for p in user.savedPolicies:
+                    p.isSelected = False
+                    p.put()
+                selected.isSelected = True
+                selected.put()
+            
+            return self.redirect('/policy')
+            
+        option = self.request.get("saveButton")
         
+        list_to_save = []
         for p in user.savedPolicies:
-            p.isSelected = False
-            if p.name() == selected:
-                p.isSelected = True
-                chosen = p
-            p.put()
+            policy = str(self.request.get(str(p.description)))
+            if policy:
+                list_to_save.append(policy) 
         
-        if option == "Add":
-            new = Policy(parent = syllabus.key, title = chosen.title, description = chosen.description, onSyllabus = True, isSelected = True)
-            new.put()
+        if option:
+            for p in syllabus.policies:
+                p.key.delete()
+                
+            for l in list_to_save:
+                temp = Policy.query(ancestor = user.key).filter(Policy.description == l).get()
+                if temp:
+                    new = Policy(parent = syllabus.key, title = temp.title, description = temp.description, isSelected = temp.isSelected, onSyllabus = True)
+                    new.put()
+                    
+        self.redirect("/")
         
-        self.redirect("/editpolicy")
-        
-        
-class RemoveHandler(BaseHandler):
-    @login_required  
-    @syllabus_required   
-    def post(self):
-        syllabus = self.current_syllabus
-        
-        selected = self.request.get("policiesOnSyllabus")
-        
-        for p in syllabus.policies:
-            if p.name() == selected:
-                chosen = p
-                chosen.key.delete()
-            p.isSelected = False
-           
-        self.redirect("/editpolicy")
