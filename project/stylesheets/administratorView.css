@@ -39,14 +39,15 @@ pre {
 }
 
 #buttonsForm {
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
 }
 
 .administratorViewNavBarButton {
+    
     float: right;
     margin-top: 60px;
-    margin-right: 30px;
+    margin-right: 0px;
 }
 
 #back {
@@ -99,7 +100,7 @@ input[class="administratorViewEditBannerButton"]:hover {
 }
 
 input[class="administratorViewNavBarButton"] {
-	background: red;
+	background: #EEEEFF;
 	padding: 12px 12px;
 	border-radius: 3px;
 }

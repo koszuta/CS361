@@ -15,6 +15,14 @@ table.editInstructorList {
     position: relative;
 	margin: 0 auto;
 }
+input[class="administratorViewNavBarButton"] {
+	background: #EEEEFF;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+.administratorViewBanner{
+    text-align: center;
+}
 
 table.editInstructorList td {
 	padding: 5px;
