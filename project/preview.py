@@ -164,7 +164,8 @@ class PreviewHandler(BaseHandler):
                 'calendar': syllabus.calendars,
                 'assessments': syllabus.assessments,
                 'course': syllabus.info,
-                'term': term
+                'term': term,
+                'prime': syllabus.prime,
             }
         self.response.write(template.render(context))
 
@@ -179,21 +180,22 @@ class ViewHandler(PreviewHandler):
             syllabus = syllabus[:-1]
 
         user = User.get_by_auth_id(username)
-        terms = Term.query(ancestor = user.key).fetch()
-
-        for t in terms:
-            if t.url == term.upper():
-                syllabi = t.syllabi
-                for syl in syllabi:
-                    if syl.info.url.lower() == syllabus.lower():
-                        if not syl.isActive:
-                            currentUser = None
-                            if self.user:
-                                currentUser = ndb.Key(User, self.user['user_id']).get()
-                            if not currentUser or username not in currentUser.auth_ids:
-                                self.abort(403)
-                        self.render(t, syl)
-                        return
+        terms = user.terms
+        
+        if terms:
+            for t in terms:
+                if t.url == term.upper():
+                    syllabi = t.syllabi
+                    for syl in syllabi:
+                        if syl.info.url.lower() == syllabus.lower():
+                            if not syl.isActive:
+                                currentUser = None
+                                if self.user:
+                                    currentUser = ndb.Key(User, self.user['user_id']).get()
+                                if not currentUser or username not in currentUser.auth_ids:
+                                    self.abort(403)
+                            self.render(t, syl)
+                            return
 
         # Raise HTTP 404 error for syllabi that don't exist
         self.abort(404)

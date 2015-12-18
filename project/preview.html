@@ -39,26 +39,31 @@
 						</td>
 						<td class="instructorClassCell">
 							<span class="instructorClass">
-							{{ course.subject }} {{ course.number }}-{{ course.section }} {{ course.building }} {{ course.room }} {{ course.days }} {{ course.start }}-{{ course.end }}
+                                {% if instructor.name == prime or instructor.name == instructors[0].name %}
+							        {{ course.subject }} {{ course.number }}-{{ course.section }} {{ course.building }} {{ course.room }} {{ course.days }} {{ course.start }}-{{ course.end }}
+                                {% endif %}
 							</span>
 						</td>
 						<td class="instructorOfficeCell">
 							<span class="instructorOfficeRoom">{{ instructor.building }} {{ instructor.room }}</span>
 							<span class="instructorOfficePhone">{{ instructor.phone }}</span>
 							<br>
-							Office Hours: <span class="instructorOfficeHours">
-                                                Office Hours:
-                                                {% for h in instructor.hours %}
-                                                {% if h %}
-                                                {% if h.day == "Thursday" %}
-                                                    R
-                                                {% else %}
-                                                    {{ h.day[0] }}
-                                                {% endif %}
-                                                    {{ h.start }}-{{ h.end }}
-                                                {% endif %}
-                                                {% endfor %}
-                                                </span>
+                            <span class="instructorOfficeHours">
+                                Office Hours:
+                                {% for h in instructor.hours %}
+                                {% if h %}
+                                {% if h.day == "Thursday" %}
+                                    R
+                                {% else %}
+                                    {{ h.day[0] }}
+                                {% endif %}
+                                    {{ h.start }}
+                                    {% if h.end %}
+                                        - {{ h.end }}
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            </span>
 						</td>
 					</tr>
 					{% endfor %}
