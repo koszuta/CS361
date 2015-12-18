@@ -31,8 +31,9 @@ form#selectForm {
 form#editForm {
     background-color: #4E98A0;
     right: 0px;
+    margin-left: 20px;
     padding-bottom: 10px;
-    padding-left: 50px;
+    padding-left: 20px;
     padding-right: 50px;
 }
 
