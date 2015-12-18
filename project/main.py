@@ -30,7 +30,8 @@ class MainHandler(BaseHandler):
                 'scale': syllabus.scale,
                 'calendar': syllabus.calendars,
                 'assessments': syllabus.assessments,
-                'info': syllabus.info
+                'info': syllabus.info,
+                'prime': syllabus.prime,
             }
         
         self.response.write(template.render(context))

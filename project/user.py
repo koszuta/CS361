@@ -17,7 +17,7 @@ class User(webapp2_extras.appengine.auth.models.User):
     @property
     def savedInstructors(self):
         from instructor import Instructor
-        return Instructor.query(ancestor = self.key).filter(Instructor.onSyllabus == False).fetch()
+        return Instructor.query(ancestor = self.key).filter(Instructor.onSyllabus == False).order(Instructor.last).fetch()
         
     @property
     def savedAssessments(self):

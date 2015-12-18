@@ -56,8 +56,6 @@ class MainHandler(BaseHandler):
         user = self.current_user
         syllabus = self.current_syllabus        
         
-        selected = Instructor.query(ancestor = user.key).filter(Instructor.isSelected == True).order(Instructor.key).get()
-                        
         template = template_env.get_template('instructor.html')
         context = {
             'errors': errors,
