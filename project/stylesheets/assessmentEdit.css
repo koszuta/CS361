@@ -1,25 +1,69 @@
-.assessmentList {
-	display: inline-block;
-}
-#savedAssessmentsSection {
-    right: 50%;
-    text-align: left;
-    padding-left: 120px;
-}
-#assessmentsOnSyllabusSection{
-    left: 50%;
-    text-align: right;
-    padding-right: 50px;
-    padding-left: 200px;
-}
-body{
+body {   
     background-color: #4E98A0;
 }
-input[class="administratorViewNavBarButton"] {
-	background: #EEEEFF;
-	padding: 12px 12px;
-	border-radius: 3px;
+ul {
+    list-style: none;
 }
 .administratorViewBanner{
     text-align: center;
+}
+
+div#assessmentsListSection {
+    font-size: 1.5em; 
+    position: relative;
+    width: 850px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
+    background-color: #4E98A0;
+}
+
+form.assessmentForm {
+	display: inline-block;
+    position: absolute;
+}
+
+form#selectForm {
+    left: 0px;
+}
+
+form#editForm {
+    right: 0px;
+}
+
+li.assessmentItem {
+    height: 20px;
+}
+
+button {
+    display: none;
+    padding: 5px 10px 5px 10px;
+    margin: 0 0 0 15px;
+}
+
+li.assessmentItem:hover button {
+    display: inline-block;
+}
+
+
+input, select, textarea {
+    font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 0 5px 0 5px;
+}
+
+input.assessmentCheck {  
+    width: 18px;   
+    height: 18px;
+}
+
+form#selectForm li {
+    padding: 15px;
+}
+
+input#deleteButton {
+    right: 0px;
+}
+
+p.error {
+	color: #D3EF08;
 }

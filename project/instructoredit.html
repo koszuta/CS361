@@ -24,13 +24,14 @@
             <form id="instructorEditor" action="/editinstructor" method="post">            
                 <table class = "editInstructorList" id='nameSection'>  
                     <tr>
-                        <td colspan="2">
-                            <input type="reset" value="Reset info" />
+                        <td colspan="5">
+                        {% if selected %}
+                            <h3 style="display: inline;"> {{ selected }} </h3>
+                            <input type="submit" value="Delete" name="updateButton" id="updateButton" />
+                        {% endif %}
                         </td>
-                        <td id="deleteButton" colspan="5">
-                            {% if selected %}
-                            <input type="submit" value="Delete {{ selected }}" name="updateButton" id="updateButton" />
-                            {% endif %}
+                        <td id="resetButton" colspan="2">
+                            <input type="reset" value="Reset info" />
                         </td>
                     </tr>    
                                                                               
@@ -96,7 +97,7 @@
                         <td> Phone </td>
                         <td> <input type="tel" name="instructorPhone" placeholder="(xxx) xxx-xxxx" size="19" id="instructorPhone" value="{% if sel_phone != None %}{{ sel_phone }}{% endif %}" /> </td>
                         
-                        <td class="hoursCheck"> <input type="checkbox" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
                         <td> F </td>
                         <td class="hoursCheck"> <input type="time" name="fridayStartTime" id="fridayStartTime" {% if friday.start %} value="{{ friday.start }}" {% endif %} /> </td>
                         <td> - </td>

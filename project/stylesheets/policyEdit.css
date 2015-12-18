@@ -1,7 +1,69 @@
-.policyList {
-	display: inline-block;
+body {   
+    background-color: #4E98A0;
+}
+ul {
+    list-style: none;
+}
+.administratorViewBanner{
+    text-align: center;
 }
 
-#savedPoliciesSection {
-	padding-right: 100px;
+div#policiesListSection {
+    font-size: 1.5em; 
+    position: relative;
+    width: 850px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
+    background-color: #4E98A0;
+}
+
+form.policyForm {
+	display: inline-block;
+    position: absolute;
+}
+
+form#selectForm {
+    left: 0px;
+}
+
+form#editForm {
+    right: 0px;
+}
+
+li.policyItem {
+    height: 20px;
+}
+
+button {
+    display: none;
+    padding: 5px 10px 5px 10px;
+    margin: 0 0 0 15px;
+}
+
+li.policyItem:hover button {
+    display: inline-block;
+}
+
+
+input, select, textarea {
+    font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 0 5px 0 5px;
+}
+
+input.policyCheck {  
+    width: 18px;   
+    height: 18px;
+}
+
+form#selectForm li {
+    padding: 15px;
+}
+
+input#deleteButton {
+    right: 0px;
+}
+
+p.error {
+	color: #D3EF08;
 }
