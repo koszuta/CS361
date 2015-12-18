@@ -1,7 +1,6 @@
 body {   
     background-color: #4E98A0;
 }
-
 ul {
     list-style: none;
 }
@@ -86,4 +85,9 @@ input, select {
     font-size: 1em;
     padding: 5px 10px 5px 10px;
     margin: 5px;
+}
+
+input.hoursCheck {    
+    width: 18px;   
+    height: 18px;
 }

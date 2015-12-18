@@ -96,7 +96,7 @@
                         <td> Phone </td>
                         <td> <input type="tel" name="instructorPhone" placeholder="(xxx) xxx-xxxx" size="19" id="instructorPhone" value="{% if sel_phone != None %}{{ sel_phone }}{% endif %}" /> </td>
                         
-                        <td class="hoursCheck"> <input type="checkbox" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
                         <td> F </td>
                         <td class="hoursCheck"> <input type="time" name="fridayStartTime" id="fridayStartTime" {% if friday.start %} value="{{ friday.start }}" {% endif %} /> </td>
                         <td> - </td>

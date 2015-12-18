@@ -4,7 +4,7 @@ body {
 
 div#courseInfoEditSection {
     font-size: 1.5em;
-    width: 750px;
+    width: 775px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -42,4 +42,9 @@ input, select {
     font-size: 1em;
     padding: 5px 10px 5px 10px;
     margin: 0 5px 0 5px;
+}
+
+input.checkbox {  
+    width: 18px;   
+    height: 18px;
 }
