@@ -90,8 +90,6 @@ app = webapp2.WSGIApplication([
     ('/editscales', scalesEdit.ScalesHandler),
     ('/addscale', scalesEdit.AddScalesHandler),
     ('/editassessment', assessment.EditHandler),
-    ('/addassessment', assessment.AddHandler),
-    ('/removeassessment', assessment.RemoveHandler),
     ('/assessment', assessment.MainHandler),
     ('/editpolicy', policy.EditHandler),
     ('/addpolicy', policy.AddHandler),
