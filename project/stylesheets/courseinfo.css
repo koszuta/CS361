@@ -1,17 +1,18 @@
-body, input, select {
+input, select {
     font-size: 1em;
 }
 
 body {
     font-size: 1.5em;
+    background-color: #4E98A0;
+}
+
+input, select {
+    margin: 0 5px 0 5px;
 }
 
 div#courseInfoEditSection {
-    width: 50%;
-    margin: 0 auto;
-}
-
-div.infoInput {
+    width: 725px;
     margin: 0 auto;
 }
 
@@ -20,19 +21,16 @@ select#subjectSelect {
 }
 
 div#titleSection input {
-    width: 70%;
-}
-
-div#buttonSection {
-    width: 0%;
-    margin: 0 auto;
-}
-
-input {
-    margin: 0 5px 0 5px;
+    width: 74%;
+    
 }
 
 input.checkbox {
     margin-left: 20px;
     margin-right: 0px;
+}
+
+table {
+    width: 0%;
+    margin: 0 auto;
 }

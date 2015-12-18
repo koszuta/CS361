@@ -27,9 +27,9 @@
                         {% if info.subject == "MECHENG" %} selected {% endif %}> Mechanical Engineering </option>
                     </select>
                     
-                    <input type="number" value="{{ info.number }}" placeholder="Course Number" name="courseNumber" id="courseNumber" min="0" max="9999" />
-                    
+                    <input type="number" value="{{ info.number }}" placeholder="Course Number" name="courseNumber" id="courseNumber" min="0" max="9999" />                    
                     <input type="number" value="{{ info.section }}" placeholder="Section Number" name="sectionNumber" id="sectionNumber" min="0" max="9999" />
+                    
 				</div>
                 <br />
                 <div id="titleSection" class="infoInput">
@@ -77,8 +77,16 @@
                 </div>
                 <br />
                 <div id="buttonSection" class="infoInput">
-                    <input type="submit" value="Rescrape" name="button" id="rescrapeButton" />
-                    <input type="submit" value="Update" name="button" id="updateButton" />
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Rescrape" name="button" id="rescrapeButton" />
+                            </td>
+                            <td>
+                                <input type="submit" value="Update" name="button" id="updateButton" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 			</form>
 		</div>
