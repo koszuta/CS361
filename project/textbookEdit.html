@@ -19,9 +19,10 @@
                     <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
                 </form>
             </div>
+    
     {% if books %}
     <form id="currentBooks" action="/removebooks?onSyllabus=1" method="post">
-	  <p>Currently selected textbook(s):</p>
+	  <h2>Currently selected textbook(s):</h2>
 	  {% for book in books %}
       <input id="{{book.isbn}}" name="bookSelect" checked value="{{book.isbn}}" type="checkbox">
       <label for="{{book.isbn}}">
@@ -58,7 +59,7 @@
       <input type="submit" name="queryBooks" value="Search">
     </form>
     <hr>
-    <p>Add a new textbook:</p>
+    <h2>Add a new textbook:</h2>
     {% if errors %}
     <ul id="error">
     {% for error in errors %}

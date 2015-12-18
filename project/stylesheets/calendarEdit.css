@@ -1,6 +1,7 @@
 #calendarEditMain {
     padding: 10px;
-    background-color: white;
+    background-color: #4E98A0;
+    margin-top: 10px;
 }
 table[id="calendarEditCalendarTable"] {
     font-size: 12px;
@@ -46,3 +47,8 @@ input[class="calendarEditInput"] {
     height: 100%;
     width: 100%;
 }
+body{
+    background-color: #142225;
+}
+
+

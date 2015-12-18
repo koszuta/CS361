@@ -1,33 +1,39 @@
 body {   
-    background-color: #4E98A0;
+    background-color: #142225;
 }
 ul {
     list-style: none;
 }
+
 .administratorViewBanner{
     text-align: center;
 }
-
-div#assessmentsListSection {
+#assessmentsListSection {
+    background-color: #4E98A0;
     font-size: 1.5em; 
     position: relative;
     width: 850px;
     /*padding-top: 130px;*/
     margin: 0 auto;
-    background-color: #4E98A0;
+    
 }
 
 form.assessmentForm {
+    background-color: #4E98A0;
 	display: inline-block;
     position: absolute;
 }
 
 form#selectForm {
+    padding-bottom: 95px;
     left: 0px;
 }
 
 form#editForm {
     right: 0px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 li.assessmentItem {

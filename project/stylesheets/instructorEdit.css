@@ -1,5 +1,5 @@
 body {   
-    background-color: #4E98A0;
+    background-color: #142225;
 }
 ul {
     list-style: none;
@@ -7,7 +7,9 @@ ul {
 ul li {
     text-align: center;
 }
-
+#formContain{
+    background-color: #142225;
+}
 
 div#listSection {
     font-size: 1.5em; 
@@ -17,11 +19,20 @@ div#listSection {
     margin: 0 auto;
     background-color: #4E98A0;
 }
-
+#instructorInfoEditor{
+    background-color: #4E98A0;
+}
 form.instructorList {
     position: absolute;
     display: inline-block;
     top: 0px;
+    background-color: #4E98A0;
+    margin-top: 10px;
+    padding-left: 75px;
+    padding-right: 75px;
+}
+#instructorsOnSyllabusForm{
+    padding-bottom: 150px;
 }
 
 form#instructorsToAddForm {
@@ -57,7 +68,7 @@ div#instructorInfoEditor {
     position: relative;
     padding-top: 130px;
     margin: 0 auto;
-    background-color: #4E98A0;
+    
 }
 
 table.editInstructorList {

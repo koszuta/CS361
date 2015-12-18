@@ -2,11 +2,23 @@
 <html>
     <head>
         <title>Calendar Edit</title>
-        <link rel="stylesheet" type="text/css" href="stylesheets/calendarEdit.css">    
+        <link rel="stylesheet" type="text/css" href="stylesheets/calendarEdit.css">   
+        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
     </head>   
     <body>
+        <div class="administratorViewBanner" id="headerTitle">
+            <h1>Syllablaster</h1>
+            <h2>Calendar Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div>        
         <!--<h1>{{ msg }}</h1>-->
-        <a href="/#administratorViewCalendarMain"> &lt; Back </a>
+        
         <div id="calendarEditMain">
             <h1>Course Calendar Edit View:</h1>
             <hr/>
