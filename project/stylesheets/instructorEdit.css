@@ -2,12 +2,6 @@ body {
     background-color: #4E98A0;
 }
 
-div#instructorInfoEditor {
-    width: 80%;
-    position: relative;
-    padding-top: 130px;
-    margin: 0 auto;
-    background-color: #4E98A0;
 ul {
     list-style: none;
 }
@@ -67,6 +61,15 @@ option {
 
 
 
+div#instructorInfoEditor {
+    font-size: 1.5em;
+    width: 80%;
+    position: relative;
+    padding-top: 130px;
+    margin: 0 auto;
+    background-color: #4E98A0;
+}
+
 table.editInstructorList {
     position: relative;
 	margin: 0 auto;
@@ -83,7 +86,13 @@ td.hoursCheck {
 td#deleteButton {
     text-align: right;
 }
+
+td#updateButton {
+    padding: 20px 0;
+}
+
 input, select {
     font-size: 1em;
+    padding: 5px 10px 5px 10px;
     margin: 5px;
 }

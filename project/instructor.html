@@ -28,7 +28,7 @@
                         Available
                     </li>
                     <li>              
-                        <select size="10" name="availableInstructors" id="availableInstructors" class="instructorsList">
+                        <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
                             {% for instructor in savedInstructors %}
                             <option> {{ instructor.name }} </option>
                             {% endfor %}
@@ -50,7 +50,7 @@
                         On Syllabus
                     </li>
                     <li>   
-                        <select size="10" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
+                        <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
                             {% for instructor in syllabusInstructors %}
                             <option> {{ instructor.name }} </option>
                             {% endfor %}

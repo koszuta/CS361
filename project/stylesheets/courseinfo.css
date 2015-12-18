@@ -1,5 +1,7 @@
 input, select {
     font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
 }
 
 body {
@@ -12,12 +14,12 @@ input, select {
 }
 
 div#courseInfoEditSection {
-    width: 725px;
+    width: 750px;
     margin: 0 auto;
 }
 
 select#subjectSelect {
-    width: 60%;
+    width: 56%;
 }
 
 div#titleSection input {
