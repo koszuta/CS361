@@ -17,7 +17,7 @@ class Assessment(ndb.Model):
         return self.title + " (" + str(self.percentage) + "%)" if self.title else None
         
 
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
 '''
 from syllabus import Syllabus
 from calendars import Calendar
@@ -30,6 +30,7 @@ template_env = jinja2.Environment(
     
 class EditHandler(BaseHandler):
     @login_required     
+    @syllabus_required
     def get(self):
         user = self.current_user
         syllabus = self.current_syllabus
@@ -75,7 +76,8 @@ class EditHandler(BaseHandler):
         
     
 class AddHandler(BaseHandler):
-    @login_required     
+    @login_required  
+    @syllabus_required   
     def post(self):
         user = self.current_user
         syllabus = self.current_syllabus
@@ -106,7 +108,8 @@ class AddHandler(BaseHandler):
         
             
 class RemoveHandler(BaseHandler):
-    @login_required     
+    @login_required  
+    @syllabus_required   
     def post(self):
         syllabus = self.current_syllabus
         

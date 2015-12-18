@@ -3,7 +3,7 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
        
 from textbook import Textbook
 from instructor import Instructor
@@ -15,6 +15,7 @@ template_env = jinja2.Environment(
 
 class MainHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def get(self):
         syllabus = self.current_syllabus
         
