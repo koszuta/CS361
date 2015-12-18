@@ -3,7 +3,7 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
        
 from textbook import Textbook
 from instructor import Instructor
@@ -15,6 +15,7 @@ template_env = jinja2.Environment(
 
 class MainHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def get(self):
         syllabus = self.current_syllabus
         
@@ -30,7 +31,8 @@ class MainHandler(BaseHandler):
                 'scale': syllabus.scale,
                 'calendar': syllabus.calendars,
                 'assessments': syllabus.assessments,
-                'info': syllabus.info
+                'info': syllabus.info,
+                'prime': syllabus.prime,
             }
         
         self.response.write(template.render(context))
@@ -77,6 +79,7 @@ app = webapp2.WSGIApplication([
     ('/activate', lister.ActivateSyllabusHandler),
     ('/addinstructor', instructor.AddHandler),
     ('/removeinstructor', instructor.RemoveHandler),
+    ('/instructor', instructor.MainHandler),
     ('/editinstructor', instructor.EditHandler),
     ('/addbooks', textbook.AddTextbookHandler),
     ('/editbooks', textbook.TextbookHandler),
@@ -87,11 +90,9 @@ app = webapp2.WSGIApplication([
     ('/editscales', scalesEdit.ScalesHandler),
     ('/addscale', scalesEdit.AddScalesHandler),
     ('/editassessment', assessment.EditHandler),
-    ('/addassessment', assessment.AddHandler),
-    ('/removeassessment', assessment.RemoveHandler),
+    ('/assessment', assessment.MainHandler),
     ('/editpolicy', policy.EditHandler),
-    ('/addpolicy', policy.AddHandler),
-    ('/removepolicy', policy.RemoveHandler),
+    ('/policy', policy.MainHandler),
     ('/preview', preview.PreviewHandler),
     ('/editinfo', courseinfo.InfoEditHandler),
     (termRegex + '/*', term.WeeklyCalendarHandler),

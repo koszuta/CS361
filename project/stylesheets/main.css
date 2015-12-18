@@ -7,6 +7,11 @@ pre {
 	width: 100%;
 }
 
+div#backdrop {
+	width: 100%;
+	background-color: #142225;
+}
+
 #error {
 	color: red;
 }
@@ -18,4 +23,14 @@ pre {
 
 .noData {
 	font-weight: bold;
+}
+
+input.administratorViewNavBarButton {
+	background: #EEEEFF;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+.administratorViewBanner{
+    text-align: center;
+	background-color: #4E987F;
 }

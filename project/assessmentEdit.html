@@ -8,62 +8,65 @@
     
     <body>
         <div class="administratorViewBanner" id="headerTitle">
-                <h1>Syllablaster</h1>
-                <h2>Assessment Edit</h2>
-            </div>
-            <div class="administratorViewBanner" id="navButtons">
-                <form id="buttonsForm" method="get">
-                    <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
-                    <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
-                    <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
-                </form>
-            </div>
+            <h1>Syllablaster</h1>
+            <h2>Assessment Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div>        
         
         <div id="assessmentsListSection">
-            <div id="savedAssessmentsSection" class="assessmentList">
-                <form id="savedAssessments" method="post" action="/addassessment">
-                    <h2> To Add: </h2>
-                    <select size="8" name="savedAssessments" id="savedAssessments" class="assessmentsList">
-                        {% for assessment in savedAssessments %}
-                        <option> {{ assessment.name() }} </option>
-                        {% endfor %}
-                    </select>
-                    <br />
-                    <input type="submit" value="Edit" name="savedAssessmentButton" id="editAssessmentButton" />
-                    <input type="submit" value="Add" name="savedAssessmentButton" id="addAssessmentButton" />
-                </form>
-            </div>
+            {% if errors %}
+            <p class="error"> Error: {{ errors }} </p>
+            {% endif %}
             
-            <div id="assessmentsOnSyllabusSection" class="assessmentList">
-                <form id="assessmentsOnSyllabus" method="post" action="/removeassessment">
-                    <h2> On Syllabus: </h2>
-                    <select size="8" name="assessmentsOnSyllabus" id="assessmentsOnSyllabus" class="assessmentsList">
-                        {% for assessment in assessments %}
-                        <option> {{ assessment.name() }} </option>
+            <form class="assessmentForm" id="selectForm" action="/assessment" method="post">
+                <ul id="assessmentsList">
+                    <li>
+                        <h3 style="display: inline;"> Saved items </h3>
+                    </li>                    
+                    {% for a in assessments %}
+                    <li class="assessmentItem">
+                        <input type="checkbox" value="{{ a.description }}" name="{{ a.description }}" class="assessmentCheck"
+                        {% for b in onSyllabus %}
+                        {% if b.description == a.description %}
+                        checked="checked"
+                        {% endif %}
                         {% endfor %}
-                    </select>
-                    <br />
-                    <input type="submit" value="Remove" name="removeAssessmentButton" id="removeAssessmentButton" />
-                </form>
-            </div>
-        </div>
-        
-        <hr />
-        
-        <div id="assessmentEditor">
-            <form id="assessmentEditorForm" method="post" action="/editassessment">    
-                <h2 style="font-weight: bold;"> Editing: {{ selected }} </h2>
-                <br />
+                        />
+                        {{ a.name }}
+                        <button value="{{ a.description }}" name="editButton" formaction="/assessment"> Edit </button>
+                    </li>
+                    {% endfor %}
+                    <li class="listButton">
+                        <input type="submit" value="Save List" name="saveButton" id="saveButton" />
+                    </li>
+                </ul>
+            </form>
+            
+            <form class="assessmentForm" id="editForm" method="post" action="/editassessment"> 
+                {% if selected %}   
+                <h3 style="display: inline;">  {{ selected }} </h3>
+                <input type="submit" value="Delete" name="deleteButton" id="deleteButton" />
+                <br /><br />
+                {% else %}
+                <h3> Create an assessment item. </h3>
+                {% endif %}
+                
                 <input type="text" name="assessmentTitle" id="assessmentTitle" placeholder="Title" size="15" required value="{% if title != None %}{{ title }}{% endif %}" />
                 &nbsp;
                 <input type="number" name="assessmentPercentage" id="assessmentPercentage" placeholder="Percent" step="5" min="0" max="100" required value="{% if percentage != None %}{{ percentage }}{% endif %}" />
                 %
                 <br />
                 <br />
-                <textarea name="assessmentDescription" id="assessmentDescription" placeholder="Description..." rows="10" cols="50" required>{% if description != None %}{{ description }}{% endif %}</textarea>
+                <textarea name="assessmentDescription" id="assessmentDescription" placeholder="Description..." rows="10" cols="32" required>{% if description != None %}{{ description }}{% endif %}</textarea>
                 <br />
                 <br />
-                <input type="submit" value="Update" name="assessmentEditorButton" id="assessmentEditorButton" />
+                {% if selected %} <input type="submit" value="Update" name="assessmentEditorButton" id="assessmentEditorButton" /> {% endif %}
                 <input type="submit" value="Create New" name="assessmentEditorButton" id="assessmentEditorButton" />
             </form>
         </div>

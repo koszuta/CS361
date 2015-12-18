@@ -1,6 +1,37 @@
+body {   
+	font-family: Sans-serif;
+	font-size: 1.3em;
+	background-color: #142225;
+}
+
+input, select, button {
+    font-size: .8em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+}
+
+div#listMainSection {
+    position: relative;
+    width: 50%;
+    height: 950px;
+    margin: 0 auto;
+    padding: 30px 150px 0 150px;
+    background-color: #4E98A0;
+}
+
 #listTable td, #listTable th {
     width: 120px;
     height: 25px;
     text-align: center;
     margin: 10px;
+}
+
+button.activate {
+    display: none;
+    padding: 5px 10px 5px 10px;
+    margin: 0 0 0 15px;
+}
+
+tr.syllabusList:hover button {
+    display: inline-block;
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title> Instructors &gt; Edit </title>
+        <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/instructorEdit.css" rel="stylesheet" type="text/css" />
+    </head>
+    
+    <body>
+        <div class="administratorViewBanner" id="headerTitle">
+            <h1>Syllablaster</h1>
+            <h2>Instructor Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div>
+        
+        <div id="instructorInfoEditor">            
+            <form id="instructorEditor" action="/editinstructor" method="post">            
+                <table class = "editInstructorList" id='nameSection'>  
+                    <tr>
+                        <td colspan="5">
+                        {% if selected %}
+                            <h3 style="display: inline;"> {{ selected }} </h3>
+                            <input type="submit" value="Delete" name="updateButton" id="updateButton" />
+                        {% endif %}
+                        </td>
+                        <td id="resetButton" colspan="2">
+                            <input type="reset" value="Reset info" />
+                        </td>
+                    </tr>    
+                                                                              
+                    <tr id = "instructorFirstNameEdit">
+                        <td> First </td> 
+                        <td> <input type="text" name="instructorFirstName" placeholder="First name" size="19" id="instructorFirstName" required value="{% if sel_first != None %}{{ sel_first }}{% endif %}" /> </td>
+                        
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="mondayCheck" id="mondayCheck" {% if monday %} checked {% endif %} /> </td>
+                        <td> M </td>
+                        <td> <input type="time" name="mondayStartTime" id="mondayStartTime" {% if monday.start %} value="{{ monday.start }}" {% endif %} /> </td>
+                        <td> - </td>
+                        <td> <input type="time" name="mondayEndTime" id="mondayEndTime" {% if monday.end %} value="{{ monday.end }}" {% endif %} /> </td>
+                    </tr>
+
+                    <tr id="instructorLastNameEdit">
+                        <td> Last </td> 
+                        <td> <input type="text" name="instructorLastName" placeholder="Last name" size="19" id="instructorLastName" required value="{% if sel_last != None %}{{ sel_last }}{% endif %}" /> </td>
+                        
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="tuesdayCheck" id="tuesdayCheck" {% if tuesday %} checked {% endif %} /> </td>
+                        <td> T </td>
+                        <td> <input type="time" name="tuesdayStartTime" id="tuesdayStartTime" {% if tuesday.start %} value="{{ tuesday.start }}" {% endif %} /> </td>
+                        <td> - </td>
+                        <td> <input type="time" name="tuesdayEndTime" id="tuesdayEndTime" {% if tuesday.end %} value="{{ tuesday.end }}" {% endif %} /> </td>
+                    </tr>
+
+                    <tr id="instructorEmailEdit">    
+                        <td> Email </td>
+                        <td> <input type="email" name="instructorEmail" placeholder="Email address" size="19" id="instructorEmail" value="{% if sel_email != None %}{{ sel_email }}{% endif %}" /> </td>
+                        
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="wednesdayCheck" id="wednesdayCheck" {% if wednesday %} checked {% endif %} /> </td>
+                        <td> W </td>
+                        <td> <input type="time" name="wednesdayStartTime" id="wednesdayStartTime" {% if wednesday.start %} value="{{ wednesday.start }}" {% endif %} /> </td>
+                        <td> - </td>
+                        <td> <input type="time" name="wednesdayEndTime" id="wednesdayEndTime" {% if wednesday.end %} value="{{ wednesday.end }}" {% endif %} /> </td>
+                    </tr>
+
+                    <tr id = "officeInfoEdit">
+                        <td> Office </td>
+                        <td>
+                            <select name = "instructorBuildingSelect" id = "instructorBuildingSelect" value="{% if sel_building != None %}{{ sel_building }}{% endif %}">
+                                <option value = "EMS" 
+                                {% if sel_building == "EMS" %} selected {% endif %}>  EMS         </option>
+                                <option value = "PHY"
+                                {% if sel_building == "PHY" %} selected {% endif %}>  Physics     </option>
+                                <option value = "CHM"
+                                {% if sel_building == "CHM" %} selected {% endif %}> Chemistry   </option>
+                                <option value = "LAP"
+                                {% if sel_building == "LAP" %} selected {% endif %}> Lapham      </option>
+                                <option value = "KEN"
+                                {% if sel_building == "KEN" %} selected {% endif %}> Kenwood      </option>
+                            </select> 		
+                            <input type="text" name="instructorOfficeRoom" placeholder="Room #" size="5" id="instructorOfficeRoom" value="{% if sel_room != None %}{{ sel_room }}{% endif %}" />
+                        </td>
+                        
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="thursdayCheck" id="thursdayCheck" {% if thursday %} checked {% endif %} /> </td>
+                        <td> T </td>
+                        <td> <input type="time" name="thursdayStartTime" id="thursdayStartTime" {% if thursday.start %} value="{{ thursday.start }}" {% endif %} /> </td>
+                        <td> - </td>
+                        <td> <input type="time" name="thursdayEndTime" id="thursdayEndTime" {% if thursday.end %} value="{{ thursday.end }}" {% endif %} /> </td>
+                    </tr>
+
+                    <tr id="officeInfoEdit">
+                        <td> Phone </td>
+                        <td> <input type="tel" name="instructorPhone" placeholder="(xxx) xxx-xxxx" size="19" id="instructorPhone" value="{% if sel_phone != None %}{{ sel_phone }}{% endif %}" /> </td>
+                        
+                        <td class="hoursCheck"> <input type="checkbox" class="hoursCheck" name="fridayCheck" id="fridayCheck" {% if friday %} checked {% endif %} /> </td>
+                        <td> F </td>
+                        <td class="hoursCheck"> <input type="time" name="fridayStartTime" id="fridayStartTime" {% if friday.start %} value="{{ friday.start }}" {% endif %} /> </td>
+                        <td> - </td>
+                        <td> <input type="time" name="fridayEndTime" id="fridayEndTime" {% if friday.end %} value="{{ friday.end }}" {% endif %} /> </td>
+                    </tr>
+                    
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td id="updateButton">
+                            <input type="submit" value={% if selected %} "Update" {% else %} "Create New" {% endif %} name="updateButton" id="updateButton" />
+                        </td>
+                    </tr>  
+                </table>                
+            </form>
+        </div>
+    </body>
+</html>

@@ -56,7 +56,7 @@
                     <div class="administratorViewEditBannerName">
                         <p>Instructor Info:</p>
                     </div>
-                    <form method="get" action="/editinstructor">
+                    <form method="get" action="/instructor">
                         <input class="administratorViewEditBannerButton" id="administratorViewEditInstructorInfoButton" type="submit" value="Edit">
                     </form>        
                 </div>
@@ -74,7 +74,11 @@
                                     {% for i in instructors %}
                                     <tr>
                                             <td> {{ i.first }} {{ i.last }} <br> {{ i.email }} </td>
-                                            <td> {{ info.subject}} {{ info.number }}-{{ info.section }} {{ info.building }} {{ info.room }} {{ info.days }} {{ info.start }}-{{ info.end }} </td>
+                                            <td>
+                                                {% if i.name == prime or i.name == instructors[0].name %}
+                                                {{ info.subject}} {{ info.number }}-{{ info.section }} {{ info.building }} {{ info.room }} {{ info.days }} {{ info.start }}-{{ info.end }}
+                                                {% endif %}
+                                            </td>
                                             <td> {{ i.building }} {{ i.room }} Phone: {{ i.phone }}
                                                 <br>
                                                 Office Hours:
@@ -149,7 +153,7 @@
                     <div class="administratorViewEditBannerName">
                         <p>Assessment:</p>
                     </div>
-                    <form method="get" action="/editassessment">
+                    <form method="get" action="/assessment">
                         <input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
                     </form>            
                 </div>
@@ -222,7 +226,7 @@
                     <div class="administratorViewEditBannerName">
                         <p>Policy:</p>
                     </div>
-                    <form method="post" action="/editpolicy">
+                    <form method="get" action="/policy">
                         <input class="administratorViewEditBannerButton" id="administratorViewEditPolicyScaleButton" type="submit" value="Edit">
                     </form>        
                 </div>

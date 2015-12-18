@@ -3,10 +3,22 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title> SyllaBlaster </title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/courseinfo.css" />
 	</head>
+    
 	<body>
-        <a href="/#administratorViewCourseTitleMain"> &lt; Back </a>
+        <div class="administratorViewBanner" id="headerTitle">
+            <h1>Syllablaster</h1>
+            <h2>Instructor Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div>
         
 		<div id="courseInfoEditSection">
 			<form id="updateCourseInfo" action="/editinfo"" method="post">
@@ -27,9 +39,9 @@
                         {% if info.subject == "MECHENG" %} selected {% endif %}> Mechanical Engineering </option>
                     </select>
                     
-                    <input type="number" value="{{ info.number }}" placeholder="Course Number" name="courseNumber" id="courseNumber" min="0" max="9999" />
-                    
+                    <input type="number" value="{{ info.number }}" placeholder="Course Number" name="courseNumber" id="courseNumber" min="0" max="9999" />                    
                     <input type="number" value="{{ info.section }}" placeholder="Section Number" name="sectionNumber" id="sectionNumber" min="0" max="9999" />
+                    
 				</div>
                 <br />
                 <div id="titleSection" class="infoInput">
@@ -77,8 +89,16 @@
                 </div>
                 <br />
                 <div id="buttonSection" class="infoInput">
-                    <input type="submit" value="Rescrape" name="button" id="rescrapeButton" />
-                    <input type="submit" value="Update" name="button" id="updateButton" />
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Update" name="button" id="updateButton" />
+                            </td>
+                            <td>
+                                <input type="submit" value="Rescrape" name="button" id="rescrapeButton" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 			</form>
 		</div>

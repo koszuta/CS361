@@ -110,6 +110,10 @@ class CreateSyllabusHandler(BaseHandler):
                 if time:
                     syllabus.info.start = self.military(time.split('-')[0])
                     syllabus.info.end = self.military(time.split('-')[1])
+                    
+                instructor = WebScraper.getInstructorFromCourseSection(course_section)
+                if instructor:
+                    syllabus.prime = instructor
         
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()

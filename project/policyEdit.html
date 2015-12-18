@@ -7,50 +7,63 @@
     </head>
     
     <body>
-        <a href="/#administratorViewPolicyMain"> &lt; Back </a>
+        <div class="administratorViewBanner" id="headerTitle">
+            <h1>Syllablaster</h1>
+            <h2>Policies Edit</h2>
+        </div>
+        <div class="administratorViewBanner" id="navButtons">
+            <form id="buttonsForm" method="get">
+                <input class="administratorViewNavBarButton" id="back" type="submit" value="Back" formaction="/">
+                <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
+                <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
+            </form>
+        </div>        
         
         <div id="policiesListSection">
-            <div id="savedpoliciesSection" class="policyList">
-                <form id="savedpolicies" method="post" action="/addpolicy">
-                    <h2> To Add: </h2>
-                    <select size="8" name="savedpolicies" id="savedpolicies" class="policiesList">
-                        {% for policy in savedPolicies %}
-                        <option> {{ policy.name() }} </option>
-                        {% endfor %}
-                    </select>
-                    <br />
-                    <input type="submit" value="Edit" name="savedPolicyButton" id="editPolicyButton" />
-                    <input type="submit" value="Add" name="savedPolicyButton" id="addPolicyButton" />
-                </form>
-            </div>
+            {% if errors %}
+            <p class="error"> Error: {{ errors }} </p>
+            {% endif %}
             
-            <div id="policiesOnSyllabusSection" class="policyList">
-                <form id="policiesOnSyllabus" method="post" action="/removepolicy">
-                    <h2> On Syllabus: </h2>
-                    <select size="8" name="policiesOnSyllabus" id="policiesOnSyllabus" class="policiesList">
-                        {% for policy in policies %}
-                        <option> {{ policy.name() }} </option>
+            <form class="policyForm" id="selectForm" action="/policy" method="post">
+                <ul id="policiesList">
+                    <li>
+                        <h3 style="display: inline;"> Saved policies </h3>
+                    </li> 
+                    {% for p in policies %}
+                    <li class="policyItem">
+                        <input type="checkbox" value="{{ p.description }}" name="{{ p.description }}" class="policyCheck"
+                        {% for b in onSyllabus %}
+                        {% if b.description == p.description %}
+                        checked="checked"
+                        {% endif %}
                         {% endfor %}
-                    </select>
-                    <br />
-                    <input type="submit" value="Remove" name="removepolicyButton" id="removepolicyButton" />
-                </form>
-            </div>
-        </div>
+                        />
+                        {{ p.name }}
+                        <button value="{{ p.description }}" name="editButton" formaction="/policy"> Edit </button>
+                    </li>
+                    {% endfor %}
+                    <li class="listButton">
+                        <input type="submit" value="Save List" name="saveButton" id="saveButton" />
+                    </li>
+                </ul>
+            </form>
         
-        <hr />
-        
-        <div id="policyEditor">
-            <form id="policyEditorForm" method="post" action="/editpolicy">    
-                <h2 style="font-weight: bold;"> Editing: {{ selected }} </h2>
-                <br />
+            <form class="policyForm" id="editForm" method="post" action="/editpolicy">  
+                {% if selected %}    
+                <h3 style="display: inline;"> {{ selected }} </h3>
+                <input type="submit" value="Delete" name="deleteButton" id="deleteButton" />
+                <br /><br />
+                {% else %}
+                <h3> Create a policy. </h3>
+                {% endif %}
+                
                 <input type="text" name="policyTitle" id="policyTitle" placeholder="Title" size="15" required value="{% if title != None %}{{ title }}{% endif %}" />
                 <br />
                 <br />
-                <textarea name="policyDescription" id="policyDescription" placeholder="Description..." rows="10" cols="50" required>{% if description != None %}{{ description }}{% endif %}</textarea>
+                <textarea name="policyDescription" id="policyDescription" placeholder="Description..." rows="10" cols="32" required>{% if description != None %}{{ description }}{% endif %}</textarea>
                 <br />
                 <br />
-                <input type="submit" value="Update" name="policyEditorButton" id="policyEditorButton" />
+                {% if selected %} <input type="submit" value="Update" name="policyEditorButton" id="policyEditorButton" /> {% endif %}
                 <input type="submit" value="Create New" name="policyEditorButton" id="policyEditorButton" />
             </form>
         </div>

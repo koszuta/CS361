@@ -47,7 +47,7 @@ class Info(ndb.Model):
         else:
             return str(self.section)
     
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
 
 template_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.getcwd())
@@ -55,9 +55,9 @@ template_env = jinja2.Environment(
     
 class InfoEditHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def get(self):
-        syllabusKey = self.session.get('syllabus')
-        syllabus = ndb.Key(urlsafe = syllabusKey).get()
+        syllabus = self.current_syllabus
         
         template = template_env.get_template('courseinfo.html')
         context = {
@@ -67,6 +67,7 @@ class InfoEditHandler(BaseHandler):
         self.response.write(template.render(context))
         
     @login_required
+    @syllabus_required
     def post(self):
         term = self.current_term
         syllabus = self.current_syllabus
@@ -111,6 +112,10 @@ class InfoEditHandler(BaseHandler):
                     if time:
                         syllabus.info.start = self.military(time.split('-')[0])
                         syllabus.info.end = self.military(time.split('-')[1])
+                        
+                    instructor = WebScraper.getInstructorFromCourseSection(course_section)
+                    if instructor:
+                        syllabus.prime = instructor
             
         else:            
             title = str(self.request.get('courseTitle'))

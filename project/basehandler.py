@@ -79,3 +79,12 @@ def login_required(handler):
             return handler(self, *args, **kwargs)
             
     return check_login
+    
+def syllabus_required(handler):
+    def check_syllabus(self, *args, **kwargs):
+        if not self.current_syllabus:
+            return self.redirect('/list')
+        else:
+            return handler(self, *args, **kwargs)
+            
+    return check_syllabus

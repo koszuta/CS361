@@ -5,7 +5,7 @@ import urllib
 from jinja2 import Environment, FileSystemLoader
 from google.appengine.ext import ndb
 
-from basehandler import BaseHandler, login_required
+from basehandler import BaseHandler, login_required, syllabus_required
 
 jinja_env = Environment(
   loader=FileSystemLoader(os.path.dirname(__file__)),
@@ -49,6 +49,7 @@ def clone_entity(e, **extra_args):
 
 class AddTextbookHandler(BaseHandler):
     @login_required
+    @syllabus_required
     def post(self):
         user = self.current_user
         syllabus = self.current_syllabus
@@ -128,6 +129,7 @@ class FindTextbookHandler(BaseHandler):
         self.post()
 
     @login_required
+    @syllabus_required
     def post(self):
         searchFields = ['title', 'author', 'edition', 'publisher', 'isbn']
         
@@ -284,6 +286,7 @@ class EditTextbookHandler(BaseHandler):
         return Textbook.query(ancestor=parent.key).filter(ndb.AND(Textbook.isbn == isbn, Textbook.onSyllabus == onSyllabus)).get()
 
 class TextbookHandler(BaseHandler):
+    @syllabus_required
     def getBooks(self):
         syllabus = self.current_syllabus
         return syllabus.textbooks if syllabus else None
@@ -301,6 +304,7 @@ class TextbookHandler(BaseHandler):
         self.response.write(template.render(context))
 		
     @login_required
+    @syllabus_required
     def post(self):
         user = self.current_user
         syllabus = self.current_syllabus
