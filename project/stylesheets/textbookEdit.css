@@ -6,6 +6,8 @@
 
 #addBooks {
 	display: table;
+    background-color: #4E98A0;
+    padding-right: 1350px;
 }
 
 #addBooks div {
@@ -34,12 +36,27 @@ input[class="administratorViewNavBarButton"] {
 body{
     background-color: #142225;
 }
-form{
+form#addBooks{
      background-color: #4E98A0;
+}
+form#searchBooks{
+    background-color: #4E98A0;
+}
+#pagetitle{
+    background-color: #4E987F;
 }
 h2{
-     background-color: #4E98A0;
-     padding-bottom: 10px;
+    background-color: #4E98A0;
 }
+h3{
+    background-color: #4E98A0;
+}
+#bookSearch{
+    background-color: #4E98A0;
+}
+#result{
+    background-color: #4E98A0;
+}
+
 
 
