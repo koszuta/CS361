@@ -21,3 +21,14 @@
 	display: table-cell;
 	width: 200%;
 }
+input[class="administratorViewNavBarButton"] {
+	background: #EEEEFF;
+	padding: 12px 12px;
+	border-radius: 3px;
+}
+.administratorViewBanner{
+    text-align: center;
+}
+body{
+    background-color: #4E98A0;
+}
