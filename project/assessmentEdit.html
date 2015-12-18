@@ -26,6 +26,9 @@
             
             <form class="assessmentForm" id="selectForm" action="/assessment" method="post">
                 <ul id="assessmentsList">
+                    <li>
+                        <h3 style="display: inline;"> Saved items </h3>
+                    </li>                    
                     {% for a in assessments %}
                     <li class="assessmentItem">
                         <input type="checkbox" value="{{ a.description }}" name="{{ a.description }}" class="assessmentCheck"
