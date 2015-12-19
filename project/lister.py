@@ -114,6 +114,11 @@ class CreateSyllabusHandler(BaseHandler):
                 instructor = WebScraper.getInstructorFromCourseSection(course_section)
                 if instructor:
                     syllabus.prime = instructor
+                    
+                dates = WebScraper.getDatesFromCourseSection(course_section)
+                if dates:
+                    syllabus.info.startDate = dates.split('-')[0]
+                    syllabus.info.endDate = dates.split('-')[1]
         
         syllabus.put()
         self.session['syllabus'] = syllabus.key.urlsafe()

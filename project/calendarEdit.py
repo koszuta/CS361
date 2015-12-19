@@ -28,7 +28,8 @@ class CalendarHandler(BaseHandler):
         message = ""
         user = self.current_user
         syllabus = self.current_syllabus
-
+        term = self.current_term
+        
         savedCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == False).fetch()
         savedCalendarNames = []
         for i in savedCalendars:
@@ -98,6 +99,8 @@ class CalendarHandler(BaseHandler):
         
         user = self.current_user
         syllabus = self.current_syllabus
+        term = self.current_term
+
 
         syllabusCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == True).fetch()
         if syllabusCalendars:
@@ -131,13 +134,41 @@ class CalendarHandler(BaseHandler):
                 message = "newFile"
                 if mySched:
                     mySched.workingCalendar = False
-                    mySched.put()                   
-                mySched = CalendarClass(parent = user.key)
-                mySched.schedule.append('Date')
-                mySched.schedule.append('Chapter')
-                mySched.schedule.append('Topic')
-                mySched.workingCalendar = True
-                mySched.put()
+                    mySched.put()
+
+                if syllabus.info and term:            
+                    mySched = CalendarClass(parent = user.key)
+                    mySched.schedule.append('Date')
+                    mySched.schedule.append('Reading')
+                    mySched.schedule.append('Topic')
+                    mySched.workingCalendar = True
+
+                    if 'M' in syllabus.info.days:
+                        mySched.meetDays.append(0)                        
+                    if 'T' in syllabus.info.days:
+                        mySched.meetDays.append(1)
+                    if 'W' in syllabus.info.days:
+                        mySched.meetDays.append(2)
+                    if 'R' in syllabus.info.days:
+                        mySched.meetDays.append(3)
+                    if 'F' in syllabus.info.days:
+                        mySched.meetDays.append(4)
+                        
+                    mySched.startMonth = int(syllabus.info.startDate.split('/')[0])
+                    mySched.startDate = int(syllabus.info.startDate.split('/')[1])
+                    mySched.startYear = int(term.year)
+                    mySched.numWeeks = 15
+                    #mySched.generateDates()
+                    mySched.myFilename = syllabus.info.subject + "-" + str(syllabus.info.number) + "-" + term.semester + str(term.year)
+                        
+                    mySched.put()
+                else:                    
+                    mySched = CalendarClass(parent = user.key)
+                    mySched.schedule.append('Date')
+                    mySched.schedule.append('Reading')
+                    mySched.schedule.append('Topic')
+                    mySched.workingCalendar = True
+                    mySched.put()
             else:
                 savedCalendars = CalendarClass.query(ancestor=user.key).filter(CalendarClass.workingCalendar == False).fetch()
                 queriedCalendars = []
