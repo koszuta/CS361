@@ -7,7 +7,7 @@
 #addBooks {
 	display: table;
     background-color: #4E98A0;
-    padding-right: 1350px;
+    width: 100%;
 }
 
 #addBooks div {
@@ -23,8 +23,13 @@
 
 #addBooks div input {
 	display: table-cell;
-	width: 200%;
+	width: 20%;
 }
+
+#addBooks div input[type="submit"] {
+	width: auto;
+}
+
 input[class="administratorViewNavBarButton"] {
 	background: #EEEEFF;
 	padding: 12px 12px;
@@ -40,6 +45,9 @@ form#addBooks{
      background-color: #4E98A0;
 }
 form#searchBooks{
+    background-color: #4E98A0;
+}
+form#currentBooks {
     background-color: #4E98A0;
 }
 #pagetitle{

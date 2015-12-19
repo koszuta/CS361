@@ -40,7 +40,6 @@
       <br>
       <input type="submit" name="updateSelectedBooks" value="Update Selections">
     </form>
-    <hr>
     <br>
     {% else %}
     <br><br>
@@ -58,7 +57,6 @@
       <input type="text" id="bookQuery" name="bookQuery" value="{% if lastQuery %}{{ lastQuery }}{% endif %}">
       <input type="submit" name="queryBooks" value="Search">
     </form>
-    <hr>
     <h2>Add a new textbook:</h2>
     {% if errors %}
     <ul id="error">
