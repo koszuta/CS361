@@ -19,48 +19,46 @@
                 <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
             </form>
         </div>
-        <div id="formContain">
-            <div id="listSection">
-                <form class="instructorList" id="instructorsToAddForm" action="/addinstructor" method="post">
-                    <ul class="instructorList" id="availableList">
-                        <li>
-                            <h3 style="display: inline;"> Saved instructors </h3>
-                        </li>
-                        <li>              
-                            <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
-                                {% for instructor in savedInstructors %}
-                                <option> {{ instructor.name }} </option>
-                                {% endfor %}
-                            </select>
-                        </li>  
-                        <li>
-                            <input type="submit" value="Edit" name="instructorToAddButton" id="editInstructorButton" />
-                            <input type="submit" value="Add" name="instructorToAddButton" id="availableInstructorsSubmit" />
-                        </li>  
-                        <li id="newButton">
-                            <input type="submit" value="Create New" name="instructorToAddButton" id="newInstructorButton" />
-                        </li>
-                    </ul>
-                </form>
-                
-                <form class="instructorList" id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
-                    <ul class="instructorList" id="onSyllabusList">
-                        <li>
-                            <h3 style="display: inline;"> On Syllabus </h3>
-                        </li>
-                        <li>   
-                            <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
-                                {% for instructor in syllabusInstructors %}
-                                <option> {{ instructor.name }} </option>
-                                {% endfor %}
-                            </select>
-                        </li>
-                        <li>
-                            <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
-                        </li>  
-                    </ul>
-                </form>
-            </div>
+        <div id="listSection">
+            <form class="instructorList" id="instructorsToAddForm" action="/addinstructor" method="post">
+                <ul class="instructorList" id="availableList">
+                    <li>
+                        <h3 style="display: inline;"> Saved instructors </h3>
+                    </li>
+                    <li>              
+                        <select size="8" name="availableInstructors" id="availableInstructors" class="instructorsList">
+                            {% for instructor in savedInstructors %}
+                            <option> {{ instructor.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </li>  
+                    <li>
+                        <input type="submit" value="Edit" name="instructorToAddButton" id="editInstructorButton" />
+                        <input type="submit" value="Add" name="instructorToAddButton" id="availableInstructorsSubmit" />
+                    </li>  
+                    <li id="newButton">
+                        <input type="submit" value="Create New" name="instructorToAddButton" id="newInstructorButton" />
+                    </li>
+                </ul>
+            </form>
+            
+            <form class="instructorList" id="instructorsOnSyllabusForm" action="/removeinstructor" method="post">
+                <ul class="instructorList" id="onSyllabusList">
+                    <li>
+                        <h3 style="display: inline;"> On Syllabus </h3>
+                    </li>
+                    <li>   
+                        <select size="8" name="selectedInstructors" class="instructorsList" id="selectedInstructors">
+                            {% for instructor in syllabusInstructors %}
+                            <option> {{ instructor.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                    <li>
+                        <input type="submit" value="Remove" name="removeInstructorButton" id="removeInstructorButton" />
+                    </li>  
+                </ul>
+            </form>
         </div>
     </body>
 </html>

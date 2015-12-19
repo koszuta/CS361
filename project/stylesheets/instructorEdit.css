@@ -7,14 +7,12 @@ ul {
 ul li {
     text-align: center;
 }
-#formContain{
-    background-color: #142225;
-}
 
 div#listSection {
     font-size: 1.5em; 
     position: relative;
-    width: 750px;
+    width: 900px;
+    height: 1000px;
     /*padding-top: 130px;*/
     margin: 0 auto;
     background-color: #4E98A0;
