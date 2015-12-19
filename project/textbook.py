@@ -277,11 +277,9 @@ class EditTextbookHandler(BaseHandler):
 
     def getCurrentBook(self, onSyllabus, isbn):
         if onSyllabus:
-            syllabusKey = self.session.get('syllabus')
-            parent = ndb.Key(urlsafe = syllabusKey).get()
+            parent = self.current_syllabus
         else:
-            userKey = self.session.get('user')
-            parent = ndb.Key(urlsafe = userKey).get()
+            parent = self.current_user
         
         return Textbook.query(ancestor=parent.key).filter(ndb.AND(Textbook.isbn == isbn, Textbook.onSyllabus == onSyllabus)).get()
 
