@@ -1,7 +1,16 @@
 @charset "UTF-8";
 
+body{
+    background-color: #142225;
+}
+
+form#editBook{
+     background-color: #4E98A0;
+}
+
 #editBook {
 	display: table;
+	width: 100%;
 }
 
 #editBook div {
@@ -15,5 +24,9 @@
 
 #editBook div input {
 	display: table-cell;
-	width: 200%;
+	width: 20%;
+}
+
+#editBook div input[type="submit"] {
+	width: auto;
 }
