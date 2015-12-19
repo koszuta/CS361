@@ -8,11 +8,12 @@ ul {
 .administratorViewBanner{
     text-align: center;
 }
-#assessmentsListSection {
+div#assessmentsListSection {
     background-color: #4E98A0;
     font-size: 1.5em; 
     position: relative;
     width: 850px;
+    height: 800px;
     /*padding-top: 130px;*/
     margin: 0 auto;
     
