@@ -24,9 +24,9 @@ div#listSection {
 
 div#instructorInfoEditor {
     font-size: 1.5em;
-    width: 1200px;
+    width: 900px;
     height: 800px;
-    position: relative;
+    padding-top: 120px;
     margin: 0 auto;
     background-color: #4E98A0;
     
