@@ -120,6 +120,8 @@ class MainHandler(BaseHandler):
                     new.put()
                     
         if total != 100:
+            for a in syllabus.assessments:
+                a.key.delete()
             return self.get('Total percentage must equal 100%')
                 
         self.redirect("/")

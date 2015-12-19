@@ -3,6 +3,7 @@
         <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                 <title> Administrator View </title>
+                
                 <link rel="stylesheet" type="text/css" href="/stylesheets/administratorView.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/calendarView.css" />  
                 <link rel="stylesheet" type="text/css" href="/stylesheets/assessmentView.css" />
@@ -10,6 +11,11 @@
                 <link rel="stylesheet" type="text/css" href="/stylesheets/instructorView.css" />
                 <link rel="stylesheet" type="text/css" href="/stylesheets/gradingScaleView.css" />
               
+              <style>
+                  div.addedItem {
+                      padding: 20px;                      
+                  }
+              </style>
     </head>
     
     <body>
@@ -39,7 +45,7 @@
                 <div class="administratorViewModuleDisplay">
                 
                     <!--COPY/PASTE YOUR COURSE TITLE DISPLAY MODULE HTML HERE-->
-                    <div id = "courseInfoViewMain">
+                    <div class="addedItem" id = "courseInfoViewMain">
                         <h2>
                             {{ info.subject }} {{ info.number }}-{{ info.section }}: 
                             {% if info.title %}
@@ -63,8 +69,8 @@
                 <div class="administratorViewModuleDisplay">
                 
            <!--COPY/PASTE YOUR INSTRUCTOR INFO DISPLAY MODULE HTML HERE-->
-                    <div id = "instructorsViewModule">
-                            <table id = "instructorsTable">
+                    <div class="addedItem" id = "instructorsViewModule">
+                            <table id = "instructorsTable" class="mainViewTable">
                                     {% if instructors: %}
                                     <tr>
                                             <th> Instructor </th>
@@ -117,10 +123,10 @@
                         <input class="administratorViewEditBannerButton" id="administratorViewEditTextbookButton" type="submit" value="Edit">
                     </form>            
                 </div>
-                <div class="administratorViewModuleDisplay">
+                <div class="administratorViewModuleDisplay" class="addedItem">
                 
                     <!--COPY/PASTE YOUR TEXTBOOK DISPLAY MODULE HTML HERE-->
-                    <div id="textbookViewMain">
+                    <div class="addedItem" id="textbookViewMain">
                         {% if books: %}
                         {% for book in books %}
                         <span class="textbookViewTitle">{{ book.title }}</span>,
@@ -157,13 +163,13 @@
                         <input class="administratorViewEditBannerButton" id="administratorViewEditAssessmentButton" type="submit" value="Edit">
                     </form>            
                 </div>
-                <div class="administratorViewModuleDisplay">
+                <div class="administratorViewModuleDisplay" class="addedItem">
                 
 
                 
                     <!--COPY/PASTE YOUR ASSESSMENT DISPLAY MODULE HTML HERE-->
-                    <div id="assessmentViewMain">
-                        <table id = "instructorsTable">
+                    <div class="addedItem" id="assessmentViewMain">
+                        <table id = "assessmentsTable" class="mainViewTable">
                                 {% if assessments: %}
                                 {% for i in assessments %}
                                 <tr>
@@ -199,7 +205,7 @@
                 <div class="administratorViewModuleDisplay">
                                 
                     <!--COPY/PASTE YOUR GRADING SCALE DISPLAY MODULE HTML HERE-->
-                        <div id = "gradeScaleView">
+                        <div class="addedItem" id = "gradeScaleView">
                             <table id = "gradeScaleView">
                             <tr>
                                 {% if scale %}
@@ -233,7 +239,7 @@
                 <div class="administratorViewModuleDisplay">
                 
                     <!--COPY/PASTE YOUR POLICY DISPLAY MODULE HTML HERE-->
-                    <div id="policyViewModule">
+                    <div class="addedItem" id="policyViewModule">
                         {% if policies: %}
                             {% for i in policies %}
                             <p style="font-weight: bold;"> {{ i.title }} </p>
@@ -264,7 +270,7 @@
                 </div>
                 <div class="administratorViewModuleDisplay">                                
                     <!--COPY/PASTE YOUR CALENDAR DISPLAY MODULE HTML HERE-->                
-                    <div id="calendarViewMain">
+                    <div class="addedItem" id="calendarViewMain">
                         {% if calendar %} 
                             {% set myCalendarSchedule = calendar[0].schedule %}
                             <table id="calendarViewCalendarTable">

@@ -45,7 +45,7 @@
                     {% if mySchedule.onSyllabus %}
                         {% set onSyl = "checked" %}
                     {% endif %}
-                    <input type="checkbox" name="onSyllabus" value="True" {{ onSyl }}> Assigned to syllabus
+                    <input class="check" type="checkbox" name="onSyllabus" value="True" {{ onSyl }}> Assigned to syllabus
                     <input type="submit" name="assignToSyllabus" value="Set">
                 </form>
                 <hr/>
@@ -70,13 +70,13 @@
                         <tr>
                             <td>Meeting Days:</td>
                             <td>
-                                <input type="checkbox" name="Monday" value="True" {{ mondayChecked }}> Monday
-                                <input type="checkbox" name="Tuesday" value="True" {{ tuesdayChecked }}> Tuesday
-                                <input type="checkbox" name="Wednesday" value="True" {{ wednesdayChecked }}> Wednesday
-                                <input type="checkbox" name="Thursday" value="True" {{ thursdayChecked }}> Thursday
-                                <input type="checkbox" name="Friday" value="True" {{ fridayChecked }}> Friday
-                                <input type="checkbox" name="Saturday" value="True" {{ saturdayChecked }}> Saturday
-                                <input type="checkbox" name="Sunday" value="True" {{ sundayChecked }}> Sunday
+                                <input class="check" type="checkbox" name="Monday" value="True" {{ mondayChecked }}> Monday
+                                <input class="check" type="checkbox" name="Tuesday" value="True" {{ tuesdayChecked }}> Tuesday
+                                <input class="check" type="checkbox" name="Wednesday" value="True" {{ wednesdayChecked }}> Wednesday
+                                <input class="check" type="checkbox" name="Thursday" value="True" {{ thursdayChecked }}> Thursday
+                                <input class="check" type="checkbox" name="Friday" value="True" {{ fridayChecked }}> Friday
+                                <input class="check" type="checkbox" name="Saturday" value="True" {{ saturdayChecked }}> Saturday
+                                <input class="check" type="checkbox" name="Sunday" value="True" {{ sundayChecked }}> Sunday
                             </td>
                         </tr>
                     </table>

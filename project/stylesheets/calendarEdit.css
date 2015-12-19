@@ -51,4 +51,24 @@ body{
     background-color: #142225;
 }
 
+div#calendarEditMain {
+    font-size: 1.5em;
+    width: 1200px;
+    height: 100%;
+    position: relative;
+    padding-top: 20px;
+    margin: 0 auto;
+    
+}
+input.check {    
+    width: 18px;   
+    height: 18px;
+}
+
+input, select  {
+    font-size: .8em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+}
+
 

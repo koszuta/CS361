@@ -109,5 +109,41 @@
                     {% endfor %}
                     {% endif %}
 				</tr>
+				<tr>
+					<td> 3:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "15" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 4:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "16" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
+				<tr>
+					<td> 5:00PM </td>
+                    {% if term and term.syllabi %}
+                    {% for s in term.syllabi %}
+                    {% if s.isActive and s.info.start and s.info.days %}
+                    {% if s.info.start[:2] == "17" %}
+					{{ doDays(s.info) }}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+				</tr>
 			</table>
 		</div>

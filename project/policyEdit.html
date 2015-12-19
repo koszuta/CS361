@@ -50,7 +50,7 @@
         
             <form class="policyForm" id="editForm" method="post" action="/editpolicy">  
                 {% if selected %}    
-                <h3 style="display: inline;"> {{ selected }} </h3>
+                <h3 style="display: inline;" class="policyTitle"> {{ selected }} </h3>
                 <input type="submit" value="Delete" name="deleteButton" id="deleteButton" />
                 <br /><br />
                 {% else %}

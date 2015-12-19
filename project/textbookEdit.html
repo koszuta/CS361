@@ -20,6 +20,7 @@
                 </form>
             </div>
     
+    <div id="listSection">
     {% if books %}
     <form id="currentBooks" action="/removebooks?onSyllabus=1" method="post">
 	  <h2>Currently selected textbook(s):</h2>
@@ -57,7 +58,7 @@
       <input type="text" id="bookQuery" name="bookQuery" value="{% if lastQuery %}{{ lastQuery }}{% endif %}">
       <input type="submit" name="queryBooks" value="Search">
     </form>
-    <h2>Add a new textbook:</h2>
+    <h2 id="stubbornLittlePrick">Add a new textbook:</h2>
     {% if errors %}
     <ul id="error">
     {% for error in errors %}
@@ -91,5 +92,6 @@
         <input type="submit" name="addBook" value="Add">
       </div>
     </form>
+    </div>
   </body>
 </html>

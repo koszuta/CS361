@@ -5,6 +5,7 @@
     <title>Syllablaster &gt; Textbooks &gt; Edit Book Info</title>
     <link href="stylesheets/main.css" rel="stylesheet" type="text/css" />
     <link href="stylesheets/bookInfoEdit.css" rel="stylesheet" type="text/css">
+    
   </head>
 
   <body>
@@ -19,6 +20,7 @@
                     <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
                 </form>
             </div>
+            <div id="editSection">
     {% if errors %}
     <ul id="error">
     {% for error in errors %}
@@ -31,7 +33,7 @@
     <form id="editBook" action="/editbook?isbn={{ editISBN|urlencode }}&onSyllabus={{ onSyllabus }}" method="post">
       <div>
         <label for="bookTitle">Title: </label>
-        <input id="bookTitle" name="bookTitle" required type="text" value="{{ title }}">
+        <input id="bookTitle" name="bookTitle" required type="text" value="{{ title }}" >
       </div>
       <div>
         <label for="bookAuthor">Author:</label>
@@ -54,5 +56,6 @@
         <input name="updateBook" value="Update Info" type="submit">
       </div>
     </form>
+    </div>
   </body>
 </html>

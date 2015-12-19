@@ -11,7 +11,8 @@ ul {
 div#policiesListSection {
     font-size: 1.5em; 
     position: relative;
-    width: 850px;
+    width: 900px;
+    height: 800px;
     /*padding-top: 130px;*/
     margin: 0 auto;
     background-color: #4E98A0;
@@ -73,4 +74,8 @@ input#deleteButton {
 
 p.error {
 	color: #D3EF08;
+}
+
+h3#policyTitle {
+    padding: 10px 0 0 0;
 }

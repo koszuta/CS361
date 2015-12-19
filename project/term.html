@@ -17,10 +17,12 @@
 		<link rel="stylesheet" type="text/css" href="/stylesheets/term.css" />
 	</head>
 	<body>
-        {% if term %}
-        {% with doLink=True %}
-		{% include "weeklycal.html" %}
-		{% endwith %}
-        {% endif %}
+        <div id="section">
+            {% if term %}
+            {% with doLink=True %}
+            {% include "weeklycal.html" %}
+            {% endwith %}
+            {% endif %}
+        </div>
 	</body>
 </html>

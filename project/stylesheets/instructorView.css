@@ -3,6 +3,7 @@ div#instructorsViewModule {
 }
 
 table#instructorsTable {
+    width: 100%;
 	border-collapse: collapse;
 	text-align: left;
 }

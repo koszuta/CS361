@@ -16,14 +16,15 @@
                 <input class="administratorViewNavBarButton" id="logout" type="submit" value="Logout" formaction="/logout">
                 <input class="administratorViewNavBarButton" id="preview" type="submit" value="Preview" formaction="/preview">
             </form>
-        </div>        
-    <div id="scaleListSection">
+        </div>    
+<div id="section">    
+    <div id="scaleListSection" class="padSection">
             <div id="savedScaleSection" class="scaleList">
                 <form id="savedscales" method="post" action="/addscale">
                     <h2> To Add: </h2>
                     {% for s in savedScales %}
                        {% if s.scaleName %}
-                        <input type ="checkbox" name = "selectedScale" value = "{{s.scaleName}}" >{{ s.scaleName}}
+                        <input class="check" type ="checkbox" name = "selectedScale" value = "{{s.scaleName}}" >{{ s.scaleName}}
 						<br>
                         {% endif %}
                     {% endfor %}
@@ -34,7 +35,7 @@
             </div>
 		</div>
 		
-	<div id ="scaleEditSection">
+	<div id ="scaleEditSection" class="padSection">
 		<form id = "scaleEdit" action="/editscales" method = "get">
 		<table>
 			<tr>
@@ -63,7 +64,7 @@
 	  </form>
   </div>
   
-  
+</div>
   
 </body>
 </html>

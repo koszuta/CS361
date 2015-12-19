@@ -6,11 +6,12 @@ body{
 
 form#editBook{
      background-color: #4E98A0;
+     padding: 20px 0 0 100px;
 }
 
 #editBook {
 	display: table;
-	width: 100%;
+	width: 800px;
 }
 
 #editBook div {
@@ -24,9 +25,25 @@ form#editBook{
 
 #editBook div input {
 	display: table-cell;
-	width: 20%;
+	width: 60%;
 }
 
 #editBook div input[type="submit"] {
 	width: auto;
+}
+
+div#editSection {
+    font-size: 1.5em; 
+    position: relative;
+    width: 900px;
+    height: 800px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
+    background-color: #4E98A0;
+}
+
+input, select {
+    font-size: .8em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
 }

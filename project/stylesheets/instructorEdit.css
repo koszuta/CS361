@@ -12,8 +12,8 @@ div#listSection {
     font-size: 1.5em; 
     position: relative;
     width: 900px;
-    height: 1000px;
-    /*padding-top: 130px;*/
+    height: 800px;
+    padding-top: 150px;
     margin: 0 auto;
     background-color: #4E98A0;
 }
@@ -62,9 +62,9 @@ option {
 
 div#instructorInfoEditor {
     font-size: 1.5em;
-    width: 80%;
+    width: 1200px;
+    height: 800px;
     position: relative;
-    padding-top: 130px;
     margin: 0 auto;
     
 }
@@ -91,7 +91,7 @@ td#updateButton {
 }
 
 input, select {
-    font-size: 1em;
+    font-size: .8em;
     padding: 5px 10px 5px 10px;
     margin: 5px;
 }

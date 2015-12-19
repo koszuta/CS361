@@ -4,3 +4,28 @@ body{
 div{
     background-color: #4E98A0;
 }
+
+div#section {
+    background-color: #4E98A0;
+    font-size: 1.5em; 
+    position: relative;
+    width: 900px;
+    height: 800px;
+    /*padding-top: 130px;*/
+    margin: 0 auto;
+}
+
+div.padSection {
+    padding: 20px 0 0 100px;
+}
+
+input.check {  
+    width: 18px;   
+    height: 18px;
+}
+
+input, select {
+    font-size: 1em;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+}
