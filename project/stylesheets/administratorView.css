@@ -108,11 +108,6 @@ input[class="administratorViewNavBarButton"] {
 	border-radius: 3px;
 }
 
-input[class="administratorViewNavBarButton"]:hover {
-    background: yellow;
-}
-
-
 table.mainViewTable {
     width: 100%;
 	border-collapse: collapse;
