@@ -15,6 +15,8 @@ class Info(ndb.Model):
     days = ndb.StringProperty()
     start = ndb.StringProperty()
     end = ndb.StringProperty()
+    startDate = ndb.StringProperty()
+    endDate = ndb.StringProperty()
     
     @webapp2.cached_property
     def url(self):
@@ -116,7 +118,12 @@ class InfoEditHandler(BaseHandler):
                     instructor = WebScraper.getInstructorFromCourseSection(course_section)
                     if instructor:
                         syllabus.prime = instructor
-            
+
+                    dates = WebScraper.getDatesFromCourseSection(course_section)
+                    if dates:
+                        syllabus.info.startDate = dates.split('-')[0]
+                        syllabus.info.endDate = dates.split('-')[1]
+                        
         else:            
             title = str(self.request.get('courseTitle'))
             syllabus.info.title = title
