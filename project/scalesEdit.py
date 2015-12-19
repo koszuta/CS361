@@ -96,6 +96,9 @@ class AddScalesHandler(BaseHandler):
         
         for s in user.savedScales:
             if s.scaleName == usedscale:
+                old = GradeScale.query(ancestor = syllabus.key).get()
+                if old:
+                    old.key.delete()
                 syScale = GradeScale(parent = syllabus.key)
                 syScale.onSyllabus = True
                 syScale.gradeScale = s.gradeScale

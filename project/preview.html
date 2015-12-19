@@ -131,7 +131,7 @@
 				{% if policies: %}
 				{% for policy in policies %}
 				<span class="policyTitle" style="font-weight: bold;">{{ policy.title }}</span><br>
-				<p class="policyDesc">{{ policy.description|safe }}</p>
+				<pre class="policyDesc"> {{ policy.description|safe }} </pre>
 				{% endfor %}
 				{% else %}
 				<span class="noData">--- NO POLICIES ADDED TO SYLLABUS ---</span>

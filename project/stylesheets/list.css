@@ -11,12 +11,12 @@ input, select, button {
 }
 
 div#listMainSection {
-    position: relative;
     width: 50%;
     height: 950px;
     margin: 0 auto;
-    padding: 30px 150px 0 150px;
+    padding: 120px 150px 0 150px;
     background-color: #4E98A0;
+    z-index: -1;
 }
 
 #listTable td, #listTable th {

@@ -22,7 +22,6 @@
         <div id="administratorViewMain">
             <div class="administratorViewBanner" id="headerTitle">
                 <h1>Syllablaster</h1>
-                <h2>Administrator View</h2>
             </div>
             <div class="administratorViewBanner" id="navButtons">
                 <form id="buttonsForm" method="get">
@@ -213,7 +212,7 @@
                                         <td>{{i.letter}}<br>{{i.grade}}</td>
                                     {% endfor %}
                                 {% else %}
-                                    <h1>No Scale assigned</h1>
+                                    <p style="font-weight: bold;"> -- NO GRADE SCALE ADDED TO SYLLABUS -- </p>
                                 {% endif %}
                             </tr>
                             </table>
@@ -247,7 +246,7 @@
                             <br />
                             {% endfor %}
                             {% else %}
-                            <p style="font-weight: bold;"> -- NO ASSESSMENTS ADDED TO SYLLABUS -- </p>
+                            <p style="font-weight: bold;"> -- NO POLICIES ADDED TO SYLLABUS -- </p>
                         {% endif %}
                     </div>
                     <!--END POLICY DISPLAY MODULE-->

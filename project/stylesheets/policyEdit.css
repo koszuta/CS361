@@ -10,12 +10,12 @@ ul {
 
 div#policiesListSection {
     font-size: 1.5em; 
-    position: relative;
     width: 900px;
     height: 800px;
-    /*padding-top: 130px;*/
     margin: 0 auto;
     background-color: #4E98A0;
+    padding-top: 120px;
+    z-index: -1;
 }
 
 form.policyForm {
@@ -26,12 +26,12 @@ form.policyForm {
 form#selectForm {
     background-color: #4E98A0;
     padding-bottom: 255px;
-    left: 0px;
+    left: 520px;
 }
 
 form#editForm {
     background-color: #4E98A0;
-    right: 0px;
+    right: 510px;
     margin-left: 20px;
     padding-bottom: 10px;
     padding-left: 20px;

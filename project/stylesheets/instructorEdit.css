@@ -8,12 +8,16 @@ ul li {
     text-align: center;
 }
 
+h2#editTitle{
+    text-align: center;
+}
+
 div#listSection {
     font-size: 1.5em; 
     position: relative;
     width: 900px;
     height: 800px;
-    padding-top: 150px;
+    padding-top: 30px;
     margin: 0 auto;
     background-color: #4E98A0;
 }
@@ -23,7 +27,7 @@ div#listSection {
 form.instructorList {
     position: absolute;
     display: inline-block;
-    top: 0px;
+    top: 70px;
     background-color: #4E98A0;
     margin-top: 10px;
     padding-left: 75px;
@@ -99,4 +103,8 @@ input, select {
 input.hoursCheck {    
     width: 18px;   
     height: 18px;
+}
+
+div#somethinstupid {
+    height: 85px;
 }

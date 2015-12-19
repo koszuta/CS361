@@ -1,8 +1,12 @@
-#calendarEditMain {
-    padding: 10px;
-    background-color: #4E98A0;
-    margin-top: 10px;
+body {
+   
+    background-color: #142225;
 }
+
+#calendarEditMain {
+    padding: 20px;
+}
+
 table[id="calendarEditCalendarTable"] {
     font-size: 12px;
     border: 1px solid black;
@@ -55,9 +59,10 @@ div#calendarEditMain {
     font-size: 1.5em;
     width: 1200px;
     height: 100%;
-    position: relative;
-    padding-top: 20px;
     margin: 0 auto;
+    padding-top: 150px;
+    z-index: -1;
+    background-color: #4E98A0;
     
 }
 input.check {    

@@ -70,17 +70,17 @@ h2#stubbornLittlePrick {
 }
 
 div#stylin {    
-     padding: 10px 0 0 100px;
+     padding: 10px 0 0 50px;
 }
 
 div#listSection {
     font-size: 1.5em; 
-    position: relative;
     width: 900px;
     height: 800px;
-    /*padding-top: 130px;*/
     margin: 0 auto;
     background-color: #4E98A0;
+    padding-top: 120px;
+    z-index: -1;
 }
 
 input, select {

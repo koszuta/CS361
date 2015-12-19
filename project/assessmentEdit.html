@@ -9,7 +9,6 @@
     <body>
         <div class="administratorViewBanner" id="headerTitle">
             <h1>Syllablaster</h1>
-            <h2>Assessment Edit</h2>
         </div>
         <div class="administratorViewBanner" id="navButtons">
             <form id="buttonsForm" method="get">
@@ -24,6 +23,7 @@
             <p class="error"> Error: {{ errors }} </p>
             {% endif %}
             
+            <h2 style="padding-left: 50px;">Assessment Edit</h2>
             <form class="assessmentForm" id="selectForm" action="/assessment" method="post">
                 <ul id="assessmentsList">
                     <li>

@@ -118,7 +118,7 @@ class RemoveTextbookHandler(BaseHandler):
             errors.append('No books were selected for removal')
         
         if not errors:
-            self.redirect('/editbooks')
+            self.redirect('/')
         else:
             self.session['bookErrors'] = errors
             self.redirect('/findbook')

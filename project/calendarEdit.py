@@ -136,13 +136,13 @@ class CalendarHandler(BaseHandler):
                     mySched.workingCalendar = False
                     mySched.put()
 
-                if syllabus.info and term:            
+                if syllabus.info and term and syllabus.info.days:            
                     mySched = CalendarClass(parent = user.key)
                     mySched.schedule.append('Date')
                     mySched.schedule.append('Reading')
                     mySched.schedule.append('Topic')
                     mySched.workingCalendar = True
-
+                    
                     if 'M' in syllabus.info.days:
                         mySched.meetDays.append(0)                        
                     if 'T' in syllabus.info.days:

@@ -8,9 +8,10 @@ div#courseInfoEditSection {
     width: 1000px;
     height: 900px;
     margin: 0 auto;
-    margin-top: 10px;
-    padding: 20px;
+    padding: 0 20px 0 20px;
     background-color: #4E98A0;
+    padding-top: 130px;
+    z-index: -1;
 }
 
 form#updateCourseInfo {
@@ -26,24 +27,9 @@ div#titleSection input {
     
 }
 
-input.checkbox {
-    margin-left: 20px;
-    margin-right: 0px;
-}
-
 table {
     width: 0%;
     margin: 0 auto;
-}
-
-
-input.administratorViewNavBarButton {
-	background: #EEEEFF;
-	padding: 12px 12px;
-	border-radius: 3px;
-}
-.administratorViewBanner {
-    text-align: center;
 }
 
 input, select {
@@ -55,4 +41,10 @@ input, select {
 input.checkbox {  
     width: 18px;   
     height: 18px;
+    margin-left: 20px;
+    margin-right: 0px;
+}
+
+h2#editTitle{
+    text-align: center;
 }

@@ -1,16 +1,23 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
 body {
 	font-family: Sans-serif;
 	font-size: 14px;
+    background-color: #142225;
+}
 }
 
 pre {
 	width: 100%;
 }
 
-div#backdrop {
-	width: 100%;
-	background-color: #142225;
-}
 
 #error {
 	color: #D3EF08;
@@ -32,7 +39,41 @@ input.administratorViewNavBarButton {
 	padding: 12px 12px;
 	border-radius: 3px;
 }
-.administratorViewBanner{
+
+div#studentViewMain {
+    width: 850px;
+    margin: 0 auto;
+}
+
+
+
+/* Fixes both the headerTitle div and navButtons div at the top */
+.administratorViewBanner {
+    font-size: 1.5em;
+    position: fixed;
+    width: 100%;
+    padding: 15px 0 15px 0;
+}
+
+div#headerTitle {
+	height: 50px;   
+	background-color: #4E987F; 
     text-align: center;
-	background-color: #4E987F;
+    border-bottom: 3px solid #142225;
+}
+
+#buttonsForm {
+    width: 850px;
+    margin: 0 auto;
+}
+
+.administratorViewNavBarButton {
+    
+    float: right;
+    margin-right: 0px;
+}
+
+#back {
+    float: left;
+    margin-left: 30px;
 }

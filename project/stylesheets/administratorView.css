@@ -8,7 +8,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 body {
-    
+	font-family: Sans-serif;
     font-size: 1.5em;
 }
 
@@ -24,30 +24,31 @@ pre {
 }
 
 
+
 /* Fixes both the headerTitle div and navButtons div at the top */
 .administratorViewBanner {
     position: fixed;
     width: 100%;
     padding: 15px 0 15px 0;
-    border-bottom: 3px solid #142225;
     
 }
 
 #headerTitle {
-	height: 100px;   
+	height: 50px;   
 	background-color: #4E987F; 
     text-align: center;
+    border-bottom: 3px solid #142225;
 }
 
 #buttonsForm {
-    width: 100%;
+    width: 70%;
     margin: 0 auto;
 }
 
 .administratorViewNavBarButton {
     
     float: right;
-    margin-top: 60px;
+    margin-top: 20px;
     margin-right: 0px;
 }
 
@@ -57,8 +58,9 @@ pre {
 }
 
 
+
 #administratorViewCourseTitleMain {
-    padding-top: 140px;
+    padding-top: 85px;
 }
 .administratorViewModule {
 	/*min-height: 512px;*/
@@ -108,4 +110,21 @@ input[class="administratorViewNavBarButton"] {
 
 input[class="administratorViewNavBarButton"]:hover {
     background: yellow;
+}
+
+
+table.mainViewTable {
+    width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+	padding: 20px;
+}
+
+table.mainViewTable td {
+	border: 1px solid black;
+	padding: 5px;
+}
+
+div.addedItem {
+    padding: 20px;
 }

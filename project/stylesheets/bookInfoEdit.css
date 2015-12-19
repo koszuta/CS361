@@ -34,12 +34,12 @@ form#editBook{
 
 div#editSection {
     font-size: 1.5em; 
-    position: relative;
     width: 900px;
     height: 800px;
-    /*padding-top: 130px;*/
     margin: 0 auto;
     background-color: #4E98A0;
+    padding-top: 120px;
+    z-index: -1;
 }
 
 input, select {
