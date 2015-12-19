@@ -21,9 +21,17 @@ div#listSection {
     margin: 0 auto;
     background-color: #4E98A0;
 }
-#instructorInfoEditor{
+
+div#instructorInfoEditor {
+    font-size: 1.5em;
+    width: 1200px;
+    height: 800px;
+    position: relative;
+    margin: 0 auto;
     background-color: #4E98A0;
+    
 }
+
 form.instructorList {
     position: absolute;
     display: inline-block;
@@ -60,17 +68,6 @@ select.instructorsList {
 
 option {
     padding: 5px;
-}
-
-
-
-div#instructorInfoEditor {
-    font-size: 1.5em;
-    width: 1200px;
-    height: 800px;
-    position: relative;
-    margin: 0 auto;
-    
 }
 
 table.editInstructorList {
